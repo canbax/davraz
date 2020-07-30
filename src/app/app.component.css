@@ -1,0 +1,10 @@
+#cy {
+    flex: 1;
+    overflow: auto;
+}
+
+.root {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
