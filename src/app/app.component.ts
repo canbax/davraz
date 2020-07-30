@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import cytoscape from 'cytoscape';
+import { TigerGraphApiClientService } from './tiger-graph-api-client.service';
 
 @Component({
   selector: 'app-root',
@@ -7,8 +8,14 @@ import cytoscape from 'cytoscape';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  cy: any = null;
+
+  constructor(private _tgApi: TigerGraphApiClientService) {
+    this._tgApi.simpleRequest();
+  }
+
   ngOnInit(): void {
-    window['cy'] = cytoscape({
+    this.cy = cytoscape({
       elements: {
         nodes: [
           {
@@ -37,6 +44,7 @@ export class AppComponent implements OnInit {
       ],
       container: document.getElementById('cy')
     });
+    window['cy'] = this.cy;
   }
   title = 'graph-imager';
 
