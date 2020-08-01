@@ -32,6 +32,7 @@
     "cytoscape-navigator": "^2.0.1",
     "cytoscape-panzoom": "^2.5.3",
     "cytoscape-view-utilities": "^4.1.0",
+    "got": "^11.5.1",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"

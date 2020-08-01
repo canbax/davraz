@@ -8,7 +8,7 @@ import { SettingsService } from './settings.service';
 export class TigerGraphApiClientService {
 
   private _token: string = 'flt8i8l4q1lt6isqam4i1lhgq66jthur';
-  private _url: string = 'https://socialnet1.i.tgcloud.io';
+  private _url: string = 'http://localhost';
   private _secret: string = '91rj0k6083a2b6fngp9bo6uuuhmsomdl';
 
   constructor(private _http: HttpClient, private _settings: SettingsService) { }
@@ -21,10 +21,14 @@ export class TigerGraphApiClientService {
   }
 
   simpleRequest() {
-    this._http.get(this._url + ':9000/echo',
-      { headers: { 'Authorization': 'Bearer flt8i8l4q1lt6isqam4i1lhgq66jthur' } })
-      .subscribe(x => {
-        console.log('simple request token resp: ', x);
-      }, (e) => { console.log('error ', e); });
+    
+    const xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        console.log(this.responseText);
+      }
+    };
+    xmlhttp.open('GET', 'http://localhost:9000/echo', true);
+    xmlhttp.send();
   }
 }
