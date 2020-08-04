@@ -27,11 +27,17 @@ app.use(function (req, res, next) {
 });
 
 // set necessary configurations for the database
+app.get('/getdbconfig', async (req, res) => {
+  res.write(JSON.stringify(readDbConfig()));
+  res.end();
+});
+
+// set necessary configurations for the database
 app.get('/setdbconfig', async (req, res) => {
   const CONF = readDbConfig();
   writeDbConfig('url', req.query.url);
   writeDbConfig('secret', req.query.secret);
-  res.write(readDbConfig());
+  res.write(JSON.stringify(readDbConfig()));
   res.end();
 });
 
@@ -45,7 +51,8 @@ app.get('/requesttoken', async (req, res) => {
 
 // get echo
 app.get('/echo', async (req, res) => {
-  const { body } = await got(BASE + '/echo', {
+  const CONF = readDbConfig();
+  const { body } = await got(CONF.url + '/echo', {
     headers: {
       'Authorization': 'Bearer flt8i8l4q1lt6isqam4i1lhgq66jthur',
     }

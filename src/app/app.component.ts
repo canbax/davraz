@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import cytoscape from 'cytoscape';
 import { TigerGraphApiClientService } from './tiger-graph-api-client.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DatabaseConfigDialogComponent } from './database-config-dialog/database-config-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -9,8 +11,9 @@ import { TigerGraphApiClientService } from './tiger-graph-api-client.service';
 })
 export class AppComponent implements OnInit {
   cy: any = null;
+  title = 'graph-imager';
 
-  constructor(private _tgApi: TigerGraphApiClientService) {
+  constructor(private _tgApi: TigerGraphApiClientService, public dialog: MatDialog) {
     this._tgApi.simpleRequest();
   }
 
@@ -46,6 +49,13 @@ export class AppComponent implements OnInit {
     });
     window['cy'] = this.cy;
   }
-  title = 'graph-imager';
+
+  openDbConfigDialog() {
+    const dialogRef = this.dialog.open(DatabaseConfigDialogComponent, { width: '50%' });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
 
 }

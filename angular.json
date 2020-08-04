@@ -123,5 +123,8 @@
       }
     }
   },
-  "defaultProject": "graph-imager"
+  "defaultProject": "graph-imager",
+  "cli": {
+    "analytics": "95ab74e0-f09d-4216-912a-825c206e0acb"
+  }
 }
