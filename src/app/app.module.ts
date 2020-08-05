@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -8,16 +9,20 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
-import { FormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+
+import { AngularDraggableModule } from 'angular2-draggable';
 
 import { AppComponent } from './app.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { DatabaseConfigDialogComponent } from './database-config-dialog/database-config-dialog.component';
+import { DbQueryComponent } from './db-query/db-query.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DatabaseConfigDialogComponent
+    DatabaseConfigDialogComponent,
+    DbQueryComponent
   ],
   imports: [
     BrowserModule,
@@ -29,7 +34,9 @@ import { DatabaseConfigDialogComponent } from './database-config-dialog/database
     MatIconModule,
     MatDialogModule,
     MatInputModule,
-    FormsModule
+    MatCardModule,
+    FormsModule,
+    AngularDraggableModule
   ],
   providers: [],
   bootstrap: [AppComponent]

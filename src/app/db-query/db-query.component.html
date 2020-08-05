@@ -1,0 +1,15 @@
+<div *ngIf="isShow" ngResizable ngDraggable [handle]="DragHandle" [rzHandles]="'n,e,s,w,se,sw,nw'" [position]="position"
+  class="draggable-content" (endOffset)="onMoveEnd($event)" (rzStop)="onResizeStop($event)"
+  [style.width]="currSize.width + 'px'" [style.height]="currSize.height + 'px'">
+  <div #DragHandle style="cursor: move;" class="modal-header">
+    <div class="modal-title va-heading1 text-center">Query History</div>
+    <div>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeClicked()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  </div>
+  <div>
+    content here 
+  </div>
+</div>

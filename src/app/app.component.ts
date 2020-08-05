@@ -12,6 +12,7 @@ import { DatabaseConfigDialogComponent } from './database-config-dialog/database
 export class AppComponent implements OnInit {
   cy: any = null;
   title = 'graph-imager';
+  isShowDatabaseQuery = false;
 
   constructor(private _tgApi: TigerGraphApiClientService, public dialog: MatDialog) {
     this._tgApi.simpleRequest();

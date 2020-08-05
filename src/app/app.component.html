@@ -2,15 +2,16 @@
   <mat-toolbar>
     <span>Graph Imager</span>
     <button mat-button (click)="openDbConfigDialog()">Database Connection <mat-icon>sync</mat-icon></button>
-    <button mat-button [matMenuTriggerFor]="file">File<mat-icon>arrow_drop_down</mat-icon></button>
+    <button mat-button [matMenuTriggerFor]="file">Query<mat-icon>arrow_drop_down</mat-icon></button>
     <mat-menu #file="matMenu">
-      <button mat-menu-item>Item 1</button>
+      <button (click)="isShowDatabaseQuery=true" mat-menu-item>Database Query</button>
       <button mat-menu-item>Item 2</button>
     </mat-menu>
 
   </mat-toolbar>
+  <app-db-query [isShow]="isShowDatabaseQuery"></app-db-query>
 
   <div id="cy">
-
   </div>
+
 </div>

@@ -1,11 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body {
-    height: 100%;
+html,
+body {
+  height: 100%;
 }
 
 body {
-    margin: 0;
-    font-family: Roboto, "Helvetica Neue", sans-serif;
-    
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.draggable-content {
+  z-index: 1001 !important;
+  position: absolute;
+  background: rgba(255, 255, 255, 0.90);
+  white-space: pre-wrap;
+  border: 2px solid #555555;
+  border-radius: 5px;
+  overflow: hidden;
+  min-width: 150px;
+  min-height: 600px;
 }
