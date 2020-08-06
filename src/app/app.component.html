@@ -4,14 +4,16 @@
     <button mat-button (click)="openDbConfigDialog()">Database Connection <mat-icon>sync</mat-icon></button>
     <button mat-button [matMenuTriggerFor]="file">Query<mat-icon>arrow_drop_down</mat-icon></button>
     <mat-menu #file="matMenu">
-      <button (click)="isShowDatabaseQuery=true" mat-menu-item>Database Query</button>
+      <button (click)="showDbQuery()" mat-menu-item>Database Query</button>
       <button mat-menu-item>Item 2</button>
     </mat-menu>
-
   </mat-toolbar>
-  <app-db-query [isShow]="isShowDatabaseQuery"></app-db-query>
+  
+  <div class="container">
+    <app-db-query [isShow]="isShowDatabaseQuery"></app-db-query>
 
-  <div id="cy">
+    <div id="cy">
+    </div>
   </div>
 
 </div>

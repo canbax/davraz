@@ -1,4 +1,4 @@
-<div *ngIf="isShow" ngResizable ngDraggable [handle]="DragHandle" [rzHandles]="'n,e,s,w,se,sw,nw'" [position]="position"
+<div *ngIf="_isShow" ngResizable ngDraggable [handle]="DragHandle" [rzHandles]="'n,e,s,w,se,sw,nw'" [position]="position"
   class="draggable-content" (endOffset)="onMoveEnd($event)" (rzStop)="onResizeStop($event)"
   [style.width]="currSize.width + 'px'" [style.height]="currSize.height + 'px'">
   <div #DragHandle style="cursor: move;" class="modal-header">

@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-db-query',
@@ -7,19 +8,22 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class DbQueryComponent implements OnInit {
 
-  @Input() isShow: boolean = false;
+  @Input() isShow = new Subject<boolean>();
+  _isShow = false;
   position = { x: 500, y: 500 };
   currSize: { width: number, height: number } = { width: 375, height: 600 };
   activeItemIdx = 0;
 
-  constructor() { }
+  constructor() {
+
+  }
 
   ngOnInit(): void {
-    
+    this.isShow.subscribe(x => { console.log('is show in db-query ', x); this._isShow = x; });
   }
-  
+
   closeClicked() {
-    this.isShow = false;
+    this.isShow.next(false);
   }
 
   onMoveEnd(e) {

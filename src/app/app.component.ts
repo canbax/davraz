@@ -3,6 +3,7 @@ import cytoscape from 'cytoscape';
 import { TigerGraphApiClientService } from './tiger-graph-api-client.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DatabaseConfigDialogComponent } from './database-config-dialog/database-config-dialog.component';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,7 @@ import { DatabaseConfigDialogComponent } from './database-config-dialog/database
 export class AppComponent implements OnInit {
   cy: any = null;
   title = 'graph-imager';
-  isShowDatabaseQuery = false;
+  isShowDatabaseQuery = new Subject<boolean>();
 
   constructor(private _tgApi: TigerGraphApiClientService, public dialog: MatDialog) {
     this._tgApi.simpleRequest();
@@ -57,6 +58,10 @@ export class AppComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });
+  }
+
+  showDbQuery() {
+    this.isShowDatabaseQuery.next(true);
   }
 
 }
