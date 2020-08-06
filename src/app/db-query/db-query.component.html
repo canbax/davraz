@@ -1,15 +1,19 @@
-<div *ngIf="_isShow" ngResizable ngDraggable [handle]="DragHandle" [rzHandles]="'n,e,s,w,se,sw,nw'" [position]="position"
+<div *ngIf="_isShow" ngResizable ngDraggable [handle]="DragHandle" [rzHandles]="'se'" [position]="position"
   class="draggable-content" (endOffset)="onMoveEnd($event)" (rzStop)="onResizeStop($event)"
   [style.width]="currSize.width + 'px'" [style.height]="currSize.height + 'px'">
-  <div #DragHandle style="cursor: move;" class="modal-header">
-    <div class="modal-title va-heading1 text-center">Query History</div>
+  <div #DragHandle style="cursor: move;">
+    <div class="center-txt mat-card-title p5">Run Interpretted Tiger Graph Query</div>
     <div>
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeClicked()">
-        <span aria-hidden="true">&times;</span>
+      <button mat-button class="close" aria-label="Close" (click)="closeClicked()">
+        <mat-icon>close</mat-icon>
       </button>
     </div>
   </div>
-  <div>
-    content here 
+  <div class="center-txt p5">
+    <mat-form-field class="full-width">
+      <mat-label>Autosize textarea</mat-label>
+      <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="1" [(ngModel)]="gsql">
+      </textarea>
+    </mat-form-field>
   </div>
 </div>
