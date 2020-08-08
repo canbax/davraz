@@ -3,4 +3,6 @@ export interface DbConfig {
   secret: string;
   token: string;
   tokenExpire: number;
+  username: string;
+  password: string;
 }

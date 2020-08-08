@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { DbConfig } from '../data-types';
+import { TigerGraphApiClientService } from '../tiger-graph-api-client.service';
 
 @Component({
   selector: 'app-database-config-dialog',
@@ -11,19 +10,18 @@ export class DatabaseConfigDialogComponent {
 
   url = '';
   secret = '';
-  proxy_url = 'http://localhost:9000';
-  constructor(private _http: HttpClient) {
-    this._http.get(`${this.proxy_url}/getdbconfig`)
-      .subscribe(x => {
-        const conf = x as DbConfig;
-        this.url = conf.url;
-        this.secret = conf.secret;
-      });
+  username = '';
+  password = '';
+  constructor(private _tgApi: TigerGraphApiClientService) {
+    this._tgApi.getConfig(conf => {
+      this.url = conf.url;
+      this.secret = conf.secret;
+      this.username = conf.username;
+      this.password = conf.password;
+    });
   }
 
   saveConfig() {
-    this._http.get(`${this.proxy_url}/setdbconfig?url=${this.url}&secret=${this.secret}`).subscribe(x => { console.log('db config: ', x) });
+    this._tgApi.setConfig(this.url, this.secret, this.username, this.password);
   }
-
-
 }

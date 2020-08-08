@@ -1,9 +1,20 @@
 const express = require('express');
+const cors = require('cors')
 const app = express();
 const got = require('got');
 const fs = require('fs');
-
+const bodyParser = require('body-parser');
 const CONFIG_FILE = 'db-config.json';
+
+// allow every browser to get response from this server, this MUST BE AT THE TOP
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
+app.use(bodyParser.json());
+
 
 function readDbConfig() {
   const data = JSON.parse(fs.readFileSync(CONFIG_FILE));
@@ -19,12 +30,6 @@ function writeDbConfig(key, val) {
   return data;
 }
 
-// allow every browser to get response from this server
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
 
 // set necessary configurations for the database
 app.get('/getdbconfig', async (req, res) => {
@@ -34,7 +39,7 @@ app.get('/getdbconfig', async (req, res) => {
 
 // set necessary configurations for the database
 app.get('/setdbconfig', async (req, res) => {
-  const CONF = readDbConfig();
+  const conf = readDbConfig();
   writeDbConfig('url', req.query.url);
   writeDbConfig('secret', req.query.secret);
   res.write(JSON.stringify(readDbConfig()));
@@ -43,21 +48,35 @@ app.get('/setdbconfig', async (req, res) => {
 
 // get token 
 app.get('/requesttoken', async (req, res) => {
-  const CONF = readDbConfig();
-  const { body } = await got(CONF.url + '/requesttoken?secret=' + CONF.secret);
+  const conf = readDbConfig();
+  const { body } = await got(conf.url + '/requesttoken?secret=' + conf.secret);
   res.write(body);
   res.end();
 });
 
 // get echo
 app.get('/echo', async (req, res) => {
-  const CONF = readDbConfig();
-  const { body } = await got(CONF.url + '/echo', {
+  const conf = readDbConfig();
+  const { body } = await got(conf.url + '/echo', {
     headers: {
-      'Authorization': 'Bearer flt8i8l4q1lt6isqam4i1lhgq66jthur',
+      'Authorization': 'Bearer ' + conf.token,
     }
   });
   console.log('body: ', body);
+  res.write(body);
+  res.end();
+});
+
+app.post('/gsql', async (req, res) => {
+  const conf = readDbConfig();
+  const url = conf.url.slice(0, -4) + '14240/gsqlserver/interpreted_query?a=10'
+  console.log('req body: ', req.body, ' req url: ', url);
+  const { body } = await got.post(url, {
+    body: req.body.q,
+    username: conf.username,
+    password: conf.password
+  });
+
   res.write(body);
   res.end();
 });
