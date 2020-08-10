@@ -9,14 +9,27 @@
       </button>
     </div>
   </div>
-  <div class="center-txt p5">
-    <mat-form-field class="full-width">
-      <mat-label>Autosize textarea</mat-label>
-      <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="1" [(ngModel)]="gsql">
-      </textarea>
-    </mat-form-field>
-    <button mat-button (click)="runQuery()">
-      run query
-    </button>
+  <div class="p5">
+    <div>
+      <mat-form-field>
+        <input matInput [(ngModel)]="currQueryName">
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <mat-label>Autosize textarea</mat-label>
+        <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="1" [(ngModel)]="gsql">
+        </textarea>
+      </mat-form-field>
+    </div>
+    <div class="center-txt">
+      <button mat-button (click)="runQuery()">
+        save query
+      </button>
+      <button mat-button (click)="runQuery()">
+        run query
+      </button>
+      
+    </div>
+
   </div>
 </div>

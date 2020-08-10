@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Subject } from 'rxjs';
 import { TigerGraphApiClientService } from '../tiger-graph-api-client.service';
+import { CyService } from '../cy.service';
 
 @Component({
   selector: 'app-db-query',
@@ -13,9 +14,14 @@ export class DbQueryComponent implements OnInit {
   _isShow = false;
   position = { x: 500, y: 500 };
   currSize: { width: number, height: number } = { width: 375, height: 600 };
-  gsql = `INTERPRET QUERY (INT a) FOR GRAPH connectivity {   PRINT a; }`;
+  gsql = `INTERPRET QUERY () FOR GRAPH connectivity {   
+    start =   {Person.*};
+    results = SELECT s FROM start:s LIMIT 10;
+    PRINT results;
+    }`;
+  currQueryName = 'Query 1';
 
-  constructor(private _tgApi: TigerGraphApiClientService) { }
+  constructor(private _tgApi: TigerGraphApiClientService, private _cy: CyService) { }
 
   ngOnInit(): void {
     this.isShow.subscribe(x => { this._isShow = x; });
@@ -34,8 +40,7 @@ export class DbQueryComponent implements OnInit {
   }
 
   runQuery() {
-    // this._http.post('')
-    this._tgApi.runInterprettedQuery(this.gsql);
+    this._tgApi.runInterprettedQuery(this.gsql, this._cy.loadGraph);
   }
 
 }

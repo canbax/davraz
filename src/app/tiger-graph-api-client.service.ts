@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SettingsService } from './settings.service';
 import { PROXY_URL } from './constants';
-import { DbConfig } from './data-types';
+import { DbConfig, InterprettedQueryResult } from './data-types';
 
 @Injectable({
   providedIn: 'root'
@@ -31,10 +31,9 @@ export class TigerGraphApiClientService {
     xmlhttp.send();
   }
 
-  runInterprettedQuery(q: string) {
+  runInterprettedQuery(q: string, cb: (r: InterprettedQueryResult) => void) {
     this._http.post(`${PROXY_URL}/gsql`, { q: q },
       { headers: { 'Content-Type': 'application/json' } })
-      .subscribe(x => { console.log('result of http post'); });
-    // this._http.get(`${PROXY_URL}/gsql?q=${q}`).subscribe(x => { console.log('result of get') });
+      .subscribe(x => { cb(x as InterprettedQueryResult); });
   }
 }
