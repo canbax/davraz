@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import cytoscape from 'cytoscape';
 import { TigerGraphApiClientService } from './tiger-graph-api-client.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DatabaseConfigDialogComponent } from './database-config-dialog/database-config-dialog.component';
 import { Subject } from 'rxjs';
+import { SharedService } from './shared.service';
+import { CyService } from './cy.service';
 
 @Component({
   selector: 'app-root',
@@ -14,42 +15,15 @@ export class AppComponent implements OnInit {
   cy: any = null;
   title = 'graph-imager';
   isShowDatabaseQuery = new Subject<boolean>();
+  sampleDataNodeCnt = 5;
+  sampleDataEdgeCnt = 3;
 
-  constructor(private _tgApi: TigerGraphApiClientService, public dialog: MatDialog) {
+  constructor(private _tgApi: TigerGraphApiClientService, private _s: SharedService, public dialog: MatDialog, private _cy: CyService) {
     this._tgApi.simpleRequest();
   }
 
   ngOnInit(): void {
-    this.cy = cytoscape({
-      elements: {
-        nodes: [
-          {
-            data: { id: 'a' }
-          },
-
-          {
-            data: { id: 'b' }
-          }
-        ],
-        edges: [
-          {
-            data: { id: 'ab', source: 'a', target: 'b' }
-          }
-        ]
-      },
-
-      // so we can see the ids
-      style: [
-        {
-          selector: 'node',
-          style: {
-            'label': 'data(id)'
-          }
-        }
-      ],
-      container: document.getElementById('cy')
-    });
-    window['cy'] = this.cy;
+    this._s.init();
   }
 
   openDbConfigDialog() {
@@ -62,6 +36,21 @@ export class AppComponent implements OnInit {
 
   showDbQuery() {
     this.isShowDatabaseQuery.next(true);
+  }
+
+
+  sampleData() {
+    // this._tgApi.sampleData()
+    this._tgApi.sampleData(x => this._cy.loadGraph(x), this.sampleDataNodeCnt, this.sampleDataEdgeCnt);
+  }
+
+  clearData() {
+    // this._s.cy.
+  }
+
+  endPoints() {
+    // this._tgApi.sampleData()
+    this._tgApi.endPoints(this._cy.loadFromQuery);
   }
 
 }

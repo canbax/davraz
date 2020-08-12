@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SettingsService } from './settings.service';
 import { PROXY_URL } from './constants';
-import { DbConfig, InterprettedQueryResult } from './data-types';
+import { DbConfig, InterprettedQueryResult, GraphResponse } from './data-types';
 
 @Injectable({
   providedIn: 'root'
@@ -36,4 +36,13 @@ export class TigerGraphApiClientService {
       { headers: { 'Content-Type': 'application/json' } })
       .subscribe(x => { cb(x as InterprettedQueryResult); });
   }
+
+  sampleData(cb: (r: GraphResponse) => void, nodeCnt = 5, edgeCnt = 3) {
+    this._http.get(`${PROXY_URL}/sampledata?nodeCnt=${nodeCnt}&edgeCnt=${edgeCnt}`).subscribe(x => { cb(x as GraphResponse) });
+  }
+
+  endPoints(cb: (r: InterprettedQueryResult) => void) {
+    this._http.get(`${PROXY_URL}/endpoints`).subscribe(x => { cb(x as InterprettedQueryResult) });
+  }
+
 }

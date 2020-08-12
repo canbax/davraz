@@ -7,8 +7,25 @@
       <button (click)="showDbQuery()" mat-menu-item>Database Query</button>
       <button mat-menu-item>Item 2</button>
     </mat-menu>
+    <button mat-button [matMenuTriggerFor]="data">Data<mat-icon>arrow_drop_down</mat-icon></button>
+    <mat-menu #data="matMenu">
+      <button (click)="clearData()" mat-menu-item>Clear data</button>
+      <div>
+        <mat-form-field>
+          <mat-label>Node count from each type</mat-label>
+          <input matInput [(ngModel)]="sampleDataNodeCnt" name="nodeCnt">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Edge count from each node</mat-label>
+          <input matInput [(ngModel)]="sampleDataEdgeCnt" name="edgeCnt">
+        </mat-form-field>
+        <button (click)="sampleData()" mat-menu-item>Sample data</button>
+
+      </div>
+      <button (click)="endPoints()" mat-menu-item>Endpoints</button>
+    </mat-menu>
   </mat-toolbar>
-  
+
   <div class="container">
     <app-db-query [isShow]="isShowDatabaseQuery"></app-db-query>
 

@@ -13,3 +13,8 @@ export interface InterprettedQueryResult {
   results: any[];
   version: { api: string, edition: string, schema: number };
 }
+
+export interface GraphResponse {
+  nodes: { v_id: string, v_type: string, attributes: any }[];
+  edges: { directed: boolean, e_type: string, attributes: any, from_id: string, from_type: string, to_id: string, to_type: string }[];
+}

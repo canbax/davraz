@@ -1,5 +1,4 @@
 const express = require('express');
-const cors = require('cors')
 const app = express();
 const got = require('got');
 const fs = require('fs');
@@ -18,7 +17,6 @@ app.use(bodyParser.json());
 
 function readDbConfig() {
   const data = JSON.parse(fs.readFileSync(CONFIG_FILE));
-  console.log(data);
   return data;
 }
 
@@ -26,7 +24,6 @@ function writeDbConfig(key, val) {
   const data = JSON.parse(fs.readFileSync(CONFIG_FILE));
   data[key] = val;
   fs.writeFileSync(CONFIG_FILE, JSON.stringify(data));
-  console.log(data);
   return data;
 }
 
@@ -62,7 +59,6 @@ app.get('/echo', async (req, res) => {
       'Authorization': 'Bearer ' + conf.token,
     }
   });
-  console.log('body: ', body);
   res.write(body);
   res.end();
 });
@@ -70,13 +66,57 @@ app.get('/echo', async (req, res) => {
 app.post('/gsql', async (req, res) => {
   const conf = readDbConfig();
   const url = conf.url.slice(0, -4) + '14240/gsqlserver/interpreted_query?a=10'
-  console.log('req body: ', req.body, ' req url: ', url);
   const { body } = await got.post(url, {
     body: req.body.q,
     username: conf.username,
     password: conf.password
   });
 
+  res.write(body);
+  res.end();
+});
+
+app.get('/sampledata', async (req, res) => {
+  const conf = readDbConfig();
+  const nodeCnt = req.query.nodeCnt;
+  const edgeCnt = req.query.edgeCnt;
+
+  const nodeTypes = ['BusRide', 'TrainRide', 'Flight', 'FundsTransfer', 'PhoneCall', 'Person', 'HotelStay', 'Phone', 'BankAccount', 'CaseReport', 'Address'];
+  let nodes = [];
+  for (const t of nodeTypes) {
+    const url = conf.url + `/graph/connectivity/vertices/${t}?_api_=v2&limit=${nodeCnt}`;
+    const { body } = await got(url, {
+      headers: {
+        'Authorization': 'Bearer ' + conf.token,
+      }
+    });
+    let res2 = JSON.parse(body);
+    nodes = nodes.concat(res2.results);
+  }
+
+  let edges = [];
+  for (const node of nodes) {
+    const url = conf.url + `/graph/connectivity/edges?source_vertex_id=${node.v_id}&source_vertex_type=${node.v_type}&_api_=v2&limit=${edgeCnt}`;
+    const { body } = await got(url, {
+      headers: {
+        'Authorization': 'Bearer ' + conf.token,
+      }
+    });
+    let res2 = JSON.parse(body);
+    edges = edges.concat(res2.results);
+  }
+
+  res.write(JSON.stringify({ nodes: nodes, edges: edges }));
+  res.end();
+});
+
+app.get('/endpoints', async (req, res) => {
+  const conf = readDbConfig();
+  const { body } = await got(conf.url + '/endpoints ', {
+    headers: {
+      'Authorization': 'Bearer ' + conf.token,
+    }
+  });
   res.write(body);
   res.end();
 });
