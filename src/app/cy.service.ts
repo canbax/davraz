@@ -7,7 +7,9 @@ import { SharedService } from './shared.service';
 })
 export class CyService {
 
-  constructor(private _s: SharedService) { }
+  constructor(private _s: SharedService) {
+
+  }
 
   init(container) {
 
@@ -22,7 +24,13 @@ export class CyService {
     const node_ids = {};
     // add nodes
     for (const node of resp.nodes) {
-      node.attributes.id = 'n' + node.v_id;
+      if (!node) {
+        continue;
+      }
+      node.attributes.id = 'n' + node.v_id.replace(' ', '_');
+      if (this._s.cy.$('#' + node.attributes.id).length > 0) {
+        continue;
+      }
       node_ids[node.v_id] = true;
       this._s.cy.add({ data: node.attributes, classes: node.v_type })
     }
@@ -31,11 +39,19 @@ export class CyService {
       if (!node_ids[edge.from_id] || !node_ids[edge.to_id]) {
         continue;
       }
-      edge.attributes.id = edge.e_type;
-      edge.attributes.source = 'n' + edge.from_id;
-      edge.attributes.target = 'n' + edge.to_id;
+      const fromId = 'n' + edge.from_id.replace(' ', '_');
+      const toId = 'n' + edge.to_id.replace(' ', '_');
+      edge.attributes.source = fromId;
+      edge.attributes.target = toId;
+      edge.attributes.id = fromId + '-' + toId;
+
+      if (this._s.cy.$('#' + edge.attributes.id).length > 0) {
+        continue;
+      }
       this._s.cy.add({ data: edge.attributes, classes: edge.e_type });
     }
+
+    this._s.runLayout();
   }
 
   loadFromQuery(resp: InterprettedQueryResult) {

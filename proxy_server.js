@@ -106,6 +106,17 @@ app.get('/sampledata', async (req, res) => {
     edges = edges.concat(res2.results);
   }
 
+  for (const edge of edges) {
+    const url = conf.url + `/graph/connectivity/vertices?vertex_type=${edge.to_type}&vertex_id=${edge.to_id}&_api_=v2&limit=${nodeCnt}`;
+    const { body } = await got(url, {
+      headers: {
+        'Authorization': 'Bearer ' + conf.token,
+      }
+    });
+    let res2 = JSON.parse(body);
+    nodes = nodes.concat(res2.results);
+  }
+
   res.write(JSON.stringify({ nodes: nodes, edges: edges }));
   res.end();
 });

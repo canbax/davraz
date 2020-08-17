@@ -45,7 +45,7 @@ export class AppComponent implements OnInit {
   }
 
   clearData() {
-    // this._s.cy.
+    this._s.cy.remove(this._s.cy.$());
   }
 
   endPoints() {

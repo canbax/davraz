@@ -1,0 +1,1067 @@
+{
+  "DELETE /graph/delete_by_type/vertices/{vertex_type}/": {
+    "parameters": {
+      "ack": {
+        "default": "all",
+        "max_count": 1,
+        "min_count": 1,
+        "options": ["all", "none"],
+        "type": "STRING"
+      },
+      "permanent": {
+        "default": "false",
+        "max_count": 1,
+        "min_count": 1,
+        "type": "BOOL"
+      },
+      "vertex_type": {
+        "type": "TYPENAME"
+      }
+    }
+  },
+  "DELETE /graph/edges/{source_vertex_type}/{source_vertex_id}/{edge_type}/{target_vertex_type}/{target_vertex_id}": {
+    "parameters": {
+      "edge_type": {
+        "max_count": 1,
+        "min_count": 0,
+        "type": "EDGETYPENAME"
+      },
+      "filter": {
+        "max_count": 1,
+        "max_length": 2560,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "limit": {
+        "max_count": 1,
+        "min_count": 0,
+        "type": "UINT64"
+      },
+      "not_wildcard": {
+        "max_count": 1,
+        "min_count": 0,
+        "type": "BOOL"
+      },
+      "permanent": {
+        "default": "false",
+        "max_count": 1,
+        "min_count": 1,
+        "type": "BOOL"
+      },
+      "select": {
+        "max_count": 1,
+        "max_length": 2560,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "sort": {
+        "max_count": 1,
+        "max_length": 2560,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "source_vertex_id": {
+        "id_type": "$source_vertex_type",
+        "is_id": true,
+        "max_count": 1,
+        "max_length": 256,
+        "min_count": 1,
+        "type": "STRING"
+      },
+      "source_vertex_type": {
+        "max_count": 1,
+        "min_count": 1,
+        "type": "TYPENAME"
+      },
+      "target_vertex_id": {
+        "id_type": "$target_vertex_type",
+        "is_id": true,
+        "max_count": 1,
+        "max_length": 256,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "target_vertex_type": {
+        "max_count": 1,
+        "min_count": 0,
+        "type": "TYPENAME"
+      },
+      "timeout": {
+        "default": "0",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "UINT32"
+      }
+    }
+  },
+  "DELETE /graph/vertices/{vertex_type}/{vertex_id}": {
+    "parameters": {
+      "filter": {
+        "max_count": 1,
+        "max_length": 2560,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "limit": {
+        "max_count": 1,
+        "min_count": 0,
+        "type": "UINT64"
+      },
+      "permanent": {
+        "default": "false",
+        "max_count": 1,
+        "min_count": 1,
+        "type": "BOOL"
+      },
+      "sort": {
+        "max_count": 1,
+        "max_length": 2560,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "timeout": {
+        "default": "0",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "UINT32"
+      },
+      "vertex_id": {
+        "id_type": "$vertex_type",
+        "is_id": true,
+        "max_count": 1,
+        "max_length": 2560,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "vertex_type": {
+        "type": "TYPENAME"
+      }
+    }
+  },
+  "DELETE /graph/{graph_name}/delete_by_type/vertices/{vertex_type}/": {
+    "parameters": {
+      "ack": {
+        "default": "all",
+        "max_count": 1,
+        "min_count": 1,
+        "options": ["all", "none"],
+        "type": "STRING"
+      },
+      "graph_name": {
+        "default": "",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "permanent": {
+        "default": "false",
+        "max_count": 1,
+        "min_count": 1,
+        "type": "BOOL"
+      },
+      "vertex_type": {
+        "type": "TYPENAME"
+      }
+    }
+  },
+  "DELETE /graph/{graph_name}/edges/{source_vertex_type}/{source_vertex_id}/{edge_type}/{target_vertex_type}/{target_vertex_id}": {
+    "parameters": {
+      "edge_type": {
+        "max_count": 1,
+        "min_count": 0,
+        "type": "EDGETYPENAME"
+      },
+      "filter": {
+        "max_count": 1,
+        "max_length": 2560,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "graph_name": {
+        "default": "",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "limit": {
+        "max_count": 1,
+        "min_count": 0,
+        "type": "UINT64"
+      },
+      "not_wildcard": {
+        "max_count": 1,
+        "min_count": 0,
+        "type": "BOOL"
+      },
+      "permanent": {
+        "default": "false",
+        "max_count": 1,
+        "min_count": 1,
+        "type": "BOOL"
+      },
+      "select": {
+        "max_count": 1,
+        "max_length": 2560,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "sort": {
+        "max_count": 1,
+        "max_length": 2560,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "source_vertex_id": {
+        "id_type": "$source_vertex_type",
+        "is_id": true,
+        "max_count": 1,
+        "max_length": 256,
+        "min_count": 1,
+        "type": "STRING"
+      },
+      "source_vertex_type": {
+        "max_count": 1,
+        "min_count": 1,
+        "type": "TYPENAME"
+      },
+      "target_vertex_id": {
+        "id_type": "$target_vertex_type",
+        "is_id": true,
+        "max_count": 1,
+        "max_length": 256,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "target_vertex_type": {
+        "max_count": 1,
+        "min_count": 0,
+        "type": "TYPENAME"
+      },
+      "timeout": {
+        "default": "0",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "UINT32"
+      }
+    }
+  },
+  "DELETE /graph/{graph_name}/vertices/{vertex_type}/{vertex_id}": {
+    "parameters": {
+      "filter": {
+        "max_count": 1,
+        "max_length": 2560,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "graph_name": {
+        "default": "",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "limit": {
+        "max_count": 1,
+        "min_count": 0,
+        "type": "UINT64"
+      },
+      "permanent": {
+        "default": "false",
+        "max_count": 1,
+        "min_count": 1,
+        "type": "BOOL"
+      },
+      "sort": {
+        "max_count": 1,
+        "max_length": 2560,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "timeout": {
+        "default": "0",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "UINT32"
+      },
+      "vertex_id": {
+        "id_type": "$vertex_type",
+        "is_id": true,
+        "max_count": 1,
+        "max_length": 2560,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "vertex_type": {
+        "type": "TYPENAME"
+      }
+    }
+  },
+  "GET /abortquery/{graph_name}": {
+    "parameters": {
+      "graph_name": {
+        "default": "",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "requestid": {
+        "min_count": 0,
+        "type": "STRING"
+      }
+    }
+  },
+  "GET /allpaths/{graph_name}": {
+    "parameters": {
+      "graph_name": {
+        "default": "",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "STRING"
+      }
+    }
+  },
+  "GET /dbsanitycheck/{graph_name}": {
+    "parameters": {
+      "graph_name": {
+        "default": "",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "log": {
+        "max_count": 1,
+        "min_count": 0,
+        "type": "UINT32"
+      },
+      "segid": {
+        "max_count": 100000,
+        "min_count": 0,
+        "type": "UINT32"
+      },
+      "threadnum": {
+        "default": "6",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "UINT32"
+      },
+      "verbose": {
+        "max_count": 1,
+        "min_count": 0,
+        "type": "UINT32"
+      },
+      "vertextype": {
+        "max_count": 1,
+        "min_count": 0,
+        "type": "TYPENAME"
+      }
+    }
+  },
+  "GET /echo/{graph_name}": {
+    "parameters": {
+      "graph_name": {
+        "default": "",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "sleep": {
+        "default": "0",
+        "type": "INT32"
+      }
+    }
+  },
+  "GET /endpoints/{graph_name}": {
+    "parameters": {
+      "builtin": {
+        "default": "false",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "BOOL"
+      },
+      "dynamic": {
+        "default": "false",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "BOOL"
+      },
+      "graph_name": {
+        "default": "",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "static": {
+        "default": "false",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "BOOL"
+      }
+    }
+  },
+  "GET /graph/edges/{source_vertex_type}/{source_vertex_id}/{edge_type}/{target_vertex_type}/{target_vertex_id}": {
+    "parameters": {
+      "count_only": {
+        "default": "false",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "BOOL"
+      },
+      "edge_type": {
+        "max_count": 1,
+        "min_count": 0,
+        "type": "EDGETYPENAME"
+      },
+      "filter": {
+        "max_count": 1,
+        "max_length": 2560,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "limit": {
+        "max_count": 1,
+        "min_count": 0,
+        "type": "UINT64"
+      },
+      "not_wildcard": {
+        "max_count": 1,
+        "min_count": 0,
+        "type": "BOOL"
+      },
+      "select": {
+        "max_count": 1,
+        "max_length": 2560,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "sort": {
+        "max_count": 1,
+        "max_length": 2560,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "source_vertex_id": {
+        "id_type": "$source_vertex_type",
+        "is_id": true,
+        "max_count": 1,
+        "max_length": 256,
+        "min_count": 1,
+        "type": "STRING"
+      },
+      "source_vertex_type": {
+        "max_count": 1,
+        "min_count": 1,
+        "type": "TYPENAME"
+      },
+      "target_vertex_id": {
+        "id_type": "$target_vertex_type",
+        "is_id": true,
+        "max_count": 1,
+        "max_length": 256,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "target_vertex_type": {
+        "max_count": 1,
+        "min_count": 0,
+        "type": "TYPENAME"
+      },
+      "timeout": {
+        "default": "0",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "UINT32"
+      }
+    }
+  },
+  "GET /graph/vertices/{vertex_type}/{vertex_id}": {
+    "parameters": {
+      "count_only": {
+        "default": "false",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "BOOL"
+      },
+      "filter": {
+        "max_count": 1,
+        "max_length": 2560,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "limit": {
+        "max_count": 1,
+        "min_count": 0,
+        "type": "UINT64"
+      },
+      "select": {
+        "max_count": 1,
+        "max_length": 2560,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "sort": {
+        "max_count": 1,
+        "max_length": 2560,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "timeout": {
+        "default": "0",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "UINT32"
+      },
+      "vertex_id": {
+        "id_type": "$vertex_type",
+        "is_id": true,
+        "max_count": 1,
+        "max_length": 2560,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "vertex_type": {
+        "type": "TYPENAME"
+      }
+    }
+  },
+  "GET /graph/{graph_name}/edges/{source_vertex_type}/{source_vertex_id}/{edge_type}/{target_vertex_type}/{target_vertex_id}": {
+    "parameters": {
+      "count_only": {
+        "default": "false",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "BOOL"
+      },
+      "edge_type": {
+        "max_count": 1,
+        "min_count": 0,
+        "type": "EDGETYPENAME"
+      },
+      "filter": {
+        "max_count": 1,
+        "max_length": 2560,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "graph_name": {
+        "default": "",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "limit": {
+        "max_count": 1,
+        "min_count": 0,
+        "type": "UINT64"
+      },
+      "not_wildcard": {
+        "max_count": 1,
+        "min_count": 0,
+        "type": "BOOL"
+      },
+      "select": {
+        "max_count": 1,
+        "max_length": 2560,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "sort": {
+        "max_count": 1,
+        "max_length": 2560,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "source_vertex_id": {
+        "id_type": "$source_vertex_type",
+        "is_id": true,
+        "max_count": 1,
+        "max_length": 256,
+        "min_count": 1,
+        "type": "STRING"
+      },
+      "source_vertex_type": {
+        "max_count": 1,
+        "min_count": 1,
+        "type": "TYPENAME"
+      },
+      "target_vertex_id": {
+        "id_type": "$target_vertex_type",
+        "is_id": true,
+        "max_count": 1,
+        "max_length": 256,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "target_vertex_type": {
+        "max_count": 1,
+        "min_count": 0,
+        "type": "TYPENAME"
+      },
+      "timeout": {
+        "default": "0",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "UINT32"
+      }
+    }
+  },
+  "GET /graph/{graph_name}/vertices/{vertex_type}/{vertex_id}": {
+    "parameters": {
+      "count_only": {
+        "default": "false",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "BOOL"
+      },
+      "filter": {
+        "max_count": 1,
+        "max_length": 2560,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "graph_name": {
+        "default": "",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "limit": {
+        "max_count": 1,
+        "min_count": 0,
+        "type": "UINT64"
+      },
+      "select": {
+        "max_count": 1,
+        "max_length": 2560,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "sort": {
+        "max_count": 1,
+        "max_length": 2560,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "timeout": {
+        "default": "0",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "UINT32"
+      },
+      "vertex_id": {
+        "id_type": "$vertex_type",
+        "is_id": true,
+        "max_count": 1,
+        "max_length": 2560,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "vertex_type": {
+        "type": "TYPENAME"
+      }
+    }
+  },
+  "GET /query/connectivity/q1": {
+    "action": "query",
+    "alternative_endpoint": "/query/q1",
+    "function": "queryDispatcher",
+    "graph_name": "connectivity",
+    "libudf": "libudf_connectivity",
+    "parameters": {
+      "query": {
+        "default": "q1",
+        "type": "STRING"
+      }
+    },
+    "payload": [{
+      "rule": "AS_QUERY_STRING"
+    }],
+    "summary": "This is query entrance",
+    "target": "GPE"
+  },
+  "GET /query/q1": {
+    "action": "query",
+    "alternative_endpoint": "/query/q1",
+    "function": "queryDispatcher",
+    "graph_name": "connectivity",
+    "libudf": "libudf_connectivity",
+    "parameters": {
+      "query": {
+        "default": "q1",
+        "type": "STRING"
+      }
+    },
+    "payload": [{
+      "rule": "AS_QUERY_STRING"
+    }],
+    "summary": "This is query entrance",
+    "target": "GPE"
+  },
+  "GET /rebuildnow/{graph_name}": {
+    "parameters": {
+      "force": {
+        "max_count": 1,
+        "min_count": 0,
+        "type": "BOOL"
+      },
+      "graph_name": {
+        "default": "",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "path": {
+        "default": "/tmp/rebuildnow",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "segid": {
+        "max_count": 100000,
+        "min_count": 0,
+        "type": "UINT32"
+      },
+      "threadnum": {
+        "default": "0",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "UINT32"
+      },
+      "tid": {
+        "max_count": 1,
+        "min_count": 0,
+        "type": "UINT32"
+      },
+      "vertextype": {
+        "max_count": 1,
+        "min_count": 0,
+        "type": "TYPENAME"
+      }
+    }
+  },
+  "GET /shortestpath/{graph_name}": {
+    "parameters": {
+      "graph_name": {
+        "default": "",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "STRING"
+      }
+    }
+  },
+  "GET /showlicenseinfo/{graph_name}": {
+    "parameters": {
+      "graph_name": {
+        "default": "",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "STRING"
+      }
+    }
+  },
+  "GET /showprocesslist/{graph_name}": {
+    "parameters": {
+      "graph_name": {
+        "default": "",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "STRING"
+      }
+    }
+  },
+  "GET /statistics/{graph_name}": {
+    "parameters": {
+      "graph_name": {
+        "default": "",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "seconds": {
+        "default": "10",
+        "type": "UINT32"
+      },
+      "segments": {
+        "default": "10",
+        "max": "100",
+        "min": "1",
+        "type": "UINT32"
+      }
+    }
+  },
+  "GET /version/{graph_name}": {
+    "parameters": {
+      "graph_name": {
+        "default": "",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "STRING"
+      }
+    }
+  },
+  "POST /abortquery/{graph_name}": {
+    "parameters": {
+      "graph_name": {
+        "default": "",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "requestid": {
+        "min_count": 0,
+        "type": "STRING"
+      }
+    }
+  },
+  "POST /allpaths/{graph_name}": {
+    "parameters": {
+      "graph_name": {
+        "default": "",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "STRING"
+      }
+    }
+  },
+  "POST /builtins/{graph_name}": {
+    "parameters": {
+      "graph_name": {
+        "default": "",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "realtime": {
+        "default": "false",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "BOOL"
+      }
+    }
+  },
+  "POST /dbsanitycheck/{graph_name}": {
+    "parameters": {
+      "graph_name": {
+        "default": "",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "log": {
+        "max_count": 1,
+        "min_count": 0,
+        "type": "UINT32"
+      },
+      "segid": {
+        "max_count": 100000,
+        "min_count": 0,
+        "type": "UINT32"
+      },
+      "threadnum": {
+        "default": "6",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "UINT32"
+      },
+      "verbose": {
+        "max_count": 1,
+        "min_count": 0,
+        "type": "UINT32"
+      },
+      "vertextype": {
+        "max_count": 1,
+        "min_count": 0,
+        "type": "TYPENAME"
+      }
+    }
+  },
+  "POST /ddl/{graph_name}": {
+    "parameters": {
+      "ack": {
+        "default": "all",
+        "max_count": 1,
+        "min_count": 1,
+        "options": ["all", "none"],
+        "type": "STRING"
+      },
+      "concise": {
+        "default": "false",
+        "max_count": 1,
+        "min_count": 1,
+        "type": "BOOL"
+      },
+      "eol": {
+        "default": "\n",
+        "max_count": 1,
+        "max_length": 4,
+        "min_count": 0,
+        "min_length": 1,
+        "type": "STRING"
+      },
+      "filename": {
+        "default": "__GSQL_FILENAME__",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "graph_name": {
+        "default": "",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "sep": {
+        "default": ",",
+        "max_count": 1,
+        "max_length": 4,
+        "min_count": 0,
+        "min_length": 1,
+        "type": "STRING"
+      },
+      "tag": {
+        "max_count": 1,
+        "min_count": 1,
+        "type": "STRING"
+      },
+      "timeout": {
+        "default": "0",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "UINT32"
+      }
+    }
+  },
+  "POST /echo/{graph_name}": {
+    "parameters": {
+      "graph_name": {
+        "default": "",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "sleep": {
+        "default": "0",
+        "type": "INT32"
+      }
+    }
+  },
+  "POST /graph/{graph_name}": {
+    "parameters": {
+      "ack": {
+        "default": "all",
+        "max_count": 1,
+        "min_count": 1,
+        "options": ["all", "none"],
+        "type": "STRING"
+      },
+      "graph_name": {
+        "default": "",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "new_vertex_only": {
+        "default": "false",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "BOOL"
+      },
+      "vertex_must_exist": {
+        "default": "false",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "BOOL"
+      }
+    }
+  },
+  "POST /rebuildnow/{graph_name}": {
+    "parameters": {
+      "force": {
+        "max_count": 1,
+        "min_count": 0,
+        "type": "BOOL"
+      },
+      "graph_name": {
+        "default": "",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "path": {
+        "default": "/tmp/rebuildnow",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "segid": {
+        "max_count": 100000,
+        "min_count": 0,
+        "type": "UINT32"
+      },
+      "threadnum": {
+        "default": "0",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "UINT32"
+      },
+      "tid": {
+        "max_count": 1,
+        "min_count": 0,
+        "type": "UINT32"
+      },
+      "vertextype": {
+        "max_count": 1,
+        "min_count": 0,
+        "type": "TYPENAME"
+      }
+    }
+  },
+  "POST /restpploader/{graph_name}": {
+    "parameters": {
+      "abort": {
+        "max_count": 1,
+        "min_count": 0,
+        "type": "BOOL"
+      },
+      "checkstatus": {
+        "max_count": 1,
+        "min_count": 0,
+        "type": "BOOL"
+      },
+      "graph_name": {
+        "default": "",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "STRING"
+      },
+      "resume": {
+        "max_count": 1,
+        "min_count": 0,
+        "type": "BOOL"
+      },
+      "showsummary": {
+        "max_count": 1,
+        "min_count": 0,
+        "type": "BOOL"
+      }
+    }
+  },
+  "POST /shortestpath/{graph_name}": {
+    "parameters": {
+      "graph_name": {
+        "default": "",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "STRING"
+      }
+    }
+  },
+  "POST /showprocesslist/{graph_name}": {
+    "parameters": {
+      "graph_name": {
+        "default": "",
+        "max_count": 1,
+        "min_count": 0,
+        "type": "STRING"
+      }
+    }
+  }
+}
