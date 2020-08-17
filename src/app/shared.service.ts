@@ -8,27 +8,17 @@ import fcose from 'cytoscape-fcose';
 export class SharedService {
 
   cy: any;
+  LAYOUT_ANIM_DUR = 500;
+  performLayout: Function;
 
-  constructor() { }
+  constructor() {
+    let isGraphEmpty = () => { return this.cy.elements().not(':hidden, :transparent').length > 0 };
+    this.performLayout = this.debounce(this.runLayout, this.LAYOUT_ANIM_DUR, true, isGraphEmpty);
+  }
 
   init() {
     this.cy = cytoscape({
-      elements: {
-        nodes: [
-          {
-            data: { id: 'a' }
-          },
-
-          {
-            data: { id: 'b' }
-          }
-        ],
-        edges: [
-          {
-            data: { id: 'ab', source: 'a', target: 'b' }
-          }
-        ]
-      },
+      elements: {},
 
       // so we can see the ids
       style: [
@@ -46,7 +36,7 @@ export class SharedService {
     cytoscape.use(fcose);
   }
 
-  runLayout(): void {
+  private runLayout(): void {
     const elems4layout = this.cy.elements().not(':hidden, :transparent');
     if (elems4layout.length < 1) {
       return;
@@ -64,11 +54,11 @@ export class SharedService {
       quality: 'default',
       // use random node positions at beginning of layout
       // if this is set to false, then quality option must be 'proof'
-      randomize: false,
+      randomize: true,
       // whether or not to animate the layout
       animate: true,
       // duration of animation in ms, if enabled
-      animationDuration: 500,
+      animationDuration: this.LAYOUT_ANIM_DUR,
       // easing of animation, if enabled
       animationEasing: undefined,
       // fit the viewport to the repositioned nodes
@@ -121,6 +111,34 @@ export class SharedService {
       /* layout event callbacks */
       ready: () => { }, // on layoutready
       stop: () => { } // on layoutstop
+    };
+  }
+
+  /** https://davidwalsh.name/javascript-debounce-function
+ * Returns a function, that, as long as it continues to be invoked, will not
+ * be triggered. The function will be called after it stops being called for
+ * N milliseconds. If `immediate` is passed, trigger the function on the
+ * leading edge, instead of the trailing.
+ * @param  {} func
+ * @param  {number} wait
+ * @param  {boolean=false} immediate
+ * @param  {} preConditionFn=null if function returns false, ignore this call
+ */
+  private debounce(func, wait: number, immediate: boolean = false, preConditionFn = null) {
+    let timeout;
+    return function () {
+      if (preConditionFn && !preConditionFn()) {
+        return;
+      }
+      const context = this, args = arguments;
+      const later = function () {
+        timeout = null;
+        if (!immediate) func.apply(context, args);
+      };
+      const callNow = immediate && !timeout;
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+      if (callNow) func.apply(context, args);
     };
   }
 }

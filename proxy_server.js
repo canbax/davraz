@@ -121,6 +121,66 @@ app.get('/sampledata', async (req, res) => {
   res.end();
 });
 
+app.get('/samplenodes', async (req, res) => {
+  const conf = readDbConfig();
+  const cnt = req.query.cnt;
+  const type = req.query.type;
+
+  let nodes = [];
+  const url = conf.url + `/graph/connectivity/vertices/${type}?_api_=v2&limit=${cnt}`;
+  const { body } = await got(url, {
+    headers: {
+      'Authorization': 'Bearer ' + conf.token,
+    }
+  });
+  let res2 = JSON.parse(body);
+  nodes = nodes.concat(res2.results);
+
+  res.write(JSON.stringify({ nodes: nodes, edges: [] }));
+  res.end();
+});
+
+app.get('/edges4nodes', async (req, res) => {
+  const conf = readDbConfig();
+  const cnt = req.query.cnt;
+  const id = req.query.id;
+  const src_type = req.query.src_type;
+
+  let edges = [];
+  const url = conf.url + `/graph/connectivity/edges?source_vertex_id=${id}&source_vertex_type=${src_type}&_api_=v2&limit=${cnt}`;
+  const { body } = await got(url, {
+    headers: {
+      'Authorization': 'Bearer ' + conf.token,
+    }
+  });
+  let res2 = JSON.parse(body);
+  edges = edges.concat(res2.results);
+
+  res.write(JSON.stringify({ nodes: [], edges: edges }));
+  res.end();
+});
+
+app.get('/nodes4edges', async (req, res) => {
+  const conf = readDbConfig();
+  const cnt = req.query.cnt;
+  const type = req.query.type;
+  const id = req.query.id;
+
+  let nodes = [];
+  const url = conf.url + `/graph/connectivity/vertices?vertex_type=${type}&vertex_id=${id}&_api_=v2&limit=${cnt}`;
+  const { body } = await got(url, {
+    headers: {
+      'Authorization': 'Bearer ' + conf.token,
+    }
+  });
+  let res2 = JSON.parse(body);
+  nodes = nodes.concat(res2.results);
+
+  res.write(JSON.stringify({ nodes: nodes, edges: [] }));
+  res.end();
+});
+
+
 app.get('/endpoints', async (req, res) => {
   const conf = readDbConfig();
   const { body } = await got(conf.url + '/endpoints ', {

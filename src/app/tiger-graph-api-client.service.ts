@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SettingsService } from './settings.service';
 import { PROXY_URL } from './constants';
-import { DbConfig, InterprettedQueryResult, GraphResponse } from './data-types';
+import { DbConfig, InterprettedQueryResult, GraphResponse, NodeResponse, EdgeResponse } from './data-types';
+import { combineLatest, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -38,7 +39,53 @@ export class TigerGraphApiClientService {
   }
 
   sampleData(cb: (r: GraphResponse) => void, nodeCnt = 5, edgeCnt = 3) {
-    this._http.get(`${PROXY_URL}/sampledata?nodeCnt=${nodeCnt}&edgeCnt=${edgeCnt}`).subscribe(x => { cb(x as GraphResponse) });
+
+    const nodeTypes = ['BusRide', 'TrainRide', 'Flight', 'FundsTransfer', 'PhoneCall', 'Person', 'HotelStay', 'Phone', 'BankAccount', 'CaseReport', 'Address'];
+    let firstNodes: NodeResponse[] = [];
+    const arr: Observable<Object>[] = [];
+    for (const t of nodeTypes) {
+      const o = this._http.get(`${PROXY_URL}/samplenodes?cnt=${nodeCnt}&type=${t}`);
+      arr.push(o);
+      o.subscribe(x => {
+        cb(x as GraphResponse);
+        firstNodes = firstNodes.concat((x as GraphResponse).nodes);
+      });
+    }
+
+    let firstEdges: EdgeResponse[] = [];
+    const arr2: Observable<Object>[] = [];
+    // after we get all the nodes get edges from these nodes
+    combineLatest(arr).subscribe(() => {
+      console.log('got first node set: ', firstNodes);
+      for (const n of firstNodes) {
+        const o = this._http.get(`${PROXY_URL}/edges4nodes?cnt=${edgeCnt}&src_type=${n.v_type}&id=${n.v_id}`);
+        arr2.push(o);
+        o.subscribe(x => {
+          firstEdges = firstEdges.concat((x as GraphResponse).edges);
+        })
+      }
+
+      let secondNodes: NodeResponse[] = [];
+      const arr3: Observable<Object>[] = [];
+      // get target nodes of the edges
+      combineLatest(arr2).subscribe(() => {
+        console.log('got edge set: ', firstEdges);
+        for (const e of firstEdges) {
+          const o = this._http.get(`${PROXY_URL}/nodes4edges?cnt=${nodeCnt}&type=${e.to_type}&id=${e.to_id}`);
+          arr3.push(o);
+          o.subscribe(x => {
+            cb(x as GraphResponse);
+            secondNodes = secondNodes.concat((x as GraphResponse).nodes);
+          })
+        }
+
+        // we should add edges to graph after we get both source and target's of edges
+        combineLatest(arr3).subscribe(() => {
+          console.log('got target node set: ', secondNodes);
+          cb({ edges: firstEdges, nodes: [] });
+        });
+      });
+    });
   }
 
   endPoints(cb: (r: InterprettedQueryResult) => void) {

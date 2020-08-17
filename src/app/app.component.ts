@@ -40,7 +40,6 @@ export class AppComponent implements OnInit {
 
 
   sampleData() {
-    // this._tgApi.sampleData()
     this._tgApi.sampleData(x => this._cy.loadGraph(x), this.sampleDataNodeCnt, this.sampleDataEdgeCnt);
   }
 
@@ -49,7 +48,6 @@ export class AppComponent implements OnInit {
   }
 
   endPoints() {
-    // this._tgApi.sampleData()
     this._tgApi.endPoints(this._cy.loadFromQuery);
   }
 

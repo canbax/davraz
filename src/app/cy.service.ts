@@ -27,8 +27,8 @@ export class CyService {
       if (!node) {
         continue;
       }
-      node.attributes.id = 'n' + node.v_id.replace(' ', '_');
-      if (this._s.cy.$('#' + node.attributes.id).length > 0) {
+      node.attributes.id = 'n_' + node.v_id;
+      if (this._s.cy.$id(node.attributes.id).length > 0) {
         continue;
       }
       node_ids[node.v_id] = true;
@@ -36,22 +36,22 @@ export class CyService {
     }
 
     for (const edge of resp.edges) {
-      if (!node_ids[edge.from_id] || !node_ids[edge.to_id]) {
-        continue;
-      }
-      const fromId = 'n' + edge.from_id.replace(' ', '_');
-      const toId = 'n' + edge.to_id.replace(' ', '_');
+      const fromId = 'n_' + edge.from_id;
+      const toId = 'n_' + edge.to_id;
       edge.attributes.source = fromId;
       edge.attributes.target = toId;
-      edge.attributes.id = fromId + '-' + toId;
+      edge.attributes.id = 'e_' + fromId + '-' + toId;
 
-      if (this._s.cy.$('#' + edge.attributes.id).length > 0) {
+      if (this._s.cy.$id(edge.attributes.id).length > 0) {
+        continue;
+      }
+      if (this._s.cy.$id(fromId).length < 1 || this._s.cy.$id(toId).length < 1) {
         continue;
       }
       this._s.cy.add({ data: edge.attributes, classes: edge.e_type });
     }
 
-    this._s.runLayout();
+    this._s.performLayout();
   }
 
   loadFromQuery(resp: InterprettedQueryResult) {
