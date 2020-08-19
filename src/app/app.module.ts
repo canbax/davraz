@@ -17,12 +17,14 @@ import { AppComponent } from './app.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { DatabaseConfigDialogComponent } from './database-config-dialog/database-config-dialog.component';
 import { DbQueryComponent } from './db-query/db-query.component';
+import { SampleDataDialogComponent } from './sample-data-dialog/sample-data-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DatabaseConfigDialogComponent,
-    DbQueryComponent
+    DbQueryComponent,
+    SampleDataDialogComponent
   ],
   imports: [
     BrowserModule,

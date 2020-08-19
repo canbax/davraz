@@ -24,6 +24,8 @@
     "a-color-picker": "^1.2.1",
     "angular2-draggable": "^2.3.2",
     "cytoscape": "^3.15.2",
+    "cytoscape-avsdf": "^1.0.0",
+    "cytoscape-chola": "github:iVis-at-Bilkent/cytoscape.js-chola#unstable",
     "cytoscape-cise": "github:iVis-at-Bilkent/cytoscape.js-cise#develop",
     "cytoscape-context-menus": "github:iVis-at-Bilkent/cytoscape.js-context-menus#unstable",
     "cytoscape-expand-collapse": "github:iVis-at-Bilkent/cytoscape.js-expand-collapse#unstable",

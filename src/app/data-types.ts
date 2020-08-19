@@ -34,3 +34,8 @@ export interface EdgeResponse {
   to_id: string;
   to_type: string;
 }
+
+export interface SampleDataDialogData {
+  nodeCnt: number;
+  edgeCnt: number;
+}

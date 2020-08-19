@@ -5,6 +5,8 @@ import { DatabaseConfigDialogComponent } from './database-config-dialog/database
 import { Subject } from 'rxjs';
 import { SharedService } from './shared.service';
 import { CyService } from './cy.service';
+import { SampleDataDialogComponent } from './sample-data-dialog/sample-data-dialog.component';
+import { Layout } from './constants';
 
 @Component({
   selector: 'app-root',
@@ -15,8 +17,7 @@ export class AppComponent implements OnInit {
   cy: any = null;
   title = 'graph-imager';
   isShowDatabaseQuery = new Subject<boolean>();
-  sampleDataNodeCnt = 5;
-  sampleDataEdgeCnt = 3;
+  layoutNames: string[] = Object.keys(Layout);
 
   constructor(private _tgApi: TigerGraphApiClientService, private _s: SharedService, public dialog: MatDialog, private _cy: CyService) {
     this._tgApi.simpleRequest();
@@ -34,13 +35,16 @@ export class AppComponent implements OnInit {
     });
   }
 
-  showDbQuery() {
-    this.isShowDatabaseQuery.next(true);
+  openSampleDataDialog() {
+    const dialogRef = this.dialog.open(SampleDataDialogComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 
-
-  sampleData() {
-    this._tgApi.sampleData(x => this._cy.loadGraph(x), this.sampleDataNodeCnt, this.sampleDataEdgeCnt);
+  showDbQuery() {
+    this.isShowDatabaseQuery.next(true);
   }
 
   clearData() {
@@ -49,6 +53,11 @@ export class AppComponent implements OnInit {
 
   endPoints() {
     this._tgApi.endPoints(this._cy.loadFromQuery);
+  }
+
+  runLayout(name: string) {
+    this._s.currLayout = name;
+    this._s.performLayout();
   }
 
 }
