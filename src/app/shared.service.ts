@@ -3,6 +3,12 @@ import cytoscape from 'cytoscape';
 import fcose from 'cytoscape-fcose';
 import chola from 'cytoscape-chola';
 import avsdf from 'cytoscape-avsdf';
+import cola from 'cytoscape-cola';
+import euler from 'cytoscape-euler';
+import spread from 'cytoscape-spread';
+import dagre from 'cytoscape-dagre';
+import klay from 'cytoscape-klay';
+
 import { Layout, LAYOUT_ANIM_DUR } from './constants';
 
 @Injectable({
@@ -39,6 +45,11 @@ export class SharedService {
     cytoscape.use(fcose);
     cytoscape.use(chola);
     cytoscape.use(avsdf);
+    cytoscape.use(cola);
+    cytoscape.use(euler);
+    cytoscape.use(spread);
+    cytoscape.use(dagre);
+    cytoscape.use(klay);
   }
 
   private runLayout(): void {
