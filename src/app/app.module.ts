@@ -10,7 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
-
+import { MatRadioModule } from '@angular/material/radio';
 import { AngularDraggableModule } from 'angular2-draggable';
 
 import { AppComponent } from './app.component';
@@ -42,6 +42,7 @@ import { SavePngDialogComponent } from './save-png-dialog/save-png-dialog.compon
     MatInputModule,
     MatCardModule,
     FormsModule,
+    MatRadioModule,
     AngularDraggableModule
   ],
   providers: [],

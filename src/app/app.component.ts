@@ -82,10 +82,10 @@ export class AppComponent implements OnInit {
     if (!elements.nodes) {
       return;
     }
-    if (this.isWarn4Collapsed(elements)) {
+    if (this.isWarn4Collapsed(this._s.cy.$())) {
       return;
     }
-    this.str2file(JSON.stringify(elements, undefined, 4), 'visuall.json');
+    this.str2file(JSON.stringify(elements, undefined, 4), 'graph-explorer.json');
   }
 
   saveSelected2File() {
@@ -110,7 +110,7 @@ export class AppComponent implements OnInit {
       o.nodes.push(n.json());
     }
 
-    this.str2file(JSON.stringify(o), 'visuall.txt');
+    this.str2file(JSON.stringify(o), 'graph-explorer.json');
   }
 
   saveAsPng() {

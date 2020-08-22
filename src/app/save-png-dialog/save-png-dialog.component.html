@@ -1,8 +1,16 @@
 <h2 mat-dialog-title>Save as PNG</h2>
 <mat-dialog-content class="mat-typography">
-  Do you want to save whole graph or only currently viewable part?
-  
+  <p>
+    Do you want to save whole graph or only currently viewable part?
+  </p>
+
+  <p>
+    <mat-radio-group aria-label="Select an option" [(ngModel)]="currOption">
+      <mat-radio-button [value]="0">Whole graph</mat-radio-button>
+      <mat-radio-button [value]="1">Only viewable</mat-radio-button>
+    </mat-radio-group>
+  </p>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close cdkFocusInitial>Ok</button>
+  <button (click)="onOkClicked()" mat-button cdkFocusInitial>Ok</button>
 </mat-dialog-actions>

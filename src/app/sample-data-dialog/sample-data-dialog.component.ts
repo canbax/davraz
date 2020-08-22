@@ -17,10 +17,6 @@ export class SampleDataDialogComponent {
     public dialogRef: MatDialogRef<SampleDataDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: SampleDataDialogData, private _tgApi: TigerGraphApiClientService, private _cy: CyService) { }
 
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
 
   sampleData() {
     this._tgApi.sampleData(x => this._cy.loadGraph(x), this.nodeCnt, this.edgeCnt);
