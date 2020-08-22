@@ -1,9 +1,17 @@
+<input #fileInp type="file" (change)="fileSelected()" accept="text/*, .json, .vall" style="display: none;" />
 <div class="root">
   <mat-toolbar>
     <span>Graph Imager</span>
     <button mat-button (click)="openDbConfigDialog()">Database Connection <mat-icon>sync</mat-icon></button>
-    <button mat-button [matMenuTriggerFor]="file">Query<mat-icon>arrow_drop_down</mat-icon></button>
+    <button mat-button [matMenuTriggerFor]="file">File<mat-icon>arrow_drop_down</mat-icon></button>
     <mat-menu #file="matMenu">
+      <button (click)="loadGraphFromFile()" mat-menu-item>Load</button>
+      <button (click)="saveGraph2File()" mat-menu-item>Save</button>
+      <button (click)="saveSelected2File()" mat-menu-item>Save Selected</button>
+      <button (click)="saveAsPng()" mat-menu-item>Save as PNG</button>
+    </mat-menu>
+    <button mat-button [matMenuTriggerFor]="query">Query<mat-icon>arrow_drop_down</mat-icon></button>
+    <mat-menu #query="matMenu">
       <button (click)="showDbQuery()" mat-menu-item>Database Query</button>
       <button mat-menu-item>Item 2</button>
     </mat-menu>

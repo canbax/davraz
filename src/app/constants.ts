@@ -515,3 +515,22 @@ export const Layout = {
   }
 
 }
+
+export function readTxtFile(file: File, cb: (s: string) => void) {
+  const fileReader = new FileReader();
+  fileReader.onload = () => {
+    try {
+      cb(fileReader.result as string);
+    } catch (error) {
+      console.error('Given file is not suitable.', error);
+    }
+  };
+  fileReader.onerror = (error) => {
+    console.error('File could not be read!', error);
+    fileReader.abort();
+  };
+  fileReader.readAsText(file);
+}
+
+export const COLLAPSED_EDGE_CLASS = 'cy-expand-collapse-collapsed-edge';
+export const COLLAPSED_NODE_CLASS = 'cy-expand-collapse-collapsed-node';
