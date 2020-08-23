@@ -26,7 +26,7 @@
       <button *ngFor="let l of layoutNames" (click)="runLayout(l)" mat-menu-item>{{l}}</button>
     </mat-menu>
     <button mat-button [matMenuTriggerFor]="highlight">Highlight<mat-icon>arrow_drop_down</mat-icon></button>
-    <mat-menu #compound="matMenu">
+    <mat-menu #highlight="matMenu">
       <button (click)="searchAndHighlight()" mat-menu-item>Search</button>
       <button (click)="highlightSelected()" mat-menu-item>Selected</button>
       <button (click)="highlightUnselected()" mat-menu-item>Unselected</button>
