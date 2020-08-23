@@ -226,6 +226,27 @@ export class AppComponent implements OnInit {
     this._s.expandCollapseApi.expandEdges(edges2expand);
   }
 
+  searchAndHighlight() {
+
+  }
+
+  highlightSelected() {
+
+  }
+
+  highlightUnselected() {
+
+  }
+
+
+  removeHighlight4Selected() {
+
+  }
+
+  removeHighlights() {
+
+  }
+
   private addParentNode(idSuffix: string | number, parent = undefined) {
     const id = 'c' + idSuffix;
     const parentNode = this.createCyNode({ labels: [COMPOUND_CLASS], properties: { end_datetime: 0, begin_datetime: 0, name: name } }, id);
