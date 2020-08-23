@@ -8,8 +8,11 @@ import euler from 'cytoscape-euler';
 import spread from 'cytoscape-spread';
 import dagre from 'cytoscape-dagre';
 import klay from 'cytoscape-klay';
+import expandCollapse from 'cytoscape-expand-collapse';
+import navigator from 'cytoscape-navigator';
+import viewUtilities from 'cytoscape-view-utilities';
 
-import { Layout, LAYOUT_ANIM_DUR } from './constants';
+import { Layout, LAYOUT_ANIM_DUR, expandCollapseCuePosition, EXPAND_COLLAPSE_CUE_SIZE, debounce } from './constants';
 
 @Injectable({
   providedIn: 'root'
@@ -17,12 +20,13 @@ import { Layout, LAYOUT_ANIM_DUR } from './constants';
 export class SharedService {
 
   cy: any;
+  expandCollapseApi: any;
   performLayout: Function;
   currLayout: string = 'fcose';
 
   constructor() {
     let isGraphEmpty = () => { return this.cy.elements().not(':hidden, :transparent').length > 0 };
-    this.performLayout = this.debounce(this.runLayout, 2 * LAYOUT_ANIM_DUR, true, isGraphEmpty);
+    this.performLayout = debounce(this.runLayout, 2 * LAYOUT_ANIM_DUR, true, isGraphEmpty);
   }
 
   init() {
@@ -50,6 +54,14 @@ export class SharedService {
     cytoscape.use(spread);
     cytoscape.use(dagre);
     cytoscape.use(klay);
+
+    //register expand-collapse extension
+    expandCollapse(cytoscape);
+    this.bindExpandCollapseExt();
+    // register navigator extension
+    navigator(cytoscape);
+    // register view utilities extension
+    viewUtilities(cytoscape);
   }
 
   private runLayout(): void {
@@ -64,31 +76,28 @@ export class SharedService {
     elems4layout.layout(l).run();
   }
 
-  /** https://davidwalsh.name/javascript-debounce-function
- * Returns a function, that, as long as it continues to be invoked, will not
- * be triggered. The function will be called after it stops being called for
- * N milliseconds. If `immediate` is passed, trigger the function on the
- * leading edge, instead of the trailing.
- * @param  {} func
- * @param  {number} wait
- * @param  {boolean=false} immediate
- * @param  {} preConditionFn=null if function returns false, ignore this call
- */
-  private debounce(func, wait: number, immediate: boolean = false, preConditionFn = null) {
-    let timeout;
-    return function () {
-      if (preConditionFn && !preConditionFn()) {
-        return;
-      }
-      const context = this, args = arguments;
-      const later = function () {
-        timeout = null;
-        if (!immediate) func.apply(context, args);
-      };
-      const callNow = immediate && !timeout;
-      clearTimeout(timeout);
-      timeout = setTimeout(later, wait);
-      if (callNow) func.apply(context, args);
-    };
+  private bindExpandCollapseExt() {
+    const layout = Layout.fcose;
+    layout.randomize = false;
+    this.expandCollapseApi = this.cy.expandCollapse({
+      layoutBy: layout,
+      // recommended usage: use cose-bilkent layout with randomize: false to preserve mental map upon expand/collapse
+      fisheye: false, // whether to perform fisheye view after expand/collapse you can specify a function too
+      animate: true, // whether to animate on drawing changes you can specify a function too
+      ready: function () { }, // callback when expand/collapse initialized
+      undoable: false, // and if undoRedoExtension exists,
+      randomize: false,
+
+      cueEnabled: true, // Whether cues are enabled
+      expandCollapseCuePosition: expandCollapseCuePosition,
+      expandCollapseCueSize: EXPAND_COLLAPSE_CUE_SIZE, // size of expand-collapse cue
+      expandCollapseCueLineSize: 8, // size of lines used for drawing plus-minus icons
+      expandCueImage: undefined, // image of expand icon if undefined draw regular expand cue
+      collapseCueImage: undefined, // image of collapse icon if undefined draw regular collapse cue
+      expandCollapseCueSensitivity: 1, // sensitivity of expand-collapse cues
+      allowNestedEdgeCollapse: false
+    });
   }
+
+
 }

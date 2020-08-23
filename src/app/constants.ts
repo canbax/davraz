@@ -534,3 +534,49 @@ export function readTxtFile(file: File, cb: (s: string) => void) {
 
 export const COLLAPSED_EDGE_CLASS = 'cy-expand-collapse-collapsed-edge';
 export const COLLAPSED_NODE_CLASS = 'cy-expand-collapse-collapsed-node';
+export const COMPOUND_CLASS = 'Compound';
+export const EXPAND_COLLAPSE_CUE_SIZE = 12;
+
+export function expandCollapseCuePosition(node) {
+  const zoom = node._private.cy.zoom();
+  let smallness = 1 - node.renderedWidth() / (node._private.cy.width());
+  if (smallness < 0) {
+    smallness = 0;
+  }
+  // cue size / 2
+  const rectSize = EXPAND_COLLAPSE_CUE_SIZE / 2;
+  const offset = parseFloat(node.css('border-width')) + rectSize;
+  let size = zoom < 1 ? rectSize / zoom : rectSize;
+  let add = offset * smallness + size;
+  const x = node.position('x') - node.width() / 2 - parseFloat(node.css('padding-left')) + add;
+  const y = node.position('y') - node.height() / 2 - parseFloat(node.css('padding-top')) + add;
+  return { x: x, y: y };
+}
+
+/** https://davidwalsh.name/javascript-debounce-function
+   * Returns a function, that, as long as it continues to be invoked, will not
+   * be triggered. The function will be called after it stops being called for
+   * N milliseconds. If `immediate` is passed, trigger the function on the
+   * leading edge, instead of the trailing.
+   * @param  {} func
+   * @param  {number} wait
+   * @param  {boolean=false} immediate
+   * @param  {} preConditionFn=null if function returns false, ignore this call
+   */
+export function debounce(func, wait: number, immediate: boolean = false, preConditionFn = null) {
+  let timeout;
+  return function () {
+    if (preConditionFn && !preConditionFn()) {
+      return;
+    }
+    const context = this, args = arguments;
+    const later = function () {
+      timeout = null;
+      if (!immediate) func.apply(context, args);
+    };
+    const callNow = immediate && !timeout;
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+    if (callNow) func.apply(context, args);
+  };
+}

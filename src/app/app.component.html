@@ -25,6 +25,16 @@
     <mat-menu #layout="matMenu">
       <button *ngFor="let l of layoutNames" (click)="runLayout(l)" mat-menu-item>{{l}}</button>
     </mat-menu>
+    <button mat-button [matMenuTriggerFor]="compound">Compound<mat-icon>arrow_drop_down</mat-icon></button>
+    <mat-menu #compound="matMenu">
+      <button (click)="addCompound4Selected()" mat-menu-item>Add compound node for selected nodes</button>
+      <button (click)="removeCompound4Selected()" mat-menu-item>Remove selected compound node </button>
+      <button (click)="removeCompoundNodes()" mat-menu-item>Remove all compound nodes </button>
+      <button (click)="collapseCompoundNodes()" mat-menu-item>Collapse all compound nodes </button>
+      <button (click)="collapseCompoundEdges()" mat-menu-item>Collapse all compound edges </button>
+      <button (click)="expandCompoundNodes()" mat-menu-item>Expand all compound nodes </button>
+      <button (click)="expandCompoundEdges()" mat-menu-item>Expand all compound edges </button>
+    </mat-menu>
   </mat-toolbar>
 
   <div class="container">

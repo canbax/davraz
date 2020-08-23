@@ -40,7 +40,7 @@ export class DbQueryComponent implements OnInit {
   }
 
   runQuery() {
-    this._tgApi.runInterprettedQuery(this.gsql, this._cy.loadFromQuery);
+    this._tgApi.runInterprettedQuery(this.gsql, (x) => { this._cy.loadGraph({ nodes: x.results[0].results, edges: [] }) });
   }
 
 }
