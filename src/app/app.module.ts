@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatRadioModule } from '@angular/material/radio';
 import { AngularDraggableModule } from 'angular2-draggable';
+import { MatSelectModule } from '@angular/material/select';
 
 import { AppComponent } from './app.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -43,6 +44,7 @@ import { SavePngDialogComponent } from './save-png-dialog/save-png-dialog.compon
     MatCardModule,
     FormsModule,
     MatRadioModule,
+    MatSelectModule,
     AngularDraggableModule
   ],
   providers: [],

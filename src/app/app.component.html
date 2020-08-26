@@ -2,7 +2,6 @@
 <div class="root">
   <mat-toolbar>
     <span>Graph Imager</span>
-    <button mat-button (click)="openDbConfigDialog()">Database Connection <mat-icon>sync</mat-icon></button>
     <button mat-button [matMenuTriggerFor]="file">File<mat-icon>arrow_drop_down</mat-icon></button>
     <mat-menu #file="matMenu">
       <button (click)="loadGraphFromFile()" mat-menu-item>Load</button>
@@ -31,8 +30,21 @@
       <button (click)="highlightSelected()" mat-menu-item>Selected</button>
       <button (click)="highlightUnselected()" mat-menu-item>Unselected</button>
       <button (click)="removeHighlight4Selected()" mat-menu-item>Remove highlight for selected</button>
+      <button (click)="removeHighlight4Unselected()" mat-menu-item>Remove highlight for unselected</button>
       <button (click)="removeHighlights()" mat-menu-item>Remove highlights</button>
     </mat-menu>
+
+    <mat-form-field appearance="standard" *ngIf="isShowSearchInp">
+      <input #searchInp matInput type="text" [(ngModel)]="searchTxt" placeholder="Search text...">
+      <span matSuffix>
+        <button mat-icon-button style="display: inline;" (click)="highlight4txt()">
+          <mat-icon>search</mat-icon>
+        </button>
+        <button mat-icon-button style="display: inline;" (click)="isShowSearchInp=false">
+          <mat-icon>close</mat-icon>
+        </button>
+      </span>
+    </mat-form-field>
 
     <button mat-button [matMenuTriggerFor]="compound">Compound<mat-icon>arrow_drop_down</mat-icon></button>
     <mat-menu #compound="matMenu">
@@ -44,6 +56,8 @@
       <button (click)="expandCompoundNodes()" mat-menu-item>Expand all compound nodes </button>
       <button (click)="expandCompoundEdges()" mat-menu-item>Expand all compound edges </button>
     </mat-menu>
+    <button mat-button (click)="openDbConfigDialog()">Settings<mat-icon>settings</mat-icon></button>
+
   </mat-toolbar>
 
   <div class="container">

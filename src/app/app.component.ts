@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { TigerGraphApiClientService } from './tiger-graph-api-client.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DatabaseConfigDialogComponent } from './database-config-dialog/database-config-dialog.component';
@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 import { SharedService } from './shared.service';
 import { CyService } from './cy.service';
 import { SampleDataDialogComponent } from './sample-data-dialog/sample-data-dialog.component';
-import { Layout, readTxtFile, COLLAPSED_EDGE_CLASS, COLLAPSED_NODE_CLASS, COMPOUND_CLASS } from './constants';
+import { Layout, readTxtFile, COLLAPSED_EDGE_CLASS, COLLAPSED_NODE_CLASS, COMPOUND_CLASS, obj2str } from './constants';
 import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
 import { SavePngDialogComponent } from './save-png-dialog/save-png-dialog.component';
 
@@ -21,6 +21,9 @@ export class AppComponent implements OnInit {
   isShowDatabaseQuery = new Subject<boolean>();
   layoutNames: string[] = Object.keys(Layout);
   @ViewChild('fileInp', { static: false }) fileInp;
+  @ViewChild('searchInp', { static: false }) searchInp;
+  isShowSearchInp = false;
+  searchTxt = '';
 
   constructor(private _tgApi: TigerGraphApiClientService, private _s: SharedService, public dialog: MatDialog, private _cy: CyService) {
     this._tgApi.simpleRequest();
@@ -227,24 +230,56 @@ export class AppComponent implements OnInit {
   }
 
   searchAndHighlight() {
+    this.isShowSearchInp = true;
+    setTimeout(() => {
+      this.searchInp.nativeElement.focus();
+    }, 0);
+  }
 
+  @HostListener('document:keydown.enter', ['$event'])
+  highlight4txt() {
+    if (!this.isShowSearchInp || !this.searchTxt || this.searchTxt.length < 1) {
+      return;
+    }
+    console.log('searching for text ', this.searchTxt);
+    const elems = this._s.cy.$();
+    for (let i = 0; i < elems.length; i++) {
+      const s = obj2str(elems[i].data());
+      if (this._s.appConf.isIgnoreCaseInText.getValue()) {
+        if (s.toLowerCase().includes(this.searchTxt.toLowerCase())) {
+          this._s.viewUtils.highlight(elems[i], this._s.appConf.currHighlightIdx.getValue());
+        }
+      } else if (s.includes(this.searchTxt)) {
+        this._s.viewUtils.highlight(elems[i], this._s.appConf.currHighlightIdx.getValue());
+      }
+    }
+  }
+
+  @HostListener('document:keydown.escape', ['$event'])
+  closeSearchInp() {
+    if (this.isShowSearchInp && this.searchTxt) {
+      this.isShowSearchInp = false;
+    }
   }
 
   highlightSelected() {
-
+    this._s.viewUtils.highlight(this._s.cy.$(':selected'), this._s.appConf.currHighlightIdx.getValue());
   }
 
   highlightUnselected() {
-
+    this._s.viewUtils.highlight(this._s.cy.$(':unselected'), this._s.appConf.currHighlightIdx.getValue());
   }
 
-
   removeHighlight4Selected() {
+    this._s.viewUtils.removeHighlights(this._s.cy.$(':selected'), this._s.appConf.currHighlightIdx.getValue());
+  }
 
+  removeHighlight4Unselected() {
+    this._s.viewUtils.removeHighlights(this._s.cy.$(':unselected'), this._s.appConf.currHighlightIdx.getValue());
   }
 
   removeHighlights() {
-
+    this._s.viewUtils.removeHighlights();
   }
 
   private addParentNode(idSuffix: string | number, parent = undefined) {

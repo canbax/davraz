@@ -12,7 +12,10 @@ import expandCollapse from 'cytoscape-expand-collapse';
 import navigator from 'cytoscape-navigator';
 import viewUtilities from 'cytoscape-view-utilities';
 
-import { Layout, LAYOUT_ANIM_DUR, expandCollapseCuePosition, EXPAND_COLLAPSE_CUE_SIZE, debounce } from './constants';
+import { Layout, LAYOUT_ANIM_DUR, expandCollapseCuePosition, EXPAND_COLLAPSE_CUE_SIZE, debounce, isPrimitiveType, MAX_HIGHLIGHT_CNT } from './constants';
+import { APP_CONF } from './app-conf';
+import { AppConfig } from './data-types';
+import { BehaviorSubject, from } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -23,10 +26,13 @@ export class SharedService {
   expandCollapseApi: any;
   performLayout: Function;
   currLayout: string = 'fcose';
+  appConf: AppConfig = {} as AppConfig;
+  viewUtils: any;
 
   constructor() {
     let isGraphEmpty = () => { return this.cy.elements().not(':hidden, :transparent').length > 0 };
     this.performLayout = debounce(this.runLayout, 2 * LAYOUT_ANIM_DUR, true, isGraphEmpty);
+    this.setAppConfig(APP_CONF, this.appConf);
   }
 
   init() {
@@ -42,7 +48,8 @@ export class SharedService {
           }
         }
       ],
-      container: document.getElementById('cy')
+      container: document.getElementById('cy'),
+      wheelSensitivity: 0.1,
     });
     window['cy'] = this.cy;
 
@@ -62,6 +69,8 @@ export class SharedService {
     navigator(cytoscape);
     // register view utilities extension
     viewUtilities(cytoscape);
+
+    this.bindViewUtilitiesExtension();
   }
 
   private runLayout(): void {
@@ -99,5 +108,62 @@ export class SharedService {
     });
   }
 
+  private bindViewUtilitiesExtension() {
+    let options = {
+      highlightStyles: this.getHighlightStyles(),
+      setVisibilityOnHide: false, // whether to set visibility on hide/show
+      setDisplayOnHide: true, // whether to set display on hide/show
+      zoomAnimationDuration: 1500, //default duration for zoom animation speed
+      neighbor: function (node) { // return desired neighbors of tapheld node
+        return false;
+      },
+      neighborSelectTime: 500, //ms, time to taphold to select desired neighbors,
+      colorCount: MAX_HIGHLIGHT_CNT
+    };
+    this.viewUtils = this.cy.viewUtilities(options);
+  }
+
+  // convert primitive types in JSON to behaviour subject of that primitive type
+  private setAppConfig(obj: any, userPref: any) {
+    if (obj === undefined || obj === null) {
+      return;
+    }
+    for (let k in obj) {
+      let prop = obj[k];
+      if (isPrimitiveType(prop)) {
+        if (userPref[k]) {
+          (userPref[k] as BehaviorSubject<any>).next(prop);
+        } else {
+          userPref[k] = new BehaviorSubject(prop);
+        }
+      } else {
+        if (!userPref[k]) {
+          if (prop instanceof Array) {
+            userPref[k] = [];
+          } else {
+            userPref[k] = {};
+          }
+        }
+        this.setAppConfig(obj[k], userPref[k]);
+      }
+    }
+  }
+
+  private getHighlightStyles(): any[] {
+    let r = [];
+
+    for (let i = 0; i < this.appConf.highlightStyles.length; i++) {
+      let style = this.appConf.highlightStyles[i];
+      let w = style.wid.getValue();
+      let c = style.color.getValue();
+
+      r.push({
+        node: { 'border-color': c, 'border-width': w },
+        edge: { 'line-color': c, 'target-arrow-color': c, 'width': 4.5 }
+      });
+
+    }
+    return r;
+  }
 
 }

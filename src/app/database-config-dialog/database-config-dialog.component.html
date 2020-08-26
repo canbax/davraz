@@ -1,5 +1,6 @@
-<h2 mat-dialog-title>Tiger Graph Database Connection</h2>
+<h1 mat-dialog-title>Settings</h1>
 <mat-dialog-content>
+  <h2 mat-dialog-title>Tiger Graph Database Connection</h2>
   <form class="full-width">
     <p>URL of the database</p>
     <mat-form-field class="full-width">
@@ -20,6 +21,21 @@
       <input matInput [(ngModel)]="password" name="password">
     </mat-form-field>
   </form>
+
+  <h2 mat-dialog-title>Visualization</h2>
+  <form class="full-width">
+    <label>Hightlight Style</label>
+    <mat-form-field appearance="fill">
+      <mat-label>Favorite food</mat-label>
+      <mat-select>
+        <!-- <mat-option *ngFor="let food of foods" [value]="food.value">
+          {{food.viewValue}}
+        </mat-option> -->
+      </mat-select>
+    </mat-form-field>
+
+  </form>
+
 
 </mat-dialog-content>
 <mat-dialog-actions align="end">

@@ -516,6 +516,11 @@ export const Layout = {
 
 }
 
+export function isPrimitiveType(o) {
+  const t = typeof o;
+  return t == 'string' || t == 'number' || t == 'boolean';
+}
+
 export function readTxtFile(file: File, cb: (s: string) => void) {
   const fileReader = new FileReader();
   fileReader.onload = () => {
@@ -579,4 +584,20 @@ export function debounce(func, wait: number, immediate: boolean = false, preCond
     timeout = setTimeout(later, wait);
     if (callNow) func.apply(context, args);
   };
+}
+
+export const MAX_HIGHLIGHT_CNT = 12;
+
+
+export function obj2str(o): string {
+  let s = '';
+  for (let k in o) {
+    if (isPrimitiveType(o[k])) {
+      s += '' + o[k];
+    } else {
+      s += obj2str(o[k]);
+    }
+  }
+
+  return s;
 }

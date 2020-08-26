@@ -1,3 +1,5 @@
+import { BehaviorSubject } from 'rxjs';
+
 export interface DbConfig {
   url: string;
   secret: string;
@@ -38,4 +40,10 @@ export interface EdgeResponse {
 export interface SampleDataDialogData {
   nodeCnt: number;
   edgeCnt: number;
+}
+
+export interface AppConfig {
+  highlightStyles: { wid: BehaviorSubject<number>, color: BehaviorSubject<string> }[];
+  currHighlightIdx: BehaviorSubject<number>;
+  isIgnoreCaseInText: BehaviorSubject<boolean>;
 }
