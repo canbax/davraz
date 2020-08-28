@@ -11,10 +11,6 @@ export class CyService {
 
   }
 
-  init(container) {
-
-  }
-
   loadGraph(resp: GraphResponse) {
     if (!resp) {
       console.log('error in graph response: ', resp);

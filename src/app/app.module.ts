@@ -21,6 +21,7 @@ import { DbQueryComponent } from './db-query/db-query.component';
 import { SampleDataDialogComponent } from './sample-data-dialog/sample-data-dialog.component';
 import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
 import { SavePngDialogComponent } from './save-png-dialog/save-png-dialog.component';
+import { ObjectPropertiesComponent } from './object-properties/object-properties.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { SavePngDialogComponent } from './save-png-dialog/save-png-dialog.compon
     DbQueryComponent,
     SampleDataDialogComponent,
     ErrorDialogComponent,
-    SavePngDialogComponent
+    SavePngDialogComponent,
+    ObjectPropertiesComponent
   ],
   imports: [
     BrowserModule,

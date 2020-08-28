@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 import { SharedService } from './shared.service';
 import { CyService } from './cy.service';
 import { SampleDataDialogComponent } from './sample-data-dialog/sample-data-dialog.component';
-import { Layout, readTxtFile, COLLAPSED_EDGE_CLASS, COLLAPSED_NODE_CLASS, COMPOUND_CLASS, obj2str } from './constants';
+import { Layout, readTxtFile, COLLAPSED_EDGE_CLASS, COLLAPSED_NODE_CLASS, COMPOUND_CLASS, obj2str, debounce, OBJ_INFO_UPDATE_DELAY } from './constants';
 import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
 import { SavePngDialogComponent } from './save-png-dialog/save-png-dialog.component';
 
@@ -19,6 +19,7 @@ export class AppComponent implements OnInit {
   cy: any = null;
   title = 'graph-imager';
   isShowDatabaseQuery = new Subject<boolean>();
+  isShowObjectProperties = new Subject<boolean>();
   layoutNames: string[] = Object.keys(Layout);
   @ViewChild('fileInp', { static: false }) fileInp;
   @ViewChild('searchInp', { static: false }) searchInp;
@@ -31,6 +32,8 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this._s.init();
+    const fn = debounce(this.showObjProps, OBJ_INFO_UPDATE_DELAY).bind(this)
+    this._s.elemSelectChanged.subscribe(fn);
   }
 
   openDbConfigDialog() {
@@ -280,6 +283,14 @@ export class AppComponent implements OnInit {
 
   removeHighlights() {
     this._s.viewUtils.removeHighlights();
+  }
+
+  showObjProps(isSelectEvent: boolean) {
+    console.log('show obj prop ', isSelectEvent);
+    const selected = this._s.cy.$(':selected');
+    const data = selected.data();
+    this.isShowObjectProperties.next(true);
+
   }
 
   private addParentNode(idSuffix: string | number, parent = undefined) {

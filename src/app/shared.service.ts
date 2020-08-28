@@ -12,10 +12,10 @@ import expandCollapse from 'cytoscape-expand-collapse';
 import navigator from 'cytoscape-navigator';
 import viewUtilities from 'cytoscape-view-utilities';
 
-import { Layout, LAYOUT_ANIM_DUR, expandCollapseCuePosition, EXPAND_COLLAPSE_CUE_SIZE, debounce, isPrimitiveType, MAX_HIGHLIGHT_CNT } from './constants';
+import { Layout, LAYOUT_ANIM_DUR, expandCollapseCuePosition, EXPAND_COLLAPSE_CUE_SIZE, debounce, isPrimitiveType, MAX_HIGHLIGHT_CNT, deepCopy } from './constants';
 import { APP_CONF } from './app-conf';
 import { AppConfig } from './data-types';
-import { BehaviorSubject, from } from 'rxjs';
+import { BehaviorSubject, from, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +28,7 @@ export class SharedService {
   currLayout: string = 'fcose';
   appConf: AppConfig = {} as AppConfig;
   viewUtils: any;
+  elemSelectChanged: Subject<boolean> = new Subject();
 
   constructor() {
     let isGraphEmpty = () => { return this.cy.elements().not(':hidden, :transparent').length > 0 };
@@ -37,8 +38,6 @@ export class SharedService {
 
   init() {
     this.cy = cytoscape({
-      elements: {},
-
       // so we can see the ids
       style: [
         {
@@ -71,6 +70,8 @@ export class SharedService {
     viewUtilities(cytoscape);
 
     this.bindViewUtilitiesExtension();
+
+    this.cy.on('select unselect', (e) => { this.elemSelectChanged.next(e.type === 'select'); });
   }
 
   private runLayout(): void {
@@ -86,7 +87,7 @@ export class SharedService {
   }
 
   private bindExpandCollapseExt() {
-    const layout = Layout.fcose;
+    const layout = deepCopy(Layout.fcose);
     layout.randomize = false;
     this.expandCollapseApi = this.cy.expandCollapse({
       layoutBy: layout,
