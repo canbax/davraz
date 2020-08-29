@@ -1,8 +1,7 @@
-<div *ngIf="_isShow" ngResizable ngDraggable [handle]="DragHandle" [rzHandles]="'se'" [position]="position"
-  class="draggable-content" (endOffset)="onMoveEnd($event)" (rzStop)="onResizeStop($event)"
+<div #mainElem *ngIf="_isShow" ngResizable [rzHandles]="'se'" class="draggable-content" (rzStop)="onResizeStop($event)"
   [style.width]="currSize.width + 'px'" [style.height]="currSize.height + 'px'">
-  <div #DragHandle style="cursor: move;">
-    <div class="center-txt mat-card-title p5">Object Properties</div>
+  <div #moverElem class="gray1 p5 draggable-mover">
+    <div class="center-txt mat-card-title p5">{{classes}}</div>
     <div>
       <button mat-button class="close" aria-label="Close" (click)="closeClicked()">
         <mat-icon>close</mat-icon>
@@ -10,7 +9,8 @@
     </div>
   </div>
   <div class="p5">
-    <span *ngFor="let k of keys">{{k}}</span>
-    <span *ngFor="let v of values">{{v}}</span>
+    <p *ngFor="let k of keys; let i = index">
+      <b>{{k}}:&nbsp;</b>{{values[i]}}
+    </p>
   </div>
 </div>

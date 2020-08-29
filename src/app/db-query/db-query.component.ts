@@ -1,7 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
 import { TigerGraphApiClientService } from '../tiger-graph-api-client.service';
 import { CyService } from '../cy.service';
+import { makeElemDraggable } from '../constants';
 
 @Component({
   selector: 'app-db-query',
@@ -11,6 +12,8 @@ import { CyService } from '../cy.service';
 export class DbQueryComponent implements OnInit {
 
   @Input() isShow = new Subject<boolean>();
+  @ViewChild('mainElem', { static: false }) mainElem;
+  @ViewChild('moverElem', { static: false }) moverElem;
   _isShow = false;
   position = { x: 500, y: 500 };
   currSize: { width: number, height: number } = { width: 375, height: 600 };
@@ -20,11 +23,21 @@ export class DbQueryComponent implements OnInit {
     PRINT results;
     }`;
   currQueryName = 'Query 1';
+  container: any;
 
-  constructor(private _tgApi: TigerGraphApiClientService, private _cy: CyService) { }
+  constructor(private _tgApi: TigerGraphApiClientService, private _cy: CyService) {
+    // this.container = document.getElementsByClassName('container')[0];
+  }
 
   ngOnInit(): void {
-    this.isShow.subscribe(x => { this._isShow = x; });
+    this.isShow.subscribe(x => {
+      this._isShow = x;
+      if (x) {
+        setTimeout(() => {
+          makeElemDraggable(this.mainElem.nativeElement, this.moverElem.nativeElement);
+        }, 0);
+      }
+    });
   }
 
   closeClicked() {
