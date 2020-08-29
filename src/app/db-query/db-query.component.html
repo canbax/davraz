@@ -1,5 +1,6 @@
 <div #mainElem *ngIf="_isShow" ngResizable [rzHandles]="'se'" class="draggable-content" (rzStop)="onResizeStop($event)"
-  [style.width]="currSize.width + 'px'" [style.height]="currSize.height + 'px'">
+  [style.width]="currSize.width + 'px'" [style.height]="currSize.height + 'px'" [style.top]="position.top"
+  [style.left]="position.left">
   <div #moverElem style="cursor: move;" class="gray1 p5">
     <div class="center-txt mat-card-title p5">Run Interpretted Tiger Graph Query</div>
     <div>

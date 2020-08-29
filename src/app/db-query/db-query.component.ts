@@ -15,7 +15,7 @@ export class DbQueryComponent implements OnInit {
   @ViewChild('mainElem', { static: false }) mainElem;
   @ViewChild('moverElem', { static: false }) moverElem;
   _isShow = false;
-  position = { x: 500, y: 500 };
+  position = { top: '0px', left: '0px' };
   currSize: { width: number, height: number } = { width: 375, height: 600 };
   gsql = `INTERPRET QUERY () FOR GRAPH connectivity {   
     start =   {Person.*};
@@ -23,15 +23,16 @@ export class DbQueryComponent implements OnInit {
     PRINT results;
     }`;
   currQueryName = 'Query 1';
-  container: any;
 
-  constructor(private _tgApi: TigerGraphApiClientService, private _cy: CyService) {
-    // this.container = document.getElementsByClassName('container')[0];
-  }
+  constructor(private _tgApi: TigerGraphApiClientService, private _cy: CyService) { }
 
   ngOnInit(): void {
     this.isShow.subscribe(x => {
       this._isShow = x;
+      if (!x) {
+        this.position.top = this.mainElem.nativeElement.style.top;
+        this.position.left = this.mainElem.nativeElement.style.left;
+      }
       if (x) {
         setTimeout(() => {
           makeElemDraggable(this.mainElem.nativeElement, this.moverElem.nativeElement);

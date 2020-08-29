@@ -14,16 +14,13 @@ export class ObjectPropertiesComponent implements OnInit {
   @ViewChild('mainElem', { static: false }) mainElem;
   @ViewChild('moverElem', { static: false }) moverElem;
   _isShow = false;
-  position = { x: 500, y: 500 };
+  position = { top: '0px', left: '0px' };
   keys: string[];
   values: any[];
   currSize: { width: number, height: number } = { width: 375, height: 600 };
   classes: string;
-  container: any;
 
   constructor(private _s: SharedService) {
-    this.container = document.getElementsByClassName('container')[0];
-
   }
 
   ngOnInit(): void {
@@ -31,13 +28,15 @@ export class ObjectPropertiesComponent implements OnInit {
     this.isShow.subscribe(x => {
       this._isShow = x;
       const d = this._s.cy.$(':selected').data();
+      if (!x) {
+        this.position.top = this.mainElem.nativeElement.style.top;
+        this.position.left = this.mainElem.nativeElement.style.left;
+      }
       if (!d || !x) {
         return;
       }
 
-      if (this.position.y < 0) {
-        this.position.y = 0;
-      }
+
       this.keys = Object.keys(d);
       this.values = Object.values(d);
       this.classes = this._s.cy.$(':selected').classes();
