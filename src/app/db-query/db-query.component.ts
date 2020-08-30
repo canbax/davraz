@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
 import { TigerGraphApiClientService } from '../tiger-graph-api-client.service';
-import { CyService } from '../cy.service';
 import { makeElemDraggable } from '../constants';
+import { SharedService } from '../shared.service';
 
 @Component({
   selector: 'app-db-query',
@@ -24,7 +24,7 @@ export class DbQueryComponent implements OnInit {
     }`;
   currQueryName = 'Query 1';
 
-  constructor(private _tgApi: TigerGraphApiClientService, private _cy: CyService) { }
+  constructor(private _tgApi: TigerGraphApiClientService, private _s: SharedService) { }
 
   ngOnInit(): void {
     this.isShow.subscribe(x => {
@@ -54,7 +54,7 @@ export class DbQueryComponent implements OnInit {
   }
 
   runQuery() {
-    this._tgApi.runInterprettedQuery(this.gsql, (x) => { this._cy.loadGraph({ nodes: x.results[0].results, edges: [] }) });
+    this._tgApi.runInterprettedQuery(this.gsql, (x) => { this._s.loadGraph({ nodes: x.results[0].results, edges: [] }) });
   }
 
 }

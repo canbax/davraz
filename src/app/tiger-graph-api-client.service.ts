@@ -66,7 +66,6 @@ export class TigerGraphApiClientService {
   }
 
   sampleData(cb: (r: GraphResponse) => void, nodeCnt = 5, edgeCnt = 3) {
-
     const nodeTypes = ['BusRide', 'TrainRide', 'Flight', 'FundsTransfer', 'PhoneCall', 'Person', 'HotelStay', 'Phone', 'BankAccount', 'CaseReport', 'Address'];
     let firstNodes: NodeResponse[] = [];
     const arr: Observable<Object>[] = [];
@@ -117,6 +116,28 @@ export class TigerGraphApiClientService {
 
   endPoints(cb: (r: InterprettedQueryResult) => void) {
     this._http.get(`${PROXY_URL}/endpoints`).subscribe(x => { cb(x as InterprettedQueryResult) });
+  }
+
+  getNeighborsOfNode(cb: (r: GraphResponse) => void, elem) {
+    const t = elem.classes().join();
+    const id = elem.id().substr(2);
+    let edges: EdgeResponse[] = [];
+    let nodes: NodeResponse[] = [];
+    this._http.get(`${PROXY_URL}/edges4nodes?cnt=1000&src_type=${t}&id=${id}`).subscribe(x => {
+      const resp = x as GraphResponse;
+      const arr: Observable<Object>[] = [];
+      edges = edges.concat(resp.edges);
+      for (const e of resp.edges) {
+        const o = this._http.get(`${PROXY_URL}/nodes4edges?cnt=1000&type=${e.to_type}&id=${e.to_id}`);
+        arr.push(o);
+        o.subscribe(x2 => {
+          nodes = nodes.concat((x2 as GraphResponse).nodes);
+        })
+      }
+      combineLatest(arr).subscribe(() => {
+        cb({ edges: edges, nodes: nodes });
+      });
+    });
   }
 
 }

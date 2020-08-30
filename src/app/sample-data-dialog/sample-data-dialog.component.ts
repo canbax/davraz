@@ -2,7 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SampleDataDialogData } from '../data-types';
 import { TigerGraphApiClientService } from '../tiger-graph-api-client.service';
-import { CyService } from '../cy.service';
+import { SharedService } from '../shared.service';
 
 @Component({
   selector: 'app-sample-data-dialog',
@@ -15,11 +15,11 @@ export class SampleDataDialogComponent {
   edgeCnt: number = 2;
   constructor(
     public dialogRef: MatDialogRef<SampleDataDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: SampleDataDialogData, private _tgApi: TigerGraphApiClientService, private _cy: CyService) { }
+    @Inject(MAT_DIALOG_DATA) public data: SampleDataDialogData, private _tgApi: TigerGraphApiClientService, private _s: SharedService) { }
 
 
   sampleData() {
-    this._tgApi.sampleData(x => this._cy.loadGraph(x), this.nodeCnt, this.edgeCnt);
+    this._tgApi.sampleData(x => this._s.loadGraph(x), this.nodeCnt, this.edgeCnt);
   }
 
 }

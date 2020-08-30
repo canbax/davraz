@@ -4,7 +4,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { DatabaseConfigDialogComponent } from './database-config-dialog/database-config-dialog.component';
 import { Subject } from 'rxjs';
 import { SharedService } from './shared.service';
-import { CyService } from './cy.service';
 import { SampleDataDialogComponent } from './sample-data-dialog/sample-data-dialog.component';
 import { Layout, readTxtFile, COLLAPSED_EDGE_CLASS, COLLAPSED_NODE_CLASS, COMPOUND_CLASS, obj2str, debounce, OBJ_INFO_UPDATE_DELAY } from './constants';
 import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
@@ -26,7 +25,7 @@ export class AppComponent implements OnInit {
   isShowSearchInp = false;
   searchTxt = '';
 
-  constructor(private _tgApi: TigerGraphApiClientService, private _s: SharedService, public dialog: MatDialog, private _cy: CyService) {
+  constructor(private _tgApi: TigerGraphApiClientService, private _s: SharedService, public dialog: MatDialog) {
     this._tgApi.simpleRequest();
   }
 
@@ -61,7 +60,7 @@ export class AppComponent implements OnInit {
   }
 
   endPoints() {
-    this._tgApi.endPoints(this._cy.loadFromQuery);
+    this._tgApi.endPoints(this._s.loadFromQuery);
   }
 
   runLayout(name: string) {

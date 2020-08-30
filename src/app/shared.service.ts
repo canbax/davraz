@@ -15,10 +15,11 @@ import contextMenus from 'cytoscape-context-menus';
 
 import { Layout, LAYOUT_ANIM_DUR, expandCollapseCuePosition, EXPAND_COLLAPSE_CUE_SIZE, debounce, isPrimitiveType, MAX_HIGHLIGHT_CNT, deepCopy, COLLAPSED_EDGE_CLASS, COMPOUND_CLASS, COLLAPSED_NODE_CLASS } from './constants';
 import { APP_CONF } from './app-conf';
-import { AppConfig } from './data-types';
+import { AppConfig, GraphResponse, InterprettedQueryResult } from './data-types';
 import { BehaviorSubject, from, Subject } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
+import { TigerGraphApiClientService } from './tiger-graph-api-client.service';
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +34,7 @@ export class SharedService {
   viewUtils: any;
   elemSelectChanged: Subject<boolean> = new Subject();
 
-  constructor(public dialog: MatDialog) {
+  constructor(public dialog: MatDialog, private _tgApi: TigerGraphApiClientService) {
     let isGraphEmpty = () => { return this.cy.elements().not(':hidden, :transparent').length > 0 };
     this.performLayout = debounce(this.runLayout, 2 * LAYOUT_ANIM_DUR, true, isGraphEmpty);
     this.setAppConfig(APP_CONF, this.appConf);
@@ -240,6 +241,12 @@ export class SharedService {
         selector: 'node,edge',
         onClickFunction: this.deleteSelected.bind(this)
       },
+      {
+        id: 'getneighbors',
+        content: 'Get Neighbors',
+        selector: 'node',
+        onClickFunction: this.getNeighbors.bind(this)
+      }
       ],
       // css classes that menu items will have
       menuItemClasses: ['mat-menu-item', 'ctx-menu-i'],
@@ -249,6 +256,14 @@ export class SharedService {
       // contextMenuClasses: []
     };
     this.cy.contextMenus(options);
+  }
+
+  getNeighbors(e) {
+    const ele = e.target || e.cyTarget;
+    if (!ele) {
+      return;
+    }
+    this._tgApi.getNeighborsOfNode(this.loadGraph.bind(this), ele);
   }
 
   selectAllThisType(event) {
@@ -392,6 +407,49 @@ export class SharedService {
 
   showAll() {
     this.viewUtils.show(this.cy.$());
+  }
+
+  loadGraph(resp: GraphResponse) {
+    if (!resp) {
+      console.log('error in graph response: ', resp);
+      return;
+    }
+
+    const node_ids = {};
+    // add nodes
+    for (const node of resp.nodes) {
+      if (!node) {
+        continue;
+      }
+      node.attributes.id = 'n_' + node.v_id;
+      if (this.cy.$id(node.attributes.id).length > 0) {
+        continue;
+      }
+      node_ids[node.v_id] = true;
+      this.cy.add({ data: node.attributes, classes: node.v_type })
+    }
+
+    for (const edge of resp.edges) {
+      const fromId = 'n_' + edge.from_id;
+      const toId = 'n_' + edge.to_id;
+      edge.attributes.source = fromId;
+      edge.attributes.target = toId;
+      edge.attributes.id = 'e_' + fromId + '-' + toId;
+
+      if (this.cy.$id(edge.attributes.id).length > 0) {
+        continue;
+      }
+      if (this.cy.$id(fromId).length < 1 || this.cy.$id(toId).length < 1) {
+        continue;
+      }
+      this.cy.add({ data: edge.attributes, classes: edge.e_type });
+    }
+
+    this.performLayout();
+  }
+
+  loadFromQuery(resp: InterprettedQueryResult) {
+    console.log('from query: ', resp);
   }
 
   private addParentNode(idSuffix: string | number, parent = undefined) {
