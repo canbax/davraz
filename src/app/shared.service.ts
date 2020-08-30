@@ -213,8 +213,14 @@ export class SharedService {
       {
         id: 'collapseEdge',
         content: 'Collapse',
-        selector: '[^collapsedEdges][^originalEnds]',
-        onClickFunction: this.collapseCompoundEdges.bind(this)
+        selector: 'edge[^collapsedEdges][^originalEnds]',
+        onClickFunction: (e) => {
+          const ele = e.target || e.cyTarget;
+          if (!ele) {
+            return;
+          }
+          this.collapseCompoundEdges(ele.parallelEdges());
+        }
       },
       {
         id: 'expandEdge',
