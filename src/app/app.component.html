@@ -13,6 +13,15 @@
       <button (click)="saveSelected2File()" mat-menu-item>Save Selected</button>
       <button (click)="saveAsPng()" mat-menu-item>Save as PNG</button>
     </mat-menu>
+    <button mat-button [matMenuTriggerFor]="edit">Edit<mat-icon>arrow_drop_down</mat-icon></button>
+    <mat-menu #edit="matMenu">
+      <button (click)="deleteSelected()" mat-menu-item>Delete Selected</button>
+      <button (click)="deleteUnselected()" mat-menu-item>Delete Unselected</button>
+      <button (click)="hideSelected()" mat-menu-item>Hide Selected</button>
+      <button (click)="hideUnselected()" mat-menu-item>Hide Unselected</button>
+      <button (click)="showAll()" mat-menu-item>Show All</button>
+
+    </mat-menu>
     <button mat-button [matMenuTriggerFor]="query">Query<mat-icon>arrow_drop_down</mat-icon></button>
     <mat-menu #query="matMenu">
       <button (click)="showDbQuery()" mat-menu-item>Database Query</button>

@@ -88,7 +88,7 @@ export class AppComponent implements OnInit {
     if (!elements.nodes) {
       return;
     }
-    if (this.isWarn4Collapsed(this._s.cy.$())) {
+    if (this._s.isWarn4Collapsed(this._s.cy.$())) {
       return;
     }
     this.str2file(JSON.stringify(elements, undefined, 4), 'graph-explorer.json');
@@ -103,7 +103,7 @@ export class AppComponent implements OnInit {
       return;
     }
 
-    if (this.isWarn4Collapsed(selected)) {
+    if (this._s.isWarn4Collapsed(selected)) {
       return;
     }
 
@@ -127,109 +127,24 @@ export class AppComponent implements OnInit {
     });
   }
 
-  isWarn4Collapsed(elems): boolean {
-    let hasAnyCollapsed = elems.nodes('.' + COLLAPSED_NODE_CLASS).length > 0 || elems.edges('.' + COLLAPSED_EDGE_CLASS).length > 0;
-    if (hasAnyCollapsed) {
-      const dialogRef = this.dialog.open(ErrorDialogComponent);
-      dialogRef.componentInstance.title = 'Save Error';
-      dialogRef.componentInstance.content = 'Can not save since there are collapsed nodes or edges. Since they contain cyclic references, they can not be saved as JSON. Please expand all then try saving';
-      return true;
-    }
-    return false;
+  deleteSelected() {
+    this._s.deleteSelected();
   }
 
-  addCompound4Selected() {
-    const elems = this._s.cy.nodes(':selected');
-    if (elems.length < 1) {
-      return;
-    }
-    const parent = elems[0].parent().id();
-    for (let i = 1; i < elems.length; i++) {
-      if (parent !== elems[i].parent().id()) {
-        return;
-      }
-    }
-    const id = new Date().getTime();
-    this.addParentNode(id, parent);
-    for (let i = 0; i < elems.length; i++) {
-      elems[i].move({ parent: 'c' + id });
-    }
-    this._s.performLayout(false);
+  deleteUnselected() {
+    this._s.deleteUnselected();
   }
 
-  removeCompound4Selected(elems = null) {
-    if (!elems) {
-      elems = this._s.cy.nodes(':selected').filter('.' + COMPOUND_CLASS);
-    }
-    if (elems.length < 1) {
-      return;
-    }
-    for (let i = 0; i < elems.length; i++) {
-      // expand if collapsed
-      if (elems[i].hasClass(COLLAPSED_NODE_CLASS)) {
-        this._s.expandCollapseApi.expand(elems[i], { layoutBy: null, fisheye: false, animate: false });
-      }
-      const grandParent = elems[i].parent().id() ?? null;
-      const children = elems[i].children();
-      children.move({ parent: grandParent });
-      this._s.cy.remove(elems[i]);
-    }
-    this._s.performLayout(false);
+  hideSelected() {
+    this._s.hideSelected();
   }
 
-  removeCompoundNodes() {
-    this.removeCompound4Selected(this._s.cy.nodes('.' + COMPOUND_CLASS));
+  hideUnselected() {
+    this._s.hideUnselected();
   }
 
-  collapseCompoundNodes() {
-    if (this._s.cy.nodes(':parent').length > 0) {
-      this._s.expandCollapseApi.collapseAll();
-    }
-  }
-
-  collapseCompoundEdges(edges2collapse?: any) {
-    if (!edges2collapse) {
-      edges2collapse = this._s.cy.edges(':visible');
-    }
-    edges2collapse = edges2collapse.filter('[^originalEnds]'); // do not collapse meta-edges
-    let sourceTargetPairs = {};
-    let isCollapseBasedOnType = false;
-    let edgeCollapseLimit = 2;
-    for (let i = 0; i < edges2collapse.length; i++) {
-      let e = edges2collapse[i];
-      const s = e.data('source');
-      const t = e.data('target');
-      let edgeId = s + t;
-      if (isCollapseBasedOnType) {
-        edgeId = e.classes()[0] + s + t;
-      }
-      if (!sourceTargetPairs[edgeId]) {
-        sourceTargetPairs[edgeId] = { cnt: 1, s: s, t: t };
-      } else {
-        sourceTargetPairs[edgeId]['cnt'] += 1;
-      }
-    }
-    for (let i in sourceTargetPairs) {
-      let curr = sourceTargetPairs[i];
-      if (curr.cnt < edgeCollapseLimit) {
-        continue;
-      }
-      let edges = this._s.cy.edges(`[source="${curr.s}"][target="${curr.t}"]`);
-      this._s.expandCollapseApi.collapseEdges(edges);
-    }
-  }
-
-  expandCompoundNodes() {
-    if (this._s.cy.nodes('.' + COLLAPSED_NODE_CLASS).length > 0) {
-      this._s.expandCollapseApi.expandAll();
-    }
-  }
-
-  expandCompoundEdges(edges2expand?: any) {
-    if (!edges2expand) {
-      edges2expand = this._s.cy.edges('.' + COLLAPSED_EDGE_CLASS);
-    }
-    this._s.expandCollapseApi.expandEdges(edges2expand);
+  showAll() {
+    this._s.showAll();
   }
 
   searchAndHighlight() {
@@ -288,24 +203,37 @@ export class AppComponent implements OnInit {
   showObjProps(isSelectEvent: boolean) {
     console.log('show obj prop ', isSelectEvent);
     const selected = this._s.cy.$(':selected');
-    const data = selected.data();
-    this.isShowObjectProperties.next(true);
-
+    if (isSelectEvent) {
+      this.isShowObjectProperties.next(true);
+    }
   }
 
-  private addParentNode(idSuffix: string | number, parent = undefined) {
-    const id = 'c' + idSuffix;
-    const parentNode = this.createCyNode({ labels: [COMPOUND_CLASS], properties: { end_datetime: 0, begin_datetime: 0, name: name } }, id);
-    this._s.cy.add(parentNode);
-    this._s.cy.$('#' + id).move({ parent: parent });
+  addCompound4Selected() {
+    this._s.addCompound4Selected();
   }
 
-  private createCyNode(node, id) {
-    const classes = node.labels.join(' ');
-    let properties = node.properties;
-    properties.id = id
+  removeCompound4Selected() {
+    this._s.removeCompound4Selected();
+  }
 
-    return { data: properties, classes: classes };
+  removeCompoundNodes() {
+    this._s.removeCompoundNodes();
+  }
+
+  collapseCompoundNodes() {
+    this._s.collapseCompoundNodes();
+  }
+
+  collapseCompoundEdges() {
+    this._s.collapseCompoundEdges();
+  }
+
+  expandCompoundNodes() {
+    this._s.expandCompoundNodes();
+  }
+
+  expandCompoundEdges() {
+    this._s.expandCompoundEdges();
   }
 
   private str2file(str: string, fileName: string) {
