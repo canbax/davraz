@@ -14,6 +14,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { AngularDraggableModule } from 'angular2-draggable';
 import { MatSelectModule } from '@angular/material/select';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatChipsModule } from '@angular/material/chips';
 
 import { AppComponent } from './app.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -49,6 +50,7 @@ import { ObjectPropertiesComponent } from './object-properties/object-properties
     MatRadioModule,
     MatSelectModule,
     MatExpansionModule,
+    MatChipsModule,
     AngularDraggableModule
   ],
   providers: [],

@@ -22,14 +22,20 @@
       </mat-form-field>
     </div>
     <div class="center-txt">
-      <button mat-button (click)="runQuery()">
-        save query
-      </button>
-      <button mat-button (click)="runQuery()">
-        run query
-      </button>
+      <mat-chip-list aria-label="database queries">
+        <mat-chip (click)="loadQuery(q)" [removable]="true" (removed)="removeQuery(q)" *ngFor="let q of queries">
+          {{q.name}}
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+      </mat-chip-list>
 
+      <button mat-icon-button (click)="runQuery()">
+        <mat-icon>play_arrow</mat-icon>
+      </button>
+      <button mat-icon-button (click)="saveQuery()">
+        <mat-icon>save</mat-icon>
+      </button>
+      
     </div>
-
   </div>
 </div>

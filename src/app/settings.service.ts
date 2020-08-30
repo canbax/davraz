@@ -1,33 +1,42 @@
 import { Injectable } from '@angular/core';
+import { DbQuery } from './data-types';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SettingsService {
-
   constructor() { }
 
-  getToken(): string {
-    return localStorage.getItem('token');
+  upsertDbQuery(query: string, name: string) {
+    const i = localStorage.getItem('db_q');
+    let q = {};
+    if (i) {
+      q = JSON.parse(i);
+    }
+    q[name] = query;
+    localStorage.setItem('db_q', JSON.stringify(q));
   }
 
-  setToken(token: string): void {
-    localStorage.setItem('token', token);
+  deleteDbQuery(name: string) {
+    const i = localStorage.getItem('db_q');
+    let q = {};
+    if (i) {
+      q = JSON.parse(i);
+      delete q[name];
+    }
+    localStorage.setItem('db_q', JSON.stringify(q));
   }
 
-  getUrl(): string {
-    return localStorage.getItem('url');
-  }
-
-  setUrl(url: string): void {
-    localStorage.setItem('url', url);
-  }
-
-  getSecret(): string {
-    return localStorage.getItem('secret');
-  }
-
-  setSecret(url: string): void {
-    localStorage.setItem('secret', url);
+  getAllDbQueries(): DbQuery[] {
+    const i = localStorage.getItem('db_q');
+    if (i) {
+      const o = JSON.parse(i);
+      const r: DbQuery[] = [];
+      for (let k in o) {
+        r.push({ name: k, query: o[k] });
+      }
+      return r;
+    }
+    return [];
   }
 }

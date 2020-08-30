@@ -13,6 +13,7 @@
       <button (click)="saveSelected2File()" mat-menu-item>Save Selected</button>
       <button (click)="saveAsPng()" mat-menu-item>Save as PNG</button>
     </mat-menu>
+
     <button mat-button [matMenuTriggerFor]="edit">Edit<mat-icon>arrow_drop_down</mat-icon></button>
     <mat-menu #edit="matMenu">
       <button (click)="deleteSelected()" mat-menu-item>Delete Selected</button>
@@ -20,23 +21,20 @@
       <button (click)="hideSelected()" mat-menu-item>Hide Selected</button>
       <button (click)="hideUnselected()" mat-menu-item>Hide Unselected</button>
       <button (click)="showAll()" mat-menu-item>Show All</button>
+    </mat-menu>
 
-    </mat-menu>
-    <button mat-button [matMenuTriggerFor]="query">Query<mat-icon>arrow_drop_down</mat-icon></button>
-    <mat-menu #query="matMenu">
-      <button (click)="showDbQuery()" mat-menu-item>Database Query</button>
-      <button mat-menu-item>Item 2</button>
-    </mat-menu>
     <button mat-button [matMenuTriggerFor]="data">Data<mat-icon>arrow_drop_down</mat-icon></button>
     <mat-menu #data="matMenu">
       <button (click)="clearData()" mat-menu-item>Clear data</button>
       <button (click)="openSampleDataDialog()" mat-menu-item>Sample data</button>
       <button (click)="endPoints()" mat-menu-item>Endpoints</button>
     </mat-menu>
+
     <button mat-button [matMenuTriggerFor]="layout">Layout<mat-icon>arrow_drop_down</mat-icon></button>
     <mat-menu #layout="matMenu">
       <button *ngFor="let l of layoutNames" (click)="runLayout(l)" mat-menu-item>{{l}}</button>
     </mat-menu>
+
     <button mat-button [matMenuTriggerFor]="highlight">Highlight<mat-icon>arrow_drop_down</mat-icon></button>
     <mat-menu #highlight="matMenu">
       <button (click)="searchAndHighlight()" mat-menu-item>Search</button>
@@ -69,9 +67,13 @@
       <button (click)="expandCompoundNodes()" mat-menu-item>Expand all compound nodes </button>
       <button (click)="expandCompoundEdges()" mat-menu-item>Expand all compound edges </button>
     </mat-menu>
+    <button mat-icon-button (click)="showDbQuery()">
+      <mat-icon>code</mat-icon>
+    </button>
     <button mat-icon-button (click)="openDbConfigDialog()">
       <mat-icon>settings</mat-icon>
     </button>
+
 
   </mat-toolbar>
 

@@ -56,3 +56,8 @@ export interface TigerGraphDbConfig {
   token: string;
   tokenExpire: number;
 }
+
+export interface DbQuery {
+  name: string;
+  query: string;
+}
