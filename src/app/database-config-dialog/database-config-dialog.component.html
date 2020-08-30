@@ -1,45 +1,80 @@
 <h1 mat-dialog-title>Settings</h1>
 <mat-dialog-content>
-  <h2 mat-dialog-title>Tiger Graph Database Connection</h2>
-  <form class="full-width">
-    <p>URL of the database</p>
-    <mat-form-field class="full-width">
-      <mat-label>Database URL</mat-label>
-      <input matInput [(ngModel)]="url" name="url">
-    </mat-form-field>
-    <p>Secret of the database</p>
-    <mat-form-field class="full-width">
-      <mat-label>Database secret</mat-label>
-      <input matInput [(ngModel)]="secret" name="secret">
-    </mat-form-field>
-    <mat-form-field class="full-width">
-      <mat-label>Database username</mat-label>
-      <input matInput [(ngModel)]="username" name="username">
-    </mat-form-field>
-    <mat-form-field class="full-width">
-      <mat-label>Database password</mat-label>
-      <input matInput [(ngModel)]="password" name="password">
-    </mat-form-field>
-  </form>
 
-  <h2 mat-dialog-title>Visualization</h2>
-  <form class="full-width">
-    <label>Hightlight Style</label>
-    <mat-form-field appearance="fill">
-      <mat-label>Favorite food</mat-label>
-      <mat-select>
-        <!-- <mat-option *ngFor="let food of foods" [value]="food.value">
-          {{food.viewValue}}
-        </mat-option> -->
-      </mat-select>
-    </mat-form-field>
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Tiger Graph Database Connection
+        </mat-panel-title>
+        <mat-panel-description>
+          Connect to a tiger graph REST API
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <form>
+        <mat-form-field class="full-width">
+          <mat-label>Database URL</mat-label>
+          <input matInput [(ngModel)]="conf.url" name="url">
+        </mat-form-field>
+        <br>
+        <mat-form-field class="full-width">
+          <mat-label>Database secret</mat-label>
+          <input matInput [(ngModel)]="conf.secret" name="secret">
+        </mat-form-field>
+        <br>
+        <mat-form-field class="full-width">
+          <mat-label>Token</mat-label>
+          <input matInput [(ngModel)]="conf.token" name="token">
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+          <mat-label>Token expire</mat-label>
+          <input matInput [(ngModel)]="conf.tokenExpire" name="tokenExpire">
+        </mat-form-field>
+        <span>&nbsp;{{tokenExpireDateStr}}&nbsp;</span>
+        <button class="p5" mat-icon-button (click)="refreshToken()">
+          <mat-icon>sync</mat-icon>
+        </button>
+        <br>
+        <mat-form-field>
+          <mat-label>Database username</mat-label>
+          <input matInput [(ngModel)]="conf.username" name="username">
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+          <mat-label>Database password</mat-label>
+          <input matInput type="password" [(ngModel)]="conf.password" name="password">
+        </mat-form-field>
+      </form>
 
-  </form>
-
+      <button class="p5" mat-icon-button [mat-dialog-close]="true" (click)="saveConfig()">
+        <mat-icon>save</mat-icon>
+      </button>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          General
+        </mat-panel-title>
+        <mat-panel-description>
+          Settings about visualization
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <form class="full-width">
+        <label>Hightlight Style</label>
+        <mat-form-field appearance="fill">
+          <mat-select>
+            <!-- <mat-option *ngFor="let food of foods" [value]="food.value">
+              {{food.viewValue}}
+            </mat-option> -->
+          </mat-select>
+        </mat-form-field>
+      </form>
+    </mat-expansion-panel>
+    <br>
+  </mat-accordion>
 
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-button [mat-dialog-close]="true" (click)="saveConfig()" cdkFocusInitial>OK</button>
-  <button mat-button mat-dialog-close>Cancel</button>
-
+  <button mat-button mat-dialog-close>Close</button>
 </mat-dialog-actions>

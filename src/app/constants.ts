@@ -590,7 +590,6 @@ export function debounce(func, wait: number, immediate: boolean = false, preCond
 
 export const MAX_HIGHLIGHT_CNT = 12;
 
-
 export function obj2str(o): string {
   let s = '';
   for (let k in o) {

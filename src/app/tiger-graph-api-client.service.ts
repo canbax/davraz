@@ -2,23 +2,50 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SettingsService } from './settings.service';
 import { PROXY_URL } from './constants';
-import { DbConfig, InterprettedQueryResult, GraphResponse, NodeResponse, EdgeResponse } from './data-types';
+import { DbConfig, InterprettedQueryResult, GraphResponse, NodeResponse, EdgeResponse, TigerGraphDbConfig } from './data-types';
 import { combineLatest, Observable } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TigerGraphApiClientService {
 
-  constructor(private _http: HttpClient, private _settings: SettingsService) { }
+  constructor(private _http: HttpClient, private _settings: SettingsService, public dialog: MatDialog) { }
 
   getConfig(cb: (conf: DbConfig) => void) {
     this._http.get(`${PROXY_URL}/getdbconfig`)
       .subscribe(x => { cb(x as DbConfig) });
   }
 
-  setConfig(url: string, secret: string, username: string, password: string) {
-    this._http.get(`${PROXY_URL}/setdbconfig?url=${url}&secret=${secret}&username=${username}&password=${password}`);
+  setConfig(config: TigerGraphDbConfig, cb) {
+    this._http.post(`${PROXY_URL}/setdbconfig`, config, { headers: { 'Content-Type': 'application/json' } }).subscribe(x => {
+      if (x['error']) {
+        const dialogRef = this.dialog.open(ErrorDialogComponent);
+        dialogRef.componentInstance.title = 'Error on http request';
+        dialogRef.componentInstance.content = JSON.stringify(x);
+        return;
+      }
+      if (cb) {
+        cb(x);
+      }
+      console.log('resp: ', x);
+    });
+  }
+
+  refreshToken(secret, cb) {
+    this._http.get(`${PROXY_URL}/requesttoken?secret=${secret}`)
+      .subscribe(x => {
+        if (x['error']) {
+          const dialogRef = this.dialog.open(ErrorDialogComponent);
+          dialogRef.componentInstance.title = 'Error on http request';
+          dialogRef.componentInstance.content = JSON.stringify(x);
+          return;
+        }
+        cb(x);
+        console.log('resp: ', x);
+      });
   }
 
   simpleRequest() {

@@ -35,11 +35,36 @@ app.get('/getdbconfig', async (req, res) => {
 });
 
 // set necessary configurations for the database
-app.get('/setdbconfig', async (req, res) => {
-  const conf = readDbConfig();
-  writeDbConfig('url', req.query.url);
-  writeDbConfig('secret', req.query.secret);
-  res.write(JSON.stringify(readDbConfig()));
+app.post('/setdbconfig', async (req, res) => {
+  const data = readDbConfig();
+  const url = req.body.url;
+  const token = req.body.token;
+  const tokenExpire = req.body.tokenExpire;
+  const secret = req.body.secret;
+  const username = req.body.username;
+  const password = req.body.password;
+
+  if (url) {
+    data.url = url;
+  }
+  if (token) {
+    data.token = token;
+  }
+  if (tokenExpire) {
+    data.tokenExpire = tokenExpire;
+  }
+  if (secret) {
+    data.secret = secret;
+  }
+  if (username) {
+    data.username = username;
+  }
+  if (password) {
+    data.password = password;
+  }
+
+  fs.writeFileSync(CONFIG_FILE, JSON.stringify(data));
+  res.write('{"success": true}');
   res.end();
 });
 

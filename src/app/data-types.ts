@@ -47,3 +47,12 @@ export interface AppConfig {
   currHighlightIdx: BehaviorSubject<number>;
   isIgnoreCaseInText: BehaviorSubject<boolean>;
 }
+
+export interface TigerGraphDbConfig {
+  url: string;
+  secret: string;
+  username: string;
+  password: string;
+  token: string;
+  tokenExpire: number;
+}

@@ -60,7 +60,9 @@
       <button (click)="expandCompoundNodes()" mat-menu-item>Expand all compound nodes </button>
       <button (click)="expandCompoundEdges()" mat-menu-item>Expand all compound edges </button>
     </mat-menu>
-    <button mat-button (click)="openDbConfigDialog()">Settings<mat-icon>settings</mat-icon></button>
+    <button mat-icon-button (click)="openDbConfigDialog()">
+      <mat-icon>settings</mat-icon>
+    </button>
 
   </mat-toolbar>
 
