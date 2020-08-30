@@ -65,3 +65,12 @@ app-object-properties {
   top: 0;
   left: 0;
 }
+
+.ctx-menu-container {
+  padding: .5rem 0 !important;
+  margin: .125rem 0 0 !important;
+  border: 1px solid rgba(0, 0, 0, .15) !important;
+  background-color: #ffffff !important;
+  border-radius: .25rem !important;
+  z-index: 1003;
+}

@@ -202,7 +202,7 @@ export class SharedService {
         id: 'deleteSelected',
         content: 'Delete Selected',
         coreAsWell: true,
-        onClickFunction: this.deleteSelected.bind(this)
+        onClickFunction: (x) => { this.deleteSelected(null) }
       },
       {
         id: 'selectObjectsOfThisType',
@@ -236,13 +236,11 @@ export class SharedService {
       },
       ],
       // css classes that menu items will have
-      menuItemClasses: [
-        // add class names to this list
-      ],
+      menuItemClasses: ['mat-menu-item', 'ctx-menu-i'],
+      // menuItemClasses: [],
       // css classes that context menu will have
-      contextMenuClasses: [
-        // add class names to this list
-      ]
+      contextMenuClasses: ['mat-menu-content', 'ctx-menu-container']
+      // contextMenuClasses: []
     };
     this.cy.contextMenus(options);
   }
@@ -366,7 +364,9 @@ export class SharedService {
   deleteSelected(event = null) {
     if (event) {
       const ele = event.target || event.cyTarget;
-      this.cy.remove(ele);
+      if (ele) {
+        this.cy.remove(ele);
+      }
     } else {
       this.cy.remove(':selected');
     }
