@@ -61,14 +61,37 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
       <form class="full-width">
-        <label>Hightlight Style</label>
-        <mat-form-field appearance="fill">
-          <mat-select>
-            <mat-option *ngFor="let style of appConf.highlightStyles; let i = index" [value]="i">
-              {{style.name.getValue()}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+        <!-- highlight style -->
+        <mat-card>
+          <label>Hightlight Style:</label>&nbsp;
+          <mat-form-field>
+            <mat-select [(value)]="currHighlightIdx" (selectionChange)="changeCurrHiglightStyle()">
+              <mat-option *ngFor="let style of appConf.highlightStyles; let i = index" [value]="i">
+                {{style.name.getValue()}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>&nbsp;
+          <br>
+          <mat-form-field>
+            <input matInput type="text" [(ngModel)]="currHighlightStyle.name" name="curr-highlight-style-name">
+          </mat-form-field>&nbsp;
+          <mat-form-field>
+            <input matInput type="number" [(ngModel)]="currHighlightStyle.wid" name="curr-highlight-style-wid">
+          </mat-form-field>&nbsp;
+          <mat-form-field>
+            <input matInput type="color" [(ngModel)]="currHighlightStyle.color" name="curr-highlight-style-color">
+          </mat-form-field>
+          <br>
+          <button class="p5" title="update" mat-icon-button (click)="changeHighlightStyle()">
+            <mat-icon>save</mat-icon>
+          </button>
+          <button class="p5" mat-icon-button (click)="deleteHighlightStyle()">
+            <mat-icon>delete</mat-icon>
+          </button>
+          <button class="p5" mat-icon-button (click)="addHighlightStyle()">
+            <mat-icon>add</mat-icon>
+          </button>
+        </mat-card>
       </form>
     </mat-expansion-panel>
     <br>

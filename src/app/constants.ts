@@ -667,3 +667,10 @@ export function makeElemDraggable(elem: HTMLElement, dragHandle: HTMLElement) {
     document.onmousemove = null;
   }
 }
+
+export function getCyStyleFromColorAndWid(color: string, wid: number): { nodeCss: any, edgeCss: any } {
+  return {
+    nodeCss: { 'border-color': color, 'border-width': wid },
+    edgeCss: { 'line-color': color, 'target-arrow-color': color, 'width': wid }
+  };
+}

@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { TigerGraphApiClientService } from '../tiger-graph-api-client.service';
 import { TigerGraphDbConfig, AppConfig } from '../data-types';
 import { SettingsService } from '../settings.service';
+import { getCyStyleFromColorAndWid } from '../constants';
+import { SharedService } from '../shared.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-database-config-dialog',
@@ -13,9 +16,12 @@ export class DatabaseConfigDialogComponent {
   dbConf: TigerGraphDbConfig = { password: '', secret: '', token: '', tokenExpire: 0, url: '', username: '' };
   tokenExpireDateStr = '';
   appConf: AppConfig;
-  constructor(private _tgApi: TigerGraphApiClientService, private _settings: SettingsService) {
+  currHighlightStyle: { wid: number, color: string, name: string };
+  currHighlightIdx: number;
+
+  constructor(private _s: SharedService, private _tgApi: TigerGraphApiClientService, private _settings: SettingsService) {
     this.syncDbConfig();
-    this.appConf = this._settings.getAppConfig();
+    this.syncAppConfig();
   }
 
   saveDbConfig() {
@@ -30,6 +36,13 @@ export class DatabaseConfigDialogComponent {
     });
   }
 
+  private syncAppConfig() {
+    this.appConf = this._s.appConf;
+    this.currHighlightIdx = this.appConf.currHighlightIdx.getValue();
+    const curr = this.appConf.highlightStyles[this.currHighlightIdx];
+    this.currHighlightStyle = { color: curr.color.getValue(), name: curr.name.getValue(), wid: curr.wid.getValue() };
+  }
+
   private syncDbConfig() {
     this._tgApi.getConfig(dbConf => {
       this.dbConf.url = dbConf.url;
@@ -41,4 +54,50 @@ export class DatabaseConfigDialogComponent {
       this.tokenExpireDateStr = new Date(this.dbConf.tokenExpire * 1000).toDateString();
     });
   }
+
+  changeCurrHiglightStyle() {
+    const curr = this.appConf.highlightStyles[this.currHighlightIdx];
+    this.appConf.currHighlightIdx.next(this.currHighlightIdx);
+    this.currHighlightStyle.color = curr.color.getValue();
+    this.currHighlightStyle.name = curr.name.getValue();
+    this.currHighlightStyle.wid = curr.wid.getValue();
+    this._settings.setAppConfig(this.appConf);
+  }
+
+
+  changeHighlightStyle() {
+    let cyStyle = getCyStyleFromColorAndWid(this.currHighlightStyle.color, this.currHighlightStyle.wid);
+    this._s.viewUtils.changeHighlightStyle(this.currHighlightIdx, cyStyle.nodeCss, cyStyle.edgeCss);
+
+    this.appConf.highlightStyles[this.currHighlightIdx].color.next(this.currHighlightStyle.color);
+    this.appConf.highlightStyles[this.currHighlightIdx].wid.next(this.currHighlightStyle.wid);
+    this.appConf.highlightStyles[this.currHighlightIdx].name.next(this.currHighlightStyle.name);
+    this._settings.setAppConfig(this.appConf);
+  }
+
+  deleteHighlightStyle() {
+    if (this._s.viewUtils.getAllHighlightClasses().length < 2) {
+      return;
+    }
+    this._s.viewUtils.removeHighlightStyle(this.currHighlightIdx);
+    this.appConf.highlightStyles.splice(this.currHighlightIdx, 1);
+    if (this.currHighlightIdx >= this.appConf.highlightStyles.length) {
+      this.currHighlightIdx = this.appConf.highlightStyles.length - 1;
+    }
+    const curr = this.appConf.highlightStyles[this.currHighlightIdx];
+    this.currHighlightStyle = { color: curr.color.getValue(), name: curr.name.getValue(), wid: curr.wid.getValue() };
+    this._settings.setAppConfig(this.appConf);
+  }
+
+  addHighlightStyle() {
+    let cyStyle = getCyStyleFromColorAndWid(this.currHighlightStyle.color, this.currHighlightStyle.wid);
+    this._s.viewUtils.addHighlightStyle(cyStyle.nodeCss, cyStyle.edgeCss);
+    this.appConf.highlightStyles.push({
+      wid: new BehaviorSubject<number>(this.currHighlightStyle.wid),
+      color: new BehaviorSubject<string>(this.currHighlightStyle.color), name: new BehaviorSubject<string>(this.currHighlightStyle.name)
+    });
+    this.currHighlightIdx = this.appConf.highlightStyles.length - 1;
+    this._settings.setAppConfig(this.appConf);
+  }
+
 }
