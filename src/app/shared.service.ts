@@ -20,6 +20,7 @@ import { BehaviorSubject, from, Subject } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
 import { TigerGraphApiClientService } from './tiger-graph-api-client.service';
+import { SettingsService } from './settings.service';
 
 @Injectable({
   providedIn: 'root'
@@ -30,14 +31,14 @@ export class SharedService {
   expandCollapseApi: any;
   performLayout: Function;
   currLayout: string = 'fcose';
-  appConf: AppConfig = {} as AppConfig;
+  appConf: AppConfig;
   viewUtils: any;
   elemSelectChanged: Subject<boolean> = new Subject();
 
-  constructor(public dialog: MatDialog, private _tgApi: TigerGraphApiClientService) {
+  constructor(public dialog: MatDialog, private _tgApi: TigerGraphApiClientService, private _settings: SettingsService) {
     let isGraphEmpty = () => { return this.cy.elements().not(':hidden, :transparent').length > 0 };
     this.performLayout = debounce(this.runLayout, 2 * LAYOUT_ANIM_DUR, true, isGraphEmpty);
-    this.setAppConfig(APP_CONF, this.appConf);
+    this.appConf = this._settings.getAppConfig();
   }
 
   init() {
@@ -131,33 +132,7 @@ export class SharedService {
     this.viewUtils = this.cy.viewUtilities(options);
   }
 
-  // convert primitive types in JSON to behaviour subject of that primitive type
-  private setAppConfig(obj: any, userPref: any) {
-    if (obj === undefined || obj === null) {
-      return;
-    }
-    for (let k in obj) {
-      let prop = obj[k];
-      if (isPrimitiveType(prop)) {
-        if (userPref[k]) {
-          (userPref[k] as BehaviorSubject<any>).next(prop);
-        } else {
-          userPref[k] = new BehaviorSubject(prop);
-        }
-      } else {
-        if (!userPref[k]) {
-          if (prop instanceof Array) {
-            userPref[k] = [];
-          } else {
-            userPref[k] = {};
-          }
-        }
-        this.setAppConfig(obj[k], userPref[k]);
-      }
-    }
-  }
-
-  private getHighlightStyles(): any[] {
+  getHighlightStyles(): any[] {
     let r = [];
 
     for (let i = 0; i < this.appConf.highlightStyles.length; i++) {

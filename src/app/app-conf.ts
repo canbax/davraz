@@ -2,15 +2,18 @@ export const APP_CONF = {
   "highlightStyles": [
     {
       "wid": 4.5,
-      "color": "#FCE903"
+      "color": "#FCE903",
+      "name": "yellow"
     },
     {
       "wid": 4.5,
-      "color": "#00ffff"
+      "color": "#00ffff",
+      "name": "turquaz"
     },
     {
       "wid": 4.5,
-      "color": "#04f06a"
+      "color": "#04f06a",
+      "name": "green"
     }
   ],
   "currHighlightIdx": 0,

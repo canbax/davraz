@@ -14,40 +14,40 @@
       <form>
         <mat-form-field class="full-width">
           <mat-label>Database URL</mat-label>
-          <input matInput [(ngModel)]="conf.url" name="url">
+          <input matInput [(ngModel)]="dbConf.url" name="url">
         </mat-form-field>
         <br>
         <mat-form-field class="full-width">
           <mat-label>Database secret</mat-label>
-          <input matInput [(ngModel)]="conf.secret" name="secret">
+          <input matInput [(ngModel)]="dbConf.secret" name="secret">
         </mat-form-field>
         <br>
         <mat-form-field class="full-width">
           <mat-label>Token</mat-label>
-          <input matInput [(ngModel)]="conf.token" name="token">
+          <input matInput [(ngModel)]="dbConf.token" name="token">
         </mat-form-field>
         <br>
         <mat-form-field>
           <mat-label>Token expire</mat-label>
-          <input matInput [(ngModel)]="conf.tokenExpire" name="tokenExpire">
+          <input matInput [(ngModel)]="dbConf.tokenExpire" name="tokenExpire">
         </mat-form-field>
         <span>&nbsp;{{tokenExpireDateStr}}&nbsp;</span>
-        <button class="p5" mat-icon-button (click)="refreshToken()">
+        <button class="p5" mat-icon-button (click)="refreshDbToken()">
           <mat-icon>sync</mat-icon>
         </button>
         <br>
         <mat-form-field>
           <mat-label>Database username</mat-label>
-          <input matInput [(ngModel)]="conf.username" name="username">
+          <input matInput [(ngModel)]="dbConf.username" name="username">
         </mat-form-field>
         <br>
         <mat-form-field>
           <mat-label>Database password</mat-label>
-          <input matInput type="password" [(ngModel)]="conf.password" name="password">
+          <input matInput type="password" [(ngModel)]="dbConf.password" name="password">
         </mat-form-field>
       </form>
 
-      <button class="p5" mat-icon-button [mat-dialog-close]="true" (click)="saveConfig()">
+      <button class="p5" mat-icon-button [mat-dialog-close]="true" (click)="saveDbConfig()">
         <mat-icon>save</mat-icon>
       </button>
     </mat-expansion-panel>
@@ -64,9 +64,9 @@
         <label>Hightlight Style</label>
         <mat-form-field appearance="fill">
           <mat-select>
-            <!-- <mat-option *ngFor="let food of foods" [value]="food.value">
-              {{food.viewValue}}
-            </mat-option> -->
+            <mat-option *ngFor="let style of appConf.highlightStyles; let i = index" [value]="i">
+              {{style.name.getValue()}}
+            </mat-option>
           </mat-select>
         </mat-form-field>
       </form>

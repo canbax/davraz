@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { TigerGraphApiClientService } from '../tiger-graph-api-client.service';
-import { TigerGraphDbConfig } from '../data-types';
+import { TigerGraphDbConfig, AppConfig } from '../data-types';
+import { SettingsService } from '../settings.service';
 
 @Component({
   selector: 'app-database-config-dialog',
@@ -9,34 +10,35 @@ import { TigerGraphDbConfig } from '../data-types';
 })
 export class DatabaseConfigDialogComponent {
 
-  conf: TigerGraphDbConfig = { password: '', secret: '', token: '', tokenExpire: 0, url: '', username: '' };
+  dbConf: TigerGraphDbConfig = { password: '', secret: '', token: '', tokenExpire: 0, url: '', username: '' };
   tokenExpireDateStr = '';
-  constructor(private _tgApi: TigerGraphApiClientService) {
-    this.syncConfig();
+  appConf: AppConfig;
+  constructor(private _tgApi: TigerGraphApiClientService, private _settings: SettingsService) {
+    this.syncDbConfig();
+    this.appConf = this._settings.getAppConfig();
   }
 
-  saveConfig() {
-    this._tgApi.setConfig(this.conf, null);
+  saveDbConfig() {
+    this._tgApi.setConfig(this.dbConf, null);
   }
 
-  refreshToken() {
-    this._tgApi.refreshToken(this.conf.secret, (x) => {
-      // this._tgApi.setConfig()
-      this.conf.tokenExpire = x.expiration;
-      this.conf.token = x.token;
-      this._tgApi.setConfig(this.conf, this.syncConfig.bind(this));
+  refreshDbToken() {
+    this._tgApi.refreshToken(this.dbConf.secret, (x) => {
+      this.dbConf.tokenExpire = x.expiration;
+      this.dbConf.token = x.token;
+      this._tgApi.setConfig(this.dbConf, this.syncDbConfig.bind(this));
     });
   }
 
-  private syncConfig() {
-    this._tgApi.getConfig(conf => {
-      this.conf.url = conf.url;
-      this.conf.secret = conf.secret;
-      this.conf.username = conf.username;
-      this.conf.password = conf.password;
-      this.conf.token = conf.token;
-      this.conf.tokenExpire = conf.tokenExpire;
-      this.tokenExpireDateStr = new Date(this.conf.tokenExpire * 1000).toDateString();
+  private syncDbConfig() {
+    this._tgApi.getConfig(dbConf => {
+      this.dbConf.url = dbConf.url;
+      this.dbConf.secret = dbConf.secret;
+      this.dbConf.username = dbConf.username;
+      this.dbConf.password = dbConf.password;
+      this.dbConf.token = dbConf.token;
+      this.dbConf.tokenExpire = dbConf.tokenExpire;
+      this.tokenExpireDateStr = new Date(this.dbConf.tokenExpire * 1000).toDateString();
     });
   }
 }
