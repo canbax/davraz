@@ -242,6 +242,10 @@ export class AppComponent implements OnInit {
     this._s.performLayout()
   }
 
+  showTableView() {
+
+  }
+
   private str2file(str: string, fileName: string) {
     const blob = new Blob([str], { type: 'text/plain' });
     const anchor = document.createElement('a');

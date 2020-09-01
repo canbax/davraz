@@ -17,6 +17,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTableModule } from '@angular/material/table';
+
 import { AppComponent } from './app.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ConfigDialogComponent } from './config-dialog/config-dialog.component';
@@ -25,6 +27,7 @@ import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
 import { SavePngDialogComponent } from './save-png-dialog/save-png-dialog.component';
 import { ObjectPropertiesComponent } from './object-properties/object-properties.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TableViewComponent } from './table-view/table-view.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +36,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     DbQueryComponent,
     ErrorDialogComponent,
     SavePngDialogComponent,
-    ObjectPropertiesComponent
+    ObjectPropertiesComponent,
+    TableViewComponent
   ],
   imports: [
     BrowserModule,
@@ -54,6 +58,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatCheckboxModule,
     MatProgressSpinnerModule,
     BrowserAnimationsModule,
+    MatTableModule,
     AngularDraggableModule
   ],
   providers: [],
