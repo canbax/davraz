@@ -29,7 +29,7 @@ export class SharedService {
   cy: any;
   expandCollapseApi: any;
   performLayout: Function;
-  currLayout: string = 'fcose';
+  isRandomizedLayout: boolean = true;
   appConf: AppConfig;
   viewUtils: any;
   isLoading: BehaviorSubject<boolean> = new BehaviorSubject(false);
@@ -87,7 +87,8 @@ export class SharedService {
     if (elems4layout.length < 1) {
       return;
     }
-    const l = Layout[this.currLayout];
+    const l = Layout[this.appConf.currLayout.getValue()];
+    l['randomize'] = this.isRandomizedLayout;
     if (!l) {
       console.log('undefined layout')
     }
@@ -425,6 +426,14 @@ export class SharedService {
 
   loadFromQuery(resp: InterprettedQueryResult) {
     console.log('from query: ', resp);
+  }
+
+  markovClustering() {
+    let clusters = this.cy.$(':visible').markovClustering({ attributes: [() => { return 1; }] });
+    for (let i = 0; i < clusters.length; i++) {
+      this.addParentNode(i);
+      clusters[i].move({ parent: 'c' + i });
+    }
   }
 
   private addParentNode(idSuffix: string | number, parent = undefined) {

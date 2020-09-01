@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { TigerGraphApiClientService } from '../tiger-graph-api-client.service';
 import { TigerGraphDbConfig, AppConfig } from '../data-types';
 import { SettingsService } from '../settings.service';
-import { getCyStyleFromColorAndWid } from '../constants';
+import { getCyStyleFromColorAndWid, Layout } from '../constants';
 import { SharedService } from '../shared.service';
 import { BehaviorSubject } from 'rxjs';
 
@@ -21,10 +21,13 @@ export class ConfigDialogComponent {
   isIgnoreCaseInText: boolean;
   sampleDataNodeCount: number;
   sampleDataEdgeCount: number;
+  layoutOptions: string[];
+  currLayout: string;
 
   constructor(private _s: SharedService, private _tgApi: TigerGraphApiClientService, private _settings: SettingsService) {
     this.syncDbConfig();
     this.syncAppConfig();
+    this.layoutOptions = Object.keys(Layout);
   }
 
   saveDbConfig() {
@@ -47,6 +50,7 @@ export class ConfigDialogComponent {
     this.isIgnoreCaseInText = this.appConf.isIgnoreCaseInText.getValue();
     this.sampleDataNodeCount = this.appConf.sampleDataNodeCount.getValue();
     this.sampleDataEdgeCount = this.appConf.sampleDataEdgeCount.getValue();
+    this.currLayout = this.appConf.currLayout.getValue();
   }
 
   private syncDbConfig() {

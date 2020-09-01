@@ -114,6 +114,16 @@
               [(ngModel)]="sampleDataEdgeCount">
           </mat-form-field>
 
+          <br>
+          <mat-form-field>
+            <mat-label>Layout algorithm</mat-label>
+            <mat-select [(value)]="currLayout" (selectionChange)="changeConfig('currLayout')">
+              <mat-option *ngFor="let o of layoutOptions; let i = index" [value]="o">
+                {{o}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>&nbsp;
+
         </mat-card>
       </form>
     </mat-expansion-panel>

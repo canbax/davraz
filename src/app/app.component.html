@@ -36,7 +36,8 @@
 
     <button mat-button [matMenuTriggerFor]="layout">Layout<mat-icon>arrow_drop_down</mat-icon></button>
     <mat-menu #layout="matMenu">
-      <button *ngFor="let l of layoutNames" (click)="runLayout(l)" mat-menu-item>{{l}}</button>
+      <button (click)="randomizedLayout()" mat-menu-item>Randomized layout</button>
+      <button (click)="incrementalLayout()" mat-menu-item>Incremental layout</button>
     </mat-menu>
 
     <button mat-button [matMenuTriggerFor]="highlight">Highlight<mat-icon>arrow_drop_down</mat-icon></button>
@@ -71,11 +72,14 @@
       <button (click)="expandCompoundNodes()" mat-menu-item>Expand all compound nodes </button>
       <button (click)="expandCompoundEdges()" mat-menu-item>Expand all compound edges </button>
     </mat-menu>
-    <button mat-icon-button (click)="showDbQuery()">
+    <button mat-icon-button (click)="showDbQuery()" title="Interpretted GSQL Query">
       <mat-icon>code</mat-icon>
     </button>
-    <button mat-icon-button (click)="openDbConfigDialog()">
+    <button mat-icon-button (click)="openDbConfigDialog()" title="Settings">
       <mat-icon>settings</mat-icon>
+    </button>
+    <button mat-icon-button (click)="markovClustering()" title="Markov Clustering">
+      <mat-icon>group_work</mat-icon>
     </button>
 
 

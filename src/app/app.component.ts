@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfigDialogComponent } from './config-dialog/config-dialog.component';
 import { Subject } from 'rxjs';
 import { SharedService } from './shared.service';
-import { Layout, readTxtFile, obj2str, debounce, OBJ_INFO_UPDATE_DELAY } from './constants';
+import { readTxtFile, obj2str, debounce, OBJ_INFO_UPDATE_DELAY } from './constants';
 import { SavePngDialogComponent } from './save-png-dialog/save-png-dialog.component';
 
 @Component({
@@ -17,7 +17,6 @@ export class AppComponent implements OnInit {
   title = 'graph-imager';
   isShowDatabaseQuery = new Subject<boolean>();
   isShowObjectProperties = new Subject<boolean>();
-  layoutNames: string[] = Object.keys(Layout);
   @ViewChild('fileInp', { static: false }) fileInp;
   @ViewChild('searchInp', { static: false }) searchInp;
   isShowSearchInp = false;
@@ -60,11 +59,6 @@ export class AppComponent implements OnInit {
 
   endPoints() {
     this._tgApi.endPoints(this._s.loadFromQuery);
-  }
-
-  runLayout(name: string) {
-    this._s.currLayout = name;
-    this._s.performLayout();
   }
 
   fileSelected() {
@@ -232,6 +226,20 @@ export class AppComponent implements OnInit {
 
   expandCompoundEdges() {
     this._s.expandCompoundEdges();
+  }
+
+  markovClustering() {
+    this._s.markovClustering();
+  }
+
+  randomizedLayout() {
+    this._s.isRandomizedLayout = true;
+    this._s.performLayout()
+  }
+
+  incrementalLayout() {
+    this._s.isRandomizedLayout = false;
+    this._s.performLayout()
   }
 
   private str2file(str: string, fileName: string) {

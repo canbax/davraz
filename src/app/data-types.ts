@@ -48,6 +48,7 @@ export interface AppConfig {
   isIgnoreCaseInText: BehaviorSubject<boolean>;
   sampleDataNodeCount: BehaviorSubject<number>;
   sampleDataEdgeCount: BehaviorSubject<number>;
+  currLayout: BehaviorSubject<string>;
 }
 
 export interface TigerGraphDbConfig {

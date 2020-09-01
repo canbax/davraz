@@ -254,13 +254,6 @@ export const Layout = {
     // Lower temperature threshold (below this point the layout will end)
     minTemp: 1.0
   },
-  chola: {
-    name: 'chola',
-    animate: 'end',
-    animationEasing: 'ease-out',
-    animationDuration: 1000,
-    randomize: true
-  },
   avsdf: {
     name: 'avsdf',
     // Called on `layoutready`
