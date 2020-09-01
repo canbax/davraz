@@ -88,10 +88,14 @@ export class SharedService {
       return;
     }
     const l = Layout[this.appConf.currLayout.getValue()];
-    l['randomize'] = this.isRandomizedLayout;
     if (!l) {
       console.log('undefined layout')
     }
+
+    if (l.randomize !== undefined) {
+      l.randomize = this.isRandomizedLayout;
+    }
+
     elems4layout.layout(l).run();
   }
 
