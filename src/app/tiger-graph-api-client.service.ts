@@ -73,7 +73,6 @@ export class TigerGraphApiClientService {
       const o = this._http.get(`${PROXY_URL}/samplenodes?cnt=${nodeCnt}&type=${t}`);
       arr.push(o);
       o.subscribe(x => {
-        cb(x as GraphResponse);
         firstNodes = firstNodes.concat((x as GraphResponse).nodes);
       });
     }
@@ -82,7 +81,6 @@ export class TigerGraphApiClientService {
     const arr2: Observable<Object>[] = [];
     // after we get all the nodes get edges from these nodes
     combineLatest(arr).subscribe(() => {
-      console.log('got first node set: ', firstNodes);
       for (const n of firstNodes) {
         const o = this._http.get(`${PROXY_URL}/edges4nodes?cnt=${edgeCnt}&src_type=${n.v_type}&id=${n.v_id}`);
         arr2.push(o);
@@ -95,20 +93,17 @@ export class TigerGraphApiClientService {
       const arr3: Observable<Object>[] = [];
       // get target nodes of the edges
       combineLatest(arr2).subscribe(() => {
-        console.log('got edge set: ', firstEdges);
         for (const e of firstEdges) {
           const o = this._http.get(`${PROXY_URL}/nodes4edges?cnt=${nodeCnt}&type=${e.to_type}&id=${e.to_id}`);
           arr3.push(o);
           o.subscribe(x => {
-            cb(x as GraphResponse);
             secondNodes = secondNodes.concat((x as GraphResponse).nodes);
           })
         }
 
         // we should add edges to graph after we get both source and target's of edges
         combineLatest(arr3).subscribe(() => {
-          console.log('got target node set: ', secondNodes);
-          cb({ edges: firstEdges, nodes: [] });
+          cb({ edges: firstEdges, nodes: firstNodes.concat(secondNodes) });
         });
       });
     });

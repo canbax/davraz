@@ -22,6 +22,7 @@ export class AppComponent implements OnInit {
   @ViewChild('searchInp', { static: false }) searchInp;
   isShowSearchInp = false;
   searchTxt = '';
+  isLoading = false;
 
   constructor(private _tgApi: TigerGraphApiClientService, private _s: SharedService, public dialog: MatDialog) {
     this._tgApi.simpleRequest();
@@ -31,6 +32,7 @@ export class AppComponent implements OnInit {
     this._s.init();
     const fn = debounce(this.showObjProps, OBJ_INFO_UPDATE_DELAY).bind(this)
     this._s.elemSelectChanged.subscribe(fn);
+    this._s.isLoading.subscribe(x => { this.isLoading = x; });
   }
 
   openDbConfigDialog() {
@@ -42,7 +44,10 @@ export class AppComponent implements OnInit {
   }
 
   loadSampleData() {
-    this._tgApi.sampleData(x => this._s.loadGraph(x), this._s.appConf.sampleDataNodeCount.getValue(), this._s.appConf.sampleDataEdgeCount.getValue());
+    const n1 = this._s.appConf.sampleDataNodeCount.getValue();
+    const n2 = this._s.appConf.sampleDataEdgeCount.getValue();
+    this._s.isLoading.next(true);
+    this._tgApi.sampleData(x => { this._s.loadGraph(x); this._s.isLoading.next(false); }, n1, n2);
   }
 
   showDbQuery() {

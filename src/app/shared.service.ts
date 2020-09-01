@@ -13,10 +13,9 @@ import navigator from 'cytoscape-navigator';
 import viewUtilities from 'cytoscape-view-utilities';
 import contextMenus from 'cytoscape-context-menus';
 
-import { Layout, LAYOUT_ANIM_DUR, expandCollapseCuePosition, EXPAND_COLLAPSE_CUE_SIZE, debounce, isPrimitiveType, MAX_HIGHLIGHT_CNT, deepCopy, COLLAPSED_EDGE_CLASS, COMPOUND_CLASS, COLLAPSED_NODE_CLASS } from './constants';
-import { APP_CONF } from './app-conf';
+import { Layout, LAYOUT_ANIM_DUR, expandCollapseCuePosition, EXPAND_COLLAPSE_CUE_SIZE, debounce, MAX_HIGHLIGHT_CNT, deepCopy, COLLAPSED_EDGE_CLASS, COMPOUND_CLASS, COLLAPSED_NODE_CLASS } from './constants';
 import { AppConfig, GraphResponse, InterprettedQueryResult } from './data-types';
-import { BehaviorSubject, from, Subject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
 import { TigerGraphApiClientService } from './tiger-graph-api-client.service';
@@ -33,6 +32,7 @@ export class SharedService {
   currLayout: string = 'fcose';
   appConf: AppConfig;
   viewUtils: any;
+  isLoading: BehaviorSubject<boolean> = new BehaviorSubject(false);
   elemSelectChanged: Subject<boolean> = new Subject();
 
   constructor(public dialog: MatDialog, private _tgApi: TigerGraphApiClientService, private _settings: SettingsService) {

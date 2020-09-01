@@ -1,6 +1,10 @@
 <input #fileInp type="file" (change)="fileSelected()" accept="text/*, .json, .vall" style="display: none;" />
 
+
+
 <div class="root">
+
+
   <app-db-query [isShow]="isShowDatabaseQuery"></app-db-query>
   <app-object-properties [isShow]="isShowObjectProperties"></app-object-properties>
 
@@ -81,5 +85,7 @@
     <div id="cy">
     </div>
   </div>
-
+  <div *ngIf="isLoading" class="spinner-container">
+    <mat-spinner [diameter]="500"></mat-spinner>
+  </div>
 </div>
