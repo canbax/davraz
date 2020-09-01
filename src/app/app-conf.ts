@@ -18,4 +18,6 @@ export const APP_CONF = {
   ],
   "currHighlightIdx": 0,
   "isIgnoreCaseInText": false,
+  "sampleDataNodeCount": 3,
+  "sampleDataEdgeCount": 2,
 }

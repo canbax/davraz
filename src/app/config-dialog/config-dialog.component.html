@@ -63,34 +63,57 @@
       <form class="full-width">
         <!-- highlight style -->
         <mat-card>
-          <label>Hightlight Style:</label>&nbsp;
-          <mat-form-field>
-            <mat-select [(value)]="currHighlightIdx" (selectionChange)="changeCurrHiglightStyle()">
-              <mat-option *ngFor="let style of appConf.highlightStyles; let i = index" [value]="i">
-                {{style.name.getValue()}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>&nbsp;
+          <mat-card-title>Hightlight Style:</mat-card-title>
+          <mat-card-content>
+            <mat-form-field>
+              <mat-label>Selected style</mat-label>
+              <mat-select [(value)]="currHighlightIdx" (selectionChange)="changeCurrHiglightStyle()">
+                <mat-option *ngFor="let style of appConf.highlightStyles; let i = index" [value]="i">
+                  {{style.name.getValue()}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>&nbsp;
+            <br>
+            <mat-form-field>
+              <mat-label>name</mat-label>
+              <input matInput type="text" [(ngModel)]="currHighlightStyle.name" name="curr-highlight-style-name">
+            </mat-form-field>&nbsp;
+            <mat-form-field>
+              <mat-label>width</mat-label>
+              <input matInput type="number" [(ngModel)]="currHighlightStyle.wid" name="curr-highlight-style-wid">
+            </mat-form-field>&nbsp;
+            <mat-form-field>
+              <mat-label>color</mat-label>
+              <input matInput type="color" [(ngModel)]="currHighlightStyle.color" name="curr-highlight-style-color">
+            </mat-form-field>
+            <br>
+            <button class="p5" title="update" mat-icon-button (click)="changeHighlightStyle()">
+              <mat-icon>save</mat-icon>
+            </button>
+            <button class="p5" mat-icon-button (click)="deleteHighlightStyle()">
+              <mat-icon>delete</mat-icon>
+            </button>
+            <button class="p5" mat-icon-button (click)="addHighlightStyle()">
+              <mat-icon>add</mat-icon>
+            </button>
+          </mat-card-content>
+
+          <mat-checkbox [(ngModel)]="isIgnoreCaseInText" (change)="changeConfig('isIgnoreCaseInText')"
+            name="is-ignore-case-in-text">Ignore case in text operations
+          </mat-checkbox>
           <br>
-          <mat-form-field>
-            <input matInput type="text" [(ngModel)]="currHighlightStyle.name" name="curr-highlight-style-name">
-          </mat-form-field>&nbsp;
-          <mat-form-field>
-            <input matInput type="number" [(ngModel)]="currHighlightStyle.wid" name="curr-highlight-style-wid">
-          </mat-form-field>&nbsp;
-          <mat-form-field>
-            <input matInput type="color" [(ngModel)]="currHighlightStyle.color" name="curr-highlight-style-color">
+          <mat-form-field class="full-width">
+            <mat-label>Node count to load from each type in sample data</mat-label>
+            <input matInput type="number" (change)="changeConfig('sampleDataNodeCount')" name="sample-data-edge-count"
+              [(ngModel)]="sampleDataNodeCount">
           </mat-form-field>
           <br>
-          <button class="p5" title="update" mat-icon-button (click)="changeHighlightStyle()">
-            <mat-icon>save</mat-icon>
-          </button>
-          <button class="p5" mat-icon-button (click)="deleteHighlightStyle()">
-            <mat-icon>delete</mat-icon>
-          </button>
-          <button class="p5" mat-icon-button (click)="addHighlightStyle()">
-            <mat-icon>add</mat-icon>
-          </button>
+          <mat-form-field class="full-width">
+            <mat-label>Edge count to load from each type in sample data</mat-label>
+            <input matInput type="number" (change)="changeConfig('sampleDataEdgeCount')" name="sample-data-node-count"
+              [(ngModel)]="sampleDataEdgeCount">
+          </mat-form-field>
+
         </mat-card>
       </form>
     </mat-expansion-panel>

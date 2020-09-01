@@ -15,12 +15,12 @@ import { AngularDraggableModule } from 'angular2-draggable';
 import { MatSelectModule } from '@angular/material/select';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { AppComponent } from './app.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { DatabaseConfigDialogComponent } from './database-config-dialog/database-config-dialog.component';
+import { ConfigDialogComponent } from './config-dialog/config-dialog.component';
 import { DbQueryComponent } from './db-query/db-query.component';
-import { SampleDataDialogComponent } from './sample-data-dialog/sample-data-dialog.component';
 import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
 import { SavePngDialogComponent } from './save-png-dialog/save-png-dialog.component';
 import { ObjectPropertiesComponent } from './object-properties/object-properties.component';
@@ -28,9 +28,8 @@ import { ObjectPropertiesComponent } from './object-properties/object-properties
 @NgModule({
   declarations: [
     AppComponent,
-    DatabaseConfigDialogComponent,
+    ConfigDialogComponent,
     DbQueryComponent,
-    SampleDataDialogComponent,
     ErrorDialogComponent,
     SavePngDialogComponent,
     ObjectPropertiesComponent
@@ -51,6 +50,7 @@ import { ObjectPropertiesComponent } from './object-properties/object-properties
     MatSelectModule,
     MatExpansionModule,
     MatChipsModule,
+    MatCheckboxModule,
     AngularDraggableModule
   ],
   providers: [],

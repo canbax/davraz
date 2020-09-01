@@ -1,12 +1,10 @@
 import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { TigerGraphApiClientService } from './tiger-graph-api-client.service';
 import { MatDialog } from '@angular/material/dialog';
-import { DatabaseConfigDialogComponent } from './database-config-dialog/database-config-dialog.component';
+import { ConfigDialogComponent } from './config-dialog/config-dialog.component';
 import { Subject } from 'rxjs';
 import { SharedService } from './shared.service';
-import { SampleDataDialogComponent } from './sample-data-dialog/sample-data-dialog.component';
-import { Layout, readTxtFile, COLLAPSED_EDGE_CLASS, COLLAPSED_NODE_CLASS, COMPOUND_CLASS, obj2str, debounce, OBJ_INFO_UPDATE_DELAY } from './constants';
-import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
+import { Layout, readTxtFile, obj2str, debounce, OBJ_INFO_UPDATE_DELAY } from './constants';
 import { SavePngDialogComponent } from './save-png-dialog/save-png-dialog.component';
 
 @Component({
@@ -36,19 +34,15 @@ export class AppComponent implements OnInit {
   }
 
   openDbConfigDialog() {
-    const dialogRef = this.dialog.open(DatabaseConfigDialogComponent, { width: '50%' });
+    const dialogRef = this.dialog.open(ConfigDialogComponent, { width: '50%' });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });
   }
 
-  openSampleDataDialog() {
-    const dialogRef = this.dialog.open(SampleDataDialogComponent);
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-    });
+  loadSampleData() {
+    this._tgApi.sampleData(x => this._s.loadGraph(x), this._s.appConf.sampleDataNodeCount.getValue(), this._s.appConf.sampleDataEdgeCount.getValue());
   }
 
   showDbQuery() {

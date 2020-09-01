@@ -7,17 +7,20 @@ import { SharedService } from '../shared.service';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
-  selector: 'app-database-config-dialog',
-  templateUrl: './database-config-dialog.component.html',
-  styleUrls: ['./database-config-dialog.component.css']
+  selector: 'app-config-dialog',
+  templateUrl: './config-dialog.component.html',
+  styleUrls: ['./config-dialog.component.css']
 })
-export class DatabaseConfigDialogComponent {
+export class ConfigDialogComponent {
 
   dbConf: TigerGraphDbConfig = { password: '', secret: '', token: '', tokenExpire: 0, url: '', username: '' };
   tokenExpireDateStr = '';
   appConf: AppConfig;
   currHighlightStyle: { wid: number, color: string, name: string };
   currHighlightIdx: number;
+  isIgnoreCaseInText: boolean;
+  sampleDataNodeCount: number;
+  sampleDataEdgeCount: number;
 
   constructor(private _s: SharedService, private _tgApi: TigerGraphApiClientService, private _settings: SettingsService) {
     this.syncDbConfig();
@@ -41,6 +44,9 @@ export class DatabaseConfigDialogComponent {
     this.currHighlightIdx = this.appConf.currHighlightIdx.getValue();
     const curr = this.appConf.highlightStyles[this.currHighlightIdx];
     this.currHighlightStyle = { color: curr.color.getValue(), name: curr.name.getValue(), wid: curr.wid.getValue() };
+    this.isIgnoreCaseInText = this.appConf.isIgnoreCaseInText.getValue();
+    this.sampleDataNodeCount = this.appConf.sampleDataNodeCount.getValue();
+    this.sampleDataEdgeCount = this.appConf.sampleDataEdgeCount.getValue();
   }
 
   private syncDbConfig() {
@@ -97,6 +103,11 @@ export class DatabaseConfigDialogComponent {
       color: new BehaviorSubject<string>(this.currHighlightStyle.color), name: new BehaviorSubject<string>(this.currHighlightStyle.name)
     });
     this.currHighlightIdx = this.appConf.highlightStyles.length - 1;
+    this._settings.setAppConfig(this.appConf);
+  }
+
+  changeConfig(s: string) {
+    this.appConf[s].next(this[s]);
     this._settings.setAppConfig(this.appConf);
   }
 

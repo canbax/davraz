@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SampleDataDialogComponent } from './sample-data-dialog.component';
+import { ConfigDialogComponent } from './config-dialog.component';
 
-describe('SampleDataDialogComponent', () => {
-  let component: SampleDataDialogComponent;
-  let fixture: ComponentFixture<SampleDataDialogComponent>;
+describe('DatabaseConfigDialogComponent', () => {
+  let component: ConfigDialogComponent;
+  let fixture: ComponentFixture<ConfigDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SampleDataDialogComponent ]
+      declarations: [ ConfigDialogComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SampleDataDialogComponent);
+    fixture = TestBed.createComponent(ConfigDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

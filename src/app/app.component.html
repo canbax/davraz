@@ -26,7 +26,7 @@
     <button mat-button [matMenuTriggerFor]="data">Data<mat-icon>arrow_drop_down</mat-icon></button>
     <mat-menu #data="matMenu">
       <button (click)="clearData()" mat-menu-item>Clear data</button>
-      <button (click)="openSampleDataDialog()" mat-menu-item>Sample data</button>
+      <button (click)="loadSampleData()" mat-menu-item>Sample data</button>
       <button (click)="endPoints()" mat-menu-item>Endpoints</button>
     </mat-menu>
 
@@ -37,9 +37,9 @@
 
     <button mat-button [matMenuTriggerFor]="highlight">Highlight<mat-icon>arrow_drop_down</mat-icon></button>
     <mat-menu #highlight="matMenu">
-      <button (click)="searchAndHighlight()" mat-menu-item>Search</button>
       <button (click)="highlightSelected()" mat-menu-item>Selected</button>
       <button (click)="highlightUnselected()" mat-menu-item>Unselected</button>
+      <button (click)="searchAndHighlight()" mat-menu-item>Search</button>
       <button (click)="removeHighlight4Selected()" mat-menu-item>Remove highlight for selected</button>
       <button (click)="removeHighlight4Unselected()" mat-menu-item>Remove highlight for unselected</button>
       <button (click)="removeHighlights()" mat-menu-item>Remove highlights</button>
