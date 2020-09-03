@@ -13,12 +13,6 @@ import { SettingsService } from '../settings.service';
 })
 export class DbQueryComponent implements OnInit {
 
-  @Input() isShow = new Subject<boolean>();
-  @ViewChild('mainElem', { static: false }) mainElem;
-  @ViewChild('moverElem', { static: false }) moverElem;
-  _isShow = false;
-  position = { top: '0px', left: '0px' };
-  currSize: { width: number, height: number } = { width: 375, height: 600 };
   gsql = `INTERPRET QUERY () FOR GRAPH connectivity {   
     start =   {Person.*};
     results = SELECT s FROM start:s LIMIT 10;
@@ -31,30 +25,6 @@ export class DbQueryComponent implements OnInit {
 
   ngOnInit(): void {
     this.queries = this._settings.getAllDbQueries();
-    this.isShow.subscribe(x => {
-      this._isShow = x;
-      if (!x) {
-        this.position.top = this.mainElem.nativeElement.style.top;
-        this.position.left = this.mainElem.nativeElement.style.left;
-      }
-      if (x) {
-        setTimeout(() => {
-          makeElemDraggable(this.mainElem.nativeElement, this.moverElem.nativeElement);
-        }, 0);
-      }
-    });
-  }
-
-  closeClicked() {
-    this.isShow.next(false);
-  }
-
-  onMoveEnd(e) {
-    this.position = e;
-  }
-
-  onResizeStop(e) {
-    this.currSize = e.size;
   }
 
   runQuery() {

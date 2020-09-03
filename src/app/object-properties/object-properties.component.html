@@ -1,17 +1,3 @@
-<div #mainElem *ngIf="_isShow" ngResizable [rzHandles]="'se'" class="draggable-content" (rzStop)="onResizeStop($event)"
-  [style.width]="currSize.width + 'px'" [style.height]="currSize.height + 'px'" [style.top]="position.top"
-  [style.left]="position.left">
-  <div #moverElem class="gray1 p5 draggable-mover">
-    <div class="center-txt mat-card-title p5">{{classes}}</div>
-    <div>
-      <button mat-button class="close" aria-label="Close" (click)="closeClicked()">
-        <mat-icon>close</mat-icon>
-      </button>
-    </div>
-  </div>
-  <div class="p5">
-    <p *ngFor="let k of keys; let i = index">
-      <b>{{k}}:&nbsp;</b>{{values[i]}}
-    </p>
-  </div>
-</div>
+<p *ngFor="let k of keys; let i = index">
+  <b>{{k}}:&nbsp;</b>{{values[i]}}
+</p>

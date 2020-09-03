@@ -6,6 +6,9 @@ import { Subject } from 'rxjs';
 import { SharedService } from './shared.service';
 import { readTxtFile, obj2str, debounce, OBJ_INFO_UPDATE_DELAY } from './constants';
 import { SavePngDialogComponent } from './save-png-dialog/save-png-dialog.component';
+import { DbQueryComponent } from './db-query/db-query.component';
+import { ObjectPropertiesComponent } from './object-properties/object-properties.component';
+import { TableViewComponent } from './table-view/table-view.component';
 
 @Component({
   selector: 'app-root',
@@ -17,11 +20,17 @@ export class AppComponent implements OnInit {
   title = 'graph-imager';
   isShowDatabaseQuery = new Subject<boolean>();
   isShowObjectProperties = new Subject<boolean>();
+  isShowTableView = new Subject<boolean>();
   @ViewChild('fileInp', { static: false }) fileInp;
   @ViewChild('searchInp', { static: false }) searchInp;
   isShowSearchInp = false;
   searchTxt = '';
   isLoading = false;
+  objPropHeader = '';
+  tableHeader = '';
+  dbQueryComp = DbQueryComponent;
+  objPropComp = ObjectPropertiesComponent;
+  tableComp = TableViewComponent;
 
   constructor(private _tgApi: TigerGraphApiClientService, private _s: SharedService, public dialog: MatDialog) {
     this._tgApi.simpleRequest();
@@ -196,6 +205,7 @@ export class AppComponent implements OnInit {
     console.log('show obj prop ', isSelectEvent);
     const selected = this._s.cy.$(':selected');
     if (isSelectEvent) {
+      this.objPropHeader = selected.classes().join();
       this.isShowObjectProperties.next(true);
     }
   }
@@ -243,7 +253,7 @@ export class AppComponent implements OnInit {
   }
 
   showTableView() {
-
+    this.isShowTableView.next(true);
   }
 
   private str2file(str: string, fileName: string) {

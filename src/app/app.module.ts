@@ -18,6 +18,8 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 
 import { AppComponent } from './app.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -28,6 +30,7 @@ import { SavePngDialogComponent } from './save-png-dialog/save-png-dialog.compon
 import { ObjectPropertiesComponent } from './object-properties/object-properties.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TableViewComponent } from './table-view/table-view.component';
+import { DraggableDivComponent } from './draggable-div/draggable-div.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +40,8 @@ import { TableViewComponent } from './table-view/table-view.component';
     ErrorDialogComponent,
     SavePngDialogComponent,
     ObjectPropertiesComponent,
-    TableViewComponent
+    TableViewComponent,
+    DraggableDivComponent
   ],
   imports: [
     BrowserModule,
@@ -59,6 +63,8 @@ import { TableViewComponent } from './table-view/table-view.component';
     MatProgressSpinnerModule,
     BrowserAnimationsModule,
     MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
     AngularDraggableModule
   ],
   providers: [],

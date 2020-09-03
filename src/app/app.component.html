@@ -4,9 +4,12 @@
 
 <div class="root">
 
-
-  <app-db-query [isShow]="isShowDatabaseQuery"></app-db-query>
-  <app-object-properties [isShow]="isShowObjectProperties"></app-object-properties>
+  <app-draggable-div [isShow]="isShowDatabaseQuery" [header]="'Run Interpretted GSQL Query'" [component]="dbQueryComp">
+  </app-draggable-div>
+  <app-draggable-div [isShow]="isShowObjectProperties" [header]="objPropHeader" [component]="objPropComp">
+  </app-draggable-div>
+  <app-draggable-div [isShow]="isShowTableView" [header]="tableHeader" [component]="tableComp">
+  </app-draggable-div>
 
   <mat-toolbar>
     <span>Graph Imager</span>
@@ -94,4 +97,8 @@
   <div *ngIf="isLoading" class="spinner-container">
     <mat-spinner [diameter]="500"></mat-spinner>
   </div>
+
+  <!-- <app-table-view></app-table-view> -->
+
+
 </div>

@@ -54,17 +54,12 @@ button.close {
   z-index: 1002;
 }
 
-app-db-query {
+app-draggable-div {
   position: absolute;
   top: 0;
   left: 0;
 }
 
-app-object-properties {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
 
 .ctx-menu-container {
   padding: .5rem 0 !important;

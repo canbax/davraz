@@ -1,41 +1,27 @@
-<div #mainElem *ngIf="_isShow" ngResizable [rzHandles]="'se'" class="draggable-content" (rzStop)="onResizeStop($event)"
-  [style.width]="currSize.width + 'px'" [style.height]="currSize.height + 'px'" [style.top]="position.top"
-  [style.left]="position.left">
-  <div #moverElem style="cursor: move;" class="gray1 p5">
-    <div class="center-txt mat-card-title p5">Run Interpretted Tiger Graph Query</div>
-    <div>
-      <button mat-button class="close" aria-label="Close" (click)="closeClicked()">
-        <mat-icon>close</mat-icon>
-      </button>
-    </div>
-  </div>
-  <div class="p5">
-    <div>
-      <mat-form-field>
-        <input matInput [(ngModel)]="currQueryName">
-      </mat-form-field>
+<div>
+  <mat-form-field>
+    <input matInput [(ngModel)]="currQueryName">
+  </mat-form-field>
 
-      <mat-form-field class="full-width">
-        <mat-label>Autosize textarea</mat-label>
-        <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="1" [(ngModel)]="gsql">
+  <mat-form-field class="full-width">
+    <mat-label>Autosize textarea</mat-label>
+    <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="1" [(ngModel)]="gsql">
         </textarea>
-      </mat-form-field>
-    </div>
-    <div class="center-txt">
-      <mat-chip-list aria-label="database queries">
-        <mat-chip (click)="loadQuery(q)" [removable]="true" (removed)="removeQuery(q)" *ngFor="let q of queries">
-          {{q.name}}
-          <mat-icon matChipRemove>cancel</mat-icon>
-        </mat-chip>
-      </mat-chip-list>
+  </mat-form-field>
+</div>
+<div class="center-txt">
+  <mat-chip-list aria-label="database queries">
+    <mat-chip (click)="loadQuery(q)" [removable]="true" (removed)="removeQuery(q)" *ngFor="let q of queries">
+      {{q.name}}
+      <mat-icon matChipRemove>cancel</mat-icon>
+    </mat-chip>
+  </mat-chip-list>
 
-      <button mat-icon-button (click)="runQuery()">
-        <mat-icon>play_arrow</mat-icon>
-      </button>
-      <button mat-icon-button (click)="saveQuery()">
-        <mat-icon>save</mat-icon>
-      </button>
-      
-    </div>
-  </div>
+  <button mat-icon-button (click)="runQuery()">
+    <mat-icon>play_arrow</mat-icon>
+  </button>
+  <button mat-icon-button (click)="saveQuery()">
+    <mat-icon>save</mat-icon>
+  </button>
+
 </div>
