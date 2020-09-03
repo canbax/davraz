@@ -64,3 +64,8 @@ export interface DbQuery {
   name: string;
   query: string;
 }
+
+export interface TableData {
+  columns: string[];
+  data: any[];
+}

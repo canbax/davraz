@@ -14,7 +14,7 @@ import viewUtilities from 'cytoscape-view-utilities';
 import contextMenus from 'cytoscape-context-menus';
 
 import { Layout, LAYOUT_ANIM_DUR, expandCollapseCuePosition, EXPAND_COLLAPSE_CUE_SIZE, debounce, MAX_HIGHLIGHT_CNT, deepCopy, COLLAPSED_EDGE_CLASS, COMPOUND_CLASS, COLLAPSED_NODE_CLASS } from './constants';
-import { AppConfig, GraphResponse, InterprettedQueryResult } from './data-types';
+import { AppConfig, GraphResponse, InterprettedQueryResult, TableData } from './data-types';
 import { Subject, BehaviorSubject } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
@@ -34,6 +34,7 @@ export class SharedService {
   viewUtils: any;
   isLoading: BehaviorSubject<boolean> = new BehaviorSubject(false);
   elemSelectChanged: Subject<boolean> = new Subject();
+  tableData: Subject<TableData> = new Subject();
 
   constructor(public dialog: MatDialog, private _tgApi: TigerGraphApiClientService, private _settings: SettingsService) {
     let isGraphEmpty = () => { return this.cy.elements().not(':hidden, :transparent').length > 0 };

@@ -253,7 +253,40 @@ export class AppComponent implements OnInit {
   }
 
   showTableView() {
+    const elems = this._s.cy.$(':visible');
     this.isShowTableView.next(true);
+
+    const classes = {};
+    for (let i = 0; i < elems.length; i++) {
+      classes[elems[i].classes().join()] = true;
+    }
+    let cols = [];
+    let data = [];
+    const cNames = Object.keys(classes);
+    if (cNames.length > 1) {
+      this.tableHeader = 'Multiple Types of Objects';
+      cols = ['properties'];
+      for (let i = 0; i < elems.length; i++) {
+        data.push({ properties: JSON.stringify(elems[i].data()) });
+      }
+    } else {
+      this.tableHeader = cNames.join();
+      const colsDict = {};
+      for (let i = 0; i < elems.length; i++) {
+        const d = elems[i].data();
+        data.push(d);
+        const keys = Object.keys(d);
+        for (let j = 0; j < keys.length; j++) {
+          colsDict[keys[j]] = true;
+        }
+      }
+      cols = Object.keys(colsDict);
+
+    }
+    setTimeout(() => {
+      this._s.tableData.next({ columns: cols, data: data });
+    }, 0);
+
   }
 
   private str2file(str: string, fileName: string) {
