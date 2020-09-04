@@ -31,6 +31,7 @@ export class AppComponent implements OnInit {
   dbQueryComp = DbQueryComponent;
   objPropComp = ObjectPropertiesComponent;
   tableComp = TableViewComponent;
+  existingTypes: string[] = [];
 
   constructor(private _tgApi: TigerGraphApiClientService, private _s: SharedService, public dialog: MatDialog) {
     this._tgApi.simpleRequest();
@@ -38,8 +39,15 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this._s.init();
-    const fn = debounce(this.showObjProps, OBJ_INFO_UPDATE_DELAY).bind(this)
-    this._s.elemSelectChanged.subscribe(fn);
+    this._s.elemSelectChanged.subscribe(this.showObjProps.bind(this));
+    this._s.graphChanged.subscribe(x => {
+      const cMames = this._s.cy.$(':visible').map(x => x.classes().join());
+      const d = {};
+      for (let i = 0; i < cMames.length; i++) {
+        d[cMames[i]] = true;
+      }
+      this.existingTypes = Object.keys(d);
+    });
     this._s.isLoading.subscribe(x => { this.isLoading = x; });
   }
 
@@ -252,8 +260,10 @@ export class AppComponent implements OnInit {
     this._s.performLayout()
   }
 
-  showTableView() {
-    const elems = this._s.cy.$(':visible');
+  showAsTable(elems) {
+    if (!elems) {
+      elems = this._s.cy.$(':visible');
+    }
     this.isShowTableView.next(true);
 
     const classes = {};
@@ -286,7 +296,18 @@ export class AppComponent implements OnInit {
     setTimeout(() => {
       this._s.tableData.next({ columns: cols, data: data });
     }, 0);
+  }
 
+  showSelectedAsTable() {
+    this.showAsTable(this._s.cy.$(':selected').filter(':visible'));
+  }
+
+  showUnselectedAsTable() {
+    this.showAsTable(this._s.cy.$(':unselected').filter(':visible'));
+  }
+
+  showTypeOfObjAsTable(t: string) {
+    this.showAsTable(this._s.cy.$('.' + t).filter(':visible'));
   }
 
   private str2file(str: string, fileName: string) {

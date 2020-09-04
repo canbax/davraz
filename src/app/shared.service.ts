@@ -13,7 +13,7 @@ import navigator from 'cytoscape-navigator';
 import viewUtilities from 'cytoscape-view-utilities';
 import contextMenus from 'cytoscape-context-menus';
 
-import { Layout, LAYOUT_ANIM_DUR, expandCollapseCuePosition, EXPAND_COLLAPSE_CUE_SIZE, debounce, MAX_HIGHLIGHT_CNT, deepCopy, COLLAPSED_EDGE_CLASS, COMPOUND_CLASS, COLLAPSED_NODE_CLASS } from './constants';
+import { Layout, LAYOUT_ANIM_DUR, expandCollapseCuePosition, EXPAND_COLLAPSE_CUE_SIZE, debounce, MAX_HIGHLIGHT_CNT, deepCopy, COLLAPSED_EDGE_CLASS, COMPOUND_CLASS, COLLAPSED_NODE_CLASS, OBJ_INFO_UPDATE_DELAY } from './constants';
 import { AppConfig, GraphResponse, InterprettedQueryResult, TableData } from './data-types';
 import { Subject, BehaviorSubject } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
@@ -34,6 +34,7 @@ export class SharedService {
   viewUtils: any;
   isLoading: BehaviorSubject<boolean> = new BehaviorSubject(false);
   elemSelectChanged: Subject<boolean> = new Subject();
+  graphChanged: Subject<boolean> = new Subject();
   tableData: Subject<TableData> = new Subject();
 
   constructor(public dialog: MatDialog, private _tgApi: TigerGraphApiClientService, private _settings: SettingsService) {
@@ -80,7 +81,10 @@ export class SharedService {
     this.bindViewUtilitiesExtension();
     this.bindContextMenus();
 
-    this.cy.on('select unselect', (e) => { this.elemSelectChanged.next(e.type === 'select'); });
+    const fn = debounce((e) => { this.elemSelectChanged.next(e.type === 'select'); }, OBJ_INFO_UPDATE_DELAY);
+    this.cy.on('select unselect', fn);
+    const fn2 = debounce(() => { this.graphChanged.next(true) }, OBJ_INFO_UPDATE_DELAY);
+    this.cy.on('add remove', fn2);
   }
 
   private runLayout(): void {

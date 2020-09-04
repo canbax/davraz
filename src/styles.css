@@ -15,7 +15,7 @@ body {
   position: absolute;
   background: rgba(255, 255, 255, 0.90);
   white-space: pre-wrap;
-  border: 2px solid #555555;
+  border: 2px double #F0F2F4;
   border-radius: 5px;
   overflow: hidden;
   min-width: 150px;
