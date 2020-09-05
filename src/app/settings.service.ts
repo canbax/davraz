@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { DbQuery, AppConfig } from './data-types';
 import { BehaviorSubject } from 'rxjs';
 import { isPrimitiveType } from './constants';
-import { APP_CONF } from './app-conf';
+import { APP_CONF } from './config/app-conf';
 
 @Injectable({
   providedIn: 'root'
