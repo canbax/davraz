@@ -210,7 +210,6 @@ export class AppComponent implements OnInit {
   }
 
   showObjProps(isSelectEvent: boolean) {
-    console.log('show obj prop ', isSelectEvent);
     const selected = this._s.cy.$(':selected');
     if (isSelectEvent) {
       this.objPropHeader = selected.classes().join();
