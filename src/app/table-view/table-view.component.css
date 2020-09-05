@@ -5,3 +5,7 @@ tr.mat-row:hover {
 table {
   width: 100%;
 }
+
+.hover-on-cy {
+  background-color: #F5F5F5;
+}

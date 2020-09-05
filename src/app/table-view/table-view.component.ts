@@ -19,6 +19,8 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatTable) table: MatTable<any>;
   subscription: Subscription;
+  subscription2: Subscription;
+  hoveredIdx = -1;
 
   constructor(private _s: SharedService) {
     // Assign the data to the data source for the table to render
@@ -30,10 +32,18 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
       this.dataSource.sort = this.sort;
       this.table.renderRows();
     });
+    this.subscription2 = this._s.elemHoverChanged.subscribe(e => {
+      if (e.type == 'mouseover') {
+        this.setHoveredIdxFromElem(e);
+      } else {
+        this.hoveredIdx = -1;
+      }
+    });
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+    this.subscription2.unsubscribe();
   }
 
   ngAfterViewInit() {
@@ -52,13 +62,12 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
 
   onMouseEnter(row) {
     const id = this.getIdOfElement(row);
-    // this._s.highlightElem(id);
+    this._s.cy.$id(id).addClass('hover');
   }
 
   onMouseExit(row) {
-    // const id = this.getIdOfElement(row);
-    // this._s.highlightElem(id);
-    this._s.elems2highlight = null;
+    const id = this.getIdOfElement(row);
+    this._s.cy.$id(id).removeClass('hover');
   }
 
   private getIdOfElement(row) {
@@ -66,5 +75,33 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
       return JSON.parse(row.properties).id;
     }
     return row.id;
+  }
+
+  private setHoveredIdxFromElem(e) {
+    if (!e || !e.target) {
+      return;
+    }
+    const id = e.target.id();
+    if (!id || !this.dataSource || !this.dataSource.data) {
+      return;
+    }
+    let idx = 0;
+    for (const d of this.dataSource.data) {
+      if (d.properties && typeof d.properties === 'string') {
+        const curr = JSON.parse(d.properties).id;
+        if (curr == id) {
+          this.hoveredIdx = idx;
+          return;
+        }
+      } else {
+        if (d.id == id) {
+          this.hoveredIdx = idx;
+          return;
+        }
+      }
+      idx++;
+    }
+
+    this.hoveredIdx = -1;
   }
 }

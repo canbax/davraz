@@ -21,6 +21,7 @@ import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
 import { TigerGraphApiClientService } from './tiger-graph-api-client.service';
 import { SettingsService } from './settings.service';
 import { CY_STYLE } from './config/cy-style';
+import { GENERAL_CY_STYLE } from './config/general-cy-style';
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +37,7 @@ export class SharedService {
   isLoading: BehaviorSubject<boolean> = new BehaviorSubject(false);
   elemSelectChanged: Subject<boolean> = new Subject();
   graphChanged: Subject<boolean> = new Subject();
+  elemHoverChanged: Subject<any> = new Subject();
   tableData: Subject<TableData> = new Subject();
   elems2highlight = null;
 
@@ -48,7 +50,7 @@ export class SharedService {
   init() {
     this.cy = cytoscape({
       // so we can see the ids
-      style: CY_STYLE,
+      style: CY_STYLE.concat(GENERAL_CY_STYLE),
       container: document.getElementById('cy'),
       wheelSensitivity: 0.1,
     });
@@ -80,6 +82,8 @@ export class SharedService {
     this.cy.on('select unselect', fn);
     const fn2 = debounce(() => { this.graphChanged.next(true) }, OBJ_INFO_UPDATE_DELAY);
     this.cy.on('add remove', fn2);
+    const fn3 = debounce((e) => { this.elemHoverChanged.next(e) }, OBJ_INFO_UPDATE_DELAY);
+    this.cy.on('mouseover mouseout', 'node, edge', fn3);
   }
 
   private runLayout(): void {
