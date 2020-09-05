@@ -23,6 +23,9 @@ export class ObjectPropertiesComponent implements OnInit {
 
   showObjProps() {
     const d = this._s.cy.$(':selected').data();
+    if (!d) {
+      return;
+    }
     this.keys = Object.keys(d);
     this.values = Object.values(d);
   }

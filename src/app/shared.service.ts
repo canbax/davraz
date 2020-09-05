@@ -36,6 +36,7 @@ export class SharedService {
   elemSelectChanged: Subject<boolean> = new Subject();
   graphChanged: Subject<boolean> = new Subject();
   tableData: Subject<TableData> = new Subject();
+  elems2highlight = null;
 
   constructor(public dialog: MatDialog, private _tgApi: TigerGraphApiClientService, private _settings: SettingsService) {
     let isGraphEmpty = () => { return this.cy.elements().not(':hidden, :transparent').length > 0 };
@@ -442,6 +443,33 @@ export class SharedService {
     for (let i = 0; i < clusters.length; i++) {
       this.addParentNode(i);
       clusters[i].move({ parent: 'c' + i });
+    }
+  }
+
+  highlightElem(id: string) {
+    const e = this.cy.$('#' + id);
+    this.elems2highlight = null;
+    if (e.isEdge()) {
+      this.elems2highlight = this.elems2highlight.connectedNodes().union(e);
+    } else {
+      this.elems2highlight = e.neighborhood().union(e);
+    }
+    this.endlessOpacityAnim();
+  }
+
+  private endlessOpacityAnim() {
+    if (!this.elems2highlight) {
+      return;
+    }
+    else {
+      const a = this.elems2highlight.animation({ style: { opacity: 0.5 }, duration: 500 });
+      a.play() // start
+        .promise('completed').then(function () { // on next completed
+          a.reverse() // switch animation direction
+            .rewind() // optional but makes intent clear
+            .play(); // start again
+        });
+      setTimeout(() => { this.endlessOpacityAnim() }, 1000);
     }
   }
 

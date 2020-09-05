@@ -49,4 +49,22 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
       this.dataSource.paginator.firstPage();
     }
   }
+
+  onMouseEnter(row) {
+    const id = this.getIdOfElement(row);
+    // this._s.highlightElem(id);
+  }
+
+  onMouseExit(row) {
+    // const id = this.getIdOfElement(row);
+    // this._s.highlightElem(id);
+    this._s.elems2highlight = null;
+  }
+
+  private getIdOfElement(row) {
+    if (row.properties && typeof row.properties === 'string') {
+      return JSON.parse(row.properties).id;
+    }
+    return row.id;
+  }
 }
