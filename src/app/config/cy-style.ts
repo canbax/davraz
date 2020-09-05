@@ -1,12 +1,6 @@
 export const CY_STYLE =
   [
     {
-      "selector": "node",
-      "style": {
-        'background-color': 'white'
-      }
-    },
-    {
       "selector": "node.FundsTransfer",
       "style": {
         "shape": "ellipse",
