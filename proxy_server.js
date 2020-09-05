@@ -205,6 +205,26 @@ app.get('/nodes4edges', async (req, res) => {
   res.end();
 });
 
+app.post('/query', async (req, res) => {
+  const conf = readDbConfig();
+  const q = req.body.query;
+  const params = req.body.params;
+
+  const src = '334629';
+  const topK = '3';
+  let nodes = [];
+  const url = conf.url + `/query/connectivity/personSameAsWho?source=${src}&topK=${topK}`;
+  const { body } = await got(url, {
+    headers: {
+      'Authorization': 'Bearer ' + conf.token,
+    }
+  });
+  let res2 = JSON.parse(body);
+  nodes = nodes.concat(res2.results);
+
+  res.write(JSON.stringify({ nodes: nodes, edges: [] }));
+  res.end();
+});
 
 app.get('/endpoints', async (req, res) => {
   const conf = readDbConfig();

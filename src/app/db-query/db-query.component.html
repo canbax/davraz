@@ -1,27 +1,48 @@
-<div>
-  <mat-form-field>
-    <input matInput [(ngModel)]="currQueryName">
-  </mat-form-field>
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Interpretted GSQL
+    </mat-panel-title>
+    <mat-panel-description>
+      Run/save interpretted GSQL queries
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <div>
+    <mat-form-field>
+      <input matInput [(ngModel)]="currQueryName">
+    </mat-form-field>
 
-  <mat-form-field class="full-width">
-    <mat-label>Autosize textarea</mat-label>
-    <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="1" [(ngModel)]="gsql">
-        </textarea>
-  </mat-form-field>
-</div>
-<div class="center-txt">
-  <mat-chip-list aria-label="database queries">
-    <mat-chip (click)="loadQuery(q)" [removable]="true" (removed)="removeQuery(q)" *ngFor="let q of queries">
-      {{q.name}}
-      <mat-icon matChipRemove>cancel</mat-icon>
-    </mat-chip>
-  </mat-chip-list>
+    <mat-form-field class="full-width">
+      <mat-label>Autosize textarea</mat-label>
+      <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="1" [(ngModel)]="gsql">
+          </textarea>
+    </mat-form-field>
+  </div>
+  <div class="center-txt">
+    <mat-chip-list aria-label="database queries">
+      <mat-chip (click)="loadQuery(q)" [removable]="true" (removed)="removeQuery(q)" *ngFor="let q of queries">
+        {{q.name}}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+    </mat-chip-list>
 
-  <button mat-icon-button (click)="runQuery()">
-    <mat-icon>play_arrow</mat-icon>
-  </button>
-  <button mat-icon-button (click)="saveQuery()">
-    <mat-icon>save</mat-icon>
-  </button>
+    <button mat-icon-button (click)="runQuery()">
+      <mat-icon>play_arrow</mat-icon>
+    </button>
+    <button mat-icon-button (click)="saveQuery()">
+      <mat-icon>save</mat-icon>
+    </button>
+  </div>
+</mat-expansion-panel>
 
-</div>
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Run Query
+    </mat-panel-title>
+    <mat-panel-description>
+      Run installed GSQL queries
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+
+</mat-expansion-panel>

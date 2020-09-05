@@ -135,4 +135,33 @@ export class TigerGraphApiClientService {
     });
   }
 
+  query(cb: (r: GraphResponse) => void, query, params) {
+    this._http.post(`${PROXY_URL}/setdbconfig`, { query: query, params: params }, { headers: { 'Content-Type': 'application/json' } }).subscribe(x => {
+      if (x['error']) {
+        const dialogRef = this.dialog.open(ErrorDialogComponent);
+        dialogRef.componentInstance.title = 'Error on http request';
+        dialogRef.componentInstance.content = JSON.stringify(x);
+        return;
+      }
+      // if (cb) {
+      //   cb(x);
+      // }
+      console.log('resp: ', x);
+    });
+  }
+
+  getInstalledQueries(cb) {
+    this._http.get(`${PROXY_URL}/endpoints`).subscribe(x => {
+      const keyNames4query = Object.keys(x).filter(x => x.includes('/query/'));
+      // Object.keys(x).filter(x => x.includes('/query')).map(x => {const arr = x.split('/'); return arr[arr.length-1]} )
+      let endPoints = keyNames4query.map(x => { const arr = x.split('/'); return arr[arr.length - 1] });
+      const namesOfQueries = new Set<string>(endPoints);
+
+      let r = [];
+      for (const name of namesOfQueries) {
+        r.push(x['GET /query/' + name]);
+      }
+      cb(r);
+    });
+  }
 }

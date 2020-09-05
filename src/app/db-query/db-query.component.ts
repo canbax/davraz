@@ -25,6 +25,9 @@ export class DbQueryComponent implements OnInit {
 
   ngOnInit(): void {
     this.queries = this._settings.getAllDbQueries();
+    this._tgApi.getInstalledQueries((x) => {
+      console.log('ins talled queries: ', x);
+    });
   }
 
   runQuery() {
