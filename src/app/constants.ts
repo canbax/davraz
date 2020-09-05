@@ -639,6 +639,12 @@ export function makeElemDraggable(elem: HTMLElement, dragHandle: HTMLElement) {
     document.onmouseup = closeDragElement;
     // call a function whenever the cursor moves:
     document.onmousemove = elementDrag;
+
+    // lower all the draggable divs on z-index
+    const draggableDivs = document.getElementsByClassName('draggable-content');
+    for (let i = 0; i < draggableDivs.length; i++) {
+      (draggableDivs[i] as HTMLElement).style.zIndex = '1001';
+    }
   }
 
   function elementDrag(e) {
@@ -652,6 +658,7 @@ export function makeElemDraggable(elem: HTMLElement, dragHandle: HTMLElement) {
     // set the element's new position:
     elem.style.top = (elem.offsetTop - pos2) + "px";
     elem.style.left = (elem.offsetLeft - pos1) + "px";
+    elem.style.zIndex = '1002';
   }
 
   function closeDragElement() {

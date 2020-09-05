@@ -40,3 +40,4 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 - show statistics
 - table view
 - graph theoretical properties
+- run tiger graph query and visualize results

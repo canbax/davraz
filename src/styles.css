@@ -11,7 +11,7 @@ body {
 }
 
 .draggable-content {
-  z-index: 1001 !important;
+  z-index: 1001;
   position: absolute;
   background: rgba(255, 255, 255, 0.90);
   white-space: pre-wrap;
