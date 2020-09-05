@@ -210,10 +210,13 @@ app.post('/query', async (req, res) => {
   const q = req.body.query;
   const params = req.body.params;
 
-  const src = '334629';
-  const topK = '3';
+  let s = '';
+  for (let i = 0; i < params.length; i++) {
+    s += Object.keys(params[i])[0] + '=' + Object.values(params[i])[0] + '&';
+  }
+  s = s.slice(0, -1);
   let nodes = [];
-  const url = conf.url + `/query/connectivity/personSameAsWho?source=${src}&topK=${topK}`;
+  const url = conf.url + `/query/connectivity/${q}?${s}`;
   const { body } = await got(url, {
     headers: {
       'Authorization': 'Bearer ' + conf.token,

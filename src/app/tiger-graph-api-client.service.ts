@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SettingsService } from './settings.service';
 import { PROXY_URL } from './constants';
-import { DbConfig, InterprettedQueryResult, GraphResponse, NodeResponse, EdgeResponse, TigerGraphDbConfig } from './data-types';
+import { DbConfig, InterprettedQueryResult, GraphResponse, NodeResponse, EdgeResponse, TigerGraphDbConfig, InstalledDbQuery } from './data-types';
 import { combineLatest, Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
@@ -135,22 +135,22 @@ export class TigerGraphApiClientService {
     });
   }
 
-  query(cb: (r: GraphResponse) => void, query, params) {
-    this._http.post(`${PROXY_URL}/setdbconfig`, { query: query, params: params }, { headers: { 'Content-Type': 'application/json' } }).subscribe(x => {
+  query(cb, query: string, params: any[]) {
+    this._http.post(`${PROXY_URL}/query`, { query: query, params: params }, { headers: { 'Content-Type': 'application/json' } }).subscribe(x => {
       if (x['error']) {
         const dialogRef = this.dialog.open(ErrorDialogComponent);
         dialogRef.componentInstance.title = 'Error on http request';
         dialogRef.componentInstance.content = JSON.stringify(x);
         return;
       }
-      // if (cb) {
-      //   cb(x);
-      // }
+      if (cb) {
+        cb(x);
+      }
       console.log('resp: ', x);
     });
   }
 
-  getInstalledQueries(cb) {
+  getInstalledQueries(cb: (r: any[]) => void) {
     this._http.get(`${PROXY_URL}/endpoints`).subscribe(x => {
       const keyNames4query = Object.keys(x).filter(x => x.includes('/query/'));
       // Object.keys(x).filter(x => x.includes('/query')).map(x => {const arr = x.split('/'); return arr[arr.length-1]} )
@@ -159,7 +159,7 @@ export class TigerGraphApiClientService {
 
       let r = [];
       for (const name of namesOfQueries) {
-        r.push(x['GET /query/' + name]);
+        r.push(x['GET /query/' + name].parameters);
       }
       cb(r);
     });

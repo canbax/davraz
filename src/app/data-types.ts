@@ -69,3 +69,8 @@ export interface TableData {
   columns: string[];
   data: any[];
 }
+
+export interface InstalledDbQuery {
+  name: string;
+  params: { name: string, desc: string, inp: string }[];
+}

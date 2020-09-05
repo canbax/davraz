@@ -3,7 +3,7 @@ import { Subject } from 'rxjs';
 import { TigerGraphApiClientService } from '../tiger-graph-api-client.service';
 import { makeElemDraggable } from '../constants';
 import { SharedService } from '../shared.service';
-import { DbQuery } from '../data-types';
+import { DbQuery, InstalledDbQuery } from '../data-types';
 import { SettingsService } from '../settings.service';
 
 @Component({
@@ -20,13 +20,31 @@ export class DbQueryComponent implements OnInit {
     }`;
   currQueryName = 'Query 1';
   queries: DbQuery[] = [];
+  installedQueries: InstalledDbQuery[] = [];
+  currInstalledQuery: InstalledDbQuery;
 
   constructor(private _tgApi: TigerGraphApiClientService, private _s: SharedService, private _settings: SettingsService) { }
 
   ngOnInit(): void {
     this.queries = this._settings.getAllDbQueries();
     this._tgApi.getInstalledQueries((x) => {
-      console.log('ins talled queries: ', x);
+      console.log('installed queries: ', x);
+      this.installedQueries = [];
+
+      for (const o of x) {
+        const obj: InstalledDbQuery = { name: '', params: [] };
+        for (const k in o) {
+          if (k === 'query') {
+            obj.name = o[k].default;
+          } else {
+            const o2 = {};
+            o2[k] = o[k];
+            const s = JSON.stringify(o2, null, 4).substr(2).slice(0, -2).replace('"', '').replace('"', '').trim();
+            obj.params.push({ desc: s, inp: '', name: k });
+          }
+        }
+        this.installedQueries.push(obj);
+      }
     });
   }
 
@@ -47,6 +65,23 @@ export class DbQueryComponent implements OnInit {
   loadQuery(q: DbQuery) {
     this.gsql = q.query;
     this.currQueryName = q.name;
+  }
+
+  loadInstalledQuery(q: InstalledDbQuery) {
+    this.currInstalledQuery = q;
+  }
+
+  runInstalledQuery() {
+    console.log('curr q: ', this.currInstalledQuery);
+    const arr = [];
+    for (const o of this.currInstalledQuery.params) {
+      const o2 = {};
+      o2[o.name] = o.inp;
+      arr.push(o2);
+    }
+    this._tgApi.query((x) => {
+      console.log('asd');
+    }, this.currInstalledQuery.name, arr);
   }
 
 }
