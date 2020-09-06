@@ -28,6 +28,10 @@ export class DraggableDivComponent implements OnInit {
         this.position.left = this.mainElem.nativeElement.style.left;
         this.currSize.width = this.mainElem.nativeElement.style.width;
         this.currSize.height = this.mainElem.nativeElement.style.height;
+      } else {
+        setTimeout(() => {
+          this.setMainElemStyle();
+        }, 0);
       }
       if (x) {
         setTimeout(() => {
@@ -41,12 +45,27 @@ export class DraggableDivComponent implements OnInit {
     this.isShow.next(false);
   }
 
-  onMoveEnd(e) {
-    this.position = e;
+  openInFull() {
+    this.currSize.width = (window.innerWidth - 20) + 'px';
+    this.currSize.height = (window.innerHeight - 20) + 'px';
+    this.position.top = '10px';
+    this.position.left = '10px';
+    this.setMainElemStyle();
   }
 
-  onResizeStop(e) {
-    this.currSize = e.size;
+  minimize() {
+    this.position.top = (window.innerHeight - 50) + 'px';
+    this.position.left = '10px';
+    this.currSize.width = '50px';
+    this.currSize.height = '40px';
+    this.setMainElemStyle();
+  }
+
+  private setMainElemStyle() {
+    this.mainElem.nativeElement.style.top = this.position.top;
+    this.mainElem.nativeElement.style.left = this.position.left;
+    this.mainElem.nativeElement.style.width = this.currSize.width;
+    this.mainElem.nativeElement.style.height = this.currSize.height;
   }
 
 }

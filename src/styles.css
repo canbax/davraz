@@ -19,19 +19,16 @@ body {
   border-radius: 5px;
   overflow: auto;
   resize: both;
-  min-width: 150px;
-  min-height: 600px;
+  min-width: fit-content;
+  min-height: 40px;
   top: 0;
   left: 0;
 }
 
-button.close {
+span.top-right {
   position: absolute;
   top: 0;
   right: 0;
-  padding: 5px;
-  line-height: 14px;
-  min-width: auto;
 }
 
 .center-txt {

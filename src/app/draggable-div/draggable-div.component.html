@@ -1,13 +1,20 @@
-<div #mainElem *ngIf="_isShow" class="draggable-content mat-elevation-z8" [style.width]="currSize.width"
-  [style.height]="currSize.height" [style.top]="position.top" [style.left]="position.left">
+<div #mainElem *ngIf="_isShow" class="draggable-content mat-elevation-z8">
   <div #moverElem style="cursor: move;" class="gray1 p5">
-    <div class="center-txt mat-card-title p5">{{header}}</div>
-    <div>
-      <button mat-button class="close" aria-label="Close" (click)="closeClicked()">
-        <mat-icon>close</mat-icon>
-      </button>
+    <div class="center-txt mat-card-title p5">{{header}}
+
     </div>
   </div>
+  <span class="top-right">
+    <button class="sm-btn" mat-button aria-label="Close" (click)="minimize()">
+      <mat-icon>minimize</mat-icon>
+    </button>
+    <button class="sm-btn" mat-button aria-label="Close" (click)="openInFull()">
+      <mat-icon>open_in_full</mat-icon>
+    </button>
+    <button class="sm-btn" mat-button aria-label="Close" (click)="closeClicked()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </span>
   <div class="p5">
     <ng-container *ngComponentOutlet="component"></ng-container>
   </div>
