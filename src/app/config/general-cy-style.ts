@@ -21,7 +21,9 @@ export const GENERAL_CY_STYLE: any =
         "text-outline-color": "#555555",
         "text-outline-width": "1px",
         "text-rotation": "autorotate",
-        "color": "#FFFFFF"
+        "color": "#FFFFFF",
+        "line-style": "solid",
+        "curve-style": "bezier",
       }
     },
     {
@@ -51,18 +53,18 @@ export const GENERAL_CY_STYLE: any =
     {
       selector: "node:selected",
       style: {
-        "overlay-color": "#D7D7D7",
-        "overlay-opacity": 0.3,
+        "overlay-color": "#BFBFBF",
+        "overlay-opacity": 0.5,
         "overlay-padding": "6px",
       }
     },
     {
       selector: "edge:selected",
       style: {
-        "overlay-color": "#D7D7D7",
+        "overlay-color": "#BFBFBF",
         "overlay-padding": "6px",
-        "overlay-opacity": 0.3,
-        "line-color": "#808080"
+        "overlay-opacity": 0.5,
+        
       }
     },
   ];

@@ -94,110 +94,81 @@ export const CY_STYLE =
       "selector": "edge.hasCaseReport",
       "style": {
         "label": "reports",
-        "line-color": "#f5c4ca",
-        "line-style": "solid",
-        "curve-style": "bezier",
-        "target-arrow-shape": "triangle",
-        "target-arrow-color": "#f5c4ca",
+        "line-color": "#f50057",
+        "target-arrow-shape": "square",
+        "target-arrow-color": "#f50057",
       }
     },
     {
       "selector": "edge.hasBusRide",
       "style": {
         "label": "rides",
-        "line-color": "#f5c4ca",
-        "line-style": "solid",
-        "curve-style": "bezier",
+        "line-color": "#d500f9",
         "target-arrow-shape": "triangle",
-        "target-arrow-color": "#f5c4ca",
-      }
-    },
-    {
-      "selector": "edge.hasBusRide",
-      "style": {
-        "label": "rides",
-        "line-color": "#f5c4ca",
-        "line-style": "solid",
-        "curve-style": "bezier",
-        "target-arrow-shape": "triangle",
-        "target-arrow-color": "#f5c4ca",
+        "target-arrow-color": "#d500f9",
       }
     },
     {
       "selector": "edge.hasTrainRide",
       "style": {
         "label": "rides",
-        "line-color": "#f5c4ca",
-        "line-style": "solid",
-        "curve-style": "bezier",
-        "target-arrow-shape": "triangle",
-        "target-arrow-color": "#f5c4ca",
+        "line-color": "#3d5afe",
+        "target-arrow-shape": "triangle-tee",
+        "target-arrow-color": "#3d5afe",
       }
     },
     {
       "selector": "edge.hasFlight",
       "style": {
         "label": "flies",
-        "line-color": "#f5c4ca",
-        "line-style": "solid",
-        "curve-style": "bezier",
-        "target-arrow-shape": "triangle",
-        "target-arrow-color": "#f5c4ca",
+        "line-color": "#00b0ff",
+        "target-arrow-shape": "circle-triangle",
+        "target-arrow-color": "#00b0ff",
       }
     },
     {
       "selector": "edge.hasFundsTransfer",
       "style": {
         "label": "transfers",
-        "line-color": "#f5c4ca",
-        "line-style": "solid",
-        "curve-style": "bezier",
-        "target-arrow-shape": "triangle",
-        "target-arrow-color": "#f5c4ca",
+        "line-color": "#00e676",
+        "target-arrow-shape": "triangle-cross",
+        "target-arrow-color": "#00e676",
       }
     },
     {
       "selector": "edge.hasPhone",
       "style": {
         "label": "has",
-        "line-color": "#f5c4ca",
-        "line-style": "solid",
-        "curve-style": "bezier",
-        "target-arrow-shape": "triangle",
-        "target-arrow-color": "#f5c4ca",
+        "line-color": "#ffea00",
+        "target-arrow-shape": "triangle-backcurve",
+        "target-arrow-color": "#ffea00",
       }
     },
     {
       "selector": "edge.hasPhoneCall",
       "style": {
         "label": "calls",
-        "line-color": "#f5c4ca",
-        "line-style": "solid",
-        "curve-style": "bezier",
-        "target-arrow-shape": "triangle",
-        "target-arrow-color": "#f5c4ca",
+        "line-color": "#ffc400",
+        "target-arrow-shape": "vee",
+        "target-arrow-color": "#ffc400",
       }
     },
     {
       "selector": "edge.hasHomeAddress",
       "style": {
         "label": "resides",
-        "line-color": "#f5c4ca",
-        "line-style": "solid",
-        "curve-style": "bezier",
-        "target-arrow-shape": "triangle",
-        "target-arrow-color": "#f5c4ca",
+        "line-color": "#ff9100",
+        "target-arrow-shape": "tee",
+        "target-arrow-color": "#ff9100",
       }
     },
     {
       "selector": "edge.hasHotelStay",
       "style": {
         "label": "stays",
-        "line-color": "#f5c4ca",
-        "line-style": "solid",
-        "curve-style": "bezier",
-        "target-arrow-shape": "triangle",
-        "target-arrow-color": "#f5c4ca",
+        "line-color": "#ff3d00",
+        "target-arrow-shape": "circle",
+        "target-arrow-color": "#ff3d00",
       }
     },
   ];
