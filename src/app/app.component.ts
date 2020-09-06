@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfigDialogComponent } from './config-dialog/config-dialog.component';
 import { Subject } from 'rxjs';
 import { SharedService } from './shared.service';
-import { readTxtFile, obj2str, debounce, OBJ_INFO_UPDATE_DELAY } from './constants';
+import { readTxtFile, obj2str } from './constants';
 import { SavePngDialogComponent } from './save-png-dialog/save-png-dialog.component';
 import { DbQueryComponent } from './db-query/db-query.component';
 import { ObjectPropertiesComponent } from './object-properties/object-properties.component';

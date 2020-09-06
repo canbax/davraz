@@ -3,6 +3,7 @@ export const CY_STYLE =
     {
       "selector": "node.FundsTransfer",
       "style": {
+        "label": "data(amount)",
         "shape": "ellipse",
         "background-fit": "contain",
         "background-image": "assets/img/funds-transfer.svg"
@@ -83,10 +84,121 @@ export const CY_STYLE =
     {
       "selector": "node.Person",
       "style": {
+        "label": "data(fullName)",
         "shape": "ellipse",
         "background-fit": "contain",
         "background-image": "assets/img/person.svg"
       }
-    }
+    },
+    {
+      "selector": "edge.hasCaseReport",
+      "style": {
+        "label": "reports",
+        "line-color": "#f5c4ca",
+        "line-style": "solid",
+        "curve-style": "bezier",
+        "target-arrow-shape": "triangle",
+        "target-arrow-color": "#f5c4ca",
+      }
+    },
+    {
+      "selector": "edge.hasBusRide",
+      "style": {
+        "label": "rides",
+        "line-color": "#f5c4ca",
+        "line-style": "solid",
+        "curve-style": "bezier",
+        "target-arrow-shape": "triangle",
+        "target-arrow-color": "#f5c4ca",
+      }
+    },
+    {
+      "selector": "edge.hasBusRide",
+      "style": {
+        "label": "rides",
+        "line-color": "#f5c4ca",
+        "line-style": "solid",
+        "curve-style": "bezier",
+        "target-arrow-shape": "triangle",
+        "target-arrow-color": "#f5c4ca",
+      }
+    },
+    {
+      "selector": "edge.hasTrainRide",
+      "style": {
+        "label": "rides",
+        "line-color": "#f5c4ca",
+        "line-style": "solid",
+        "curve-style": "bezier",
+        "target-arrow-shape": "triangle",
+        "target-arrow-color": "#f5c4ca",
+      }
+    },
+    {
+      "selector": "edge.hasFlight",
+      "style": {
+        "label": "flies",
+        "line-color": "#f5c4ca",
+        "line-style": "solid",
+        "curve-style": "bezier",
+        "target-arrow-shape": "triangle",
+        "target-arrow-color": "#f5c4ca",
+      }
+    },
+    {
+      "selector": "edge.hasFundsTransfer",
+      "style": {
+        "label": "transfers",
+        "line-color": "#f5c4ca",
+        "line-style": "solid",
+        "curve-style": "bezier",
+        "target-arrow-shape": "triangle",
+        "target-arrow-color": "#f5c4ca",
+      }
+    },
+    {
+      "selector": "edge.hasPhone",
+      "style": {
+        "label": "has",
+        "line-color": "#f5c4ca",
+        "line-style": "solid",
+        "curve-style": "bezier",
+        "target-arrow-shape": "triangle",
+        "target-arrow-color": "#f5c4ca",
+      }
+    },
+    {
+      "selector": "edge.hasPhoneCall",
+      "style": {
+        "label": "calls",
+        "line-color": "#f5c4ca",
+        "line-style": "solid",
+        "curve-style": "bezier",
+        "target-arrow-shape": "triangle",
+        "target-arrow-color": "#f5c4ca",
+      }
+    },
+    {
+      "selector": "edge.hasHomeAddress",
+      "style": {
+        "label": "resides",
+        "line-color": "#f5c4ca",
+        "line-style": "solid",
+        "curve-style": "bezier",
+        "target-arrow-shape": "triangle",
+        "target-arrow-color": "#f5c4ca",
+      }
+    },
+    {
+      "selector": "edge.hasHotelStay",
+      "style": {
+        "label": "stays",
+        "line-color": "#f5c4ca",
+        "line-style": "solid",
+        "curve-style": "bezier",
+        "target-arrow-shape": "triangle",
+        "target-arrow-color": "#f5c4ca",
+      }
+    },
   ];
 
