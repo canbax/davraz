@@ -114,7 +114,7 @@ export class TigerGraphApiClientService {
   }
 
   getNeighborsOfNode(cb: (r: GraphResponse) => void, elem) {
-    const t = elem.classes().join();
+    const t = elem.classes()[0];
     const id = elem.id().substr(2);
     let edges: EdgeResponse[] = [];
     let nodes: NodeResponse[] = [];

@@ -41,10 +41,10 @@ export class AppComponent implements OnInit {
     this._s.init();
     this._s.elemSelectChanged.subscribe(this.showObjProps.bind(this));
     this._s.graphChanged.subscribe(x => {
-      const cMames = this._s.cy.$(':visible').map(x => x.classes().join());
+      const cNames = this._s.cy.$(':visible').map(x => x.classes()[0]);
       const d = {};
-      for (let i = 0; i < cMames.length; i++) {
-        d[cMames[i]] = true;
+      for (let i = 0; i < cNames.length; i++) {
+        d[cNames[i]] = true;
       }
       this.existingTypes = Object.keys(d);
     });
@@ -212,7 +212,7 @@ export class AppComponent implements OnInit {
   showObjProps(isSelectEvent: boolean) {
     const selected = this._s.cy.$(':selected');
     if (isSelectEvent && selected && selected.length == 1) {
-      this.objPropHeader = selected.classes().join();
+      this.objPropHeader = selected.classes()[0];
       this.isShowObjectProperties.next(true);
     }
   }
@@ -267,7 +267,7 @@ export class AppComponent implements OnInit {
 
     const classes = {};
     for (let i = 0; i < elems.length; i++) {
-      classes[elems[i].classes().join()] = true;
+      classes[elems[i].classes()[0]] = true;
     }
     let cols = [];
     let data = [];
