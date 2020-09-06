@@ -22,6 +22,7 @@ export class DbQueryComponent implements OnInit {
   queries: DbQuery[] = [];
   installedQueries: InstalledDbQuery[] = [];
   currInstalledQuery: InstalledDbQuery;
+  rawInstalledQueryResponse = '';
 
   constructor(private _tgApi: TigerGraphApiClientService, private _s: SharedService, private _settings: SettingsService) { }
 
@@ -81,6 +82,8 @@ export class DbQueryComponent implements OnInit {
     }
     this._tgApi.query((x) => {
       console.log('asd');
+      this._s.loadGraph4InstalledQuery(x);
+      this.rawInstalledQueryResponse = JSON.stringify(x, null, 4);
     }, this.currInstalledQuery.name, arr);
   }
 

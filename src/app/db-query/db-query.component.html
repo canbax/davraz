@@ -53,13 +53,16 @@
     </mat-chip-list>
     <div *ngIf="currInstalledQuery">
       <div *ngFor="let p of currInstalledQuery.params">
-        {{p.desc}}
+        <code>{{p.desc}}</code>
         <div>
           <mat-form-field>
             <mat-label>{{p.name}}</mat-label>
             <input matInput [(ngModel)]="p.inp" name="param-inp">
           </mat-form-field>
         </div>
+      </div>
+      <div>
+        <code>{{rawInstalledQueryResponse}}</code>
       </div>
 
       <button mat-raised-button (click)="runInstalledQuery()" class="full-width">

@@ -17,7 +17,7 @@ body {
   white-space: pre-wrap;
   border: 2px double #F0F2F4;
   border-radius: 5px;
-  overflow: hidden;
+  overflow: auto;
   min-width: 150px;
   min-height: 600px;
   top: 0;

@@ -13,8 +13,8 @@ import navigator from 'cytoscape-navigator';
 import viewUtilities from 'cytoscape-view-utilities';
 import contextMenus from 'cytoscape-context-menus';
 
-import { Layout, LAYOUT_ANIM_DUR, expandCollapseCuePosition, EXPAND_COLLAPSE_CUE_SIZE, debounce, MAX_HIGHLIGHT_CNT, deepCopy, COLLAPSED_EDGE_CLASS, COMPOUND_CLASS, COLLAPSED_NODE_CLASS, OBJ_INFO_UPDATE_DELAY } from './constants';
-import { AppConfig, GraphResponse, InterprettedQueryResult, TableData } from './data-types';
+import { Layout, LAYOUT_ANIM_DUR, expandCollapseCuePosition, EXPAND_COLLAPSE_CUE_SIZE, debounce, MAX_HIGHLIGHT_CNT, deepCopy, COLLAPSED_EDGE_CLASS, COMPOUND_CLASS, COLLAPSED_NODE_CLASS, OBJ_INFO_UPDATE_DELAY, isPrimitiveType } from './constants';
+import { AppConfig, GraphResponse, NodeResponse, InterprettedQueryResult, TableData, isNodeResponse, isEdgeResponse, EdgeResponse } from './data-types';
 import { Subject, BehaviorSubject } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
@@ -432,6 +432,14 @@ export class SharedService {
     this.performLayout();
   }
 
+  loadGraph4InstalledQuery(x) {
+    let nodes: NodeResponse[] = [];
+    this.findAllNodes(x, nodes);
+    let edges: EdgeResponse[] = [];
+    this.findAllEdges(x, edges);
+    this.loadGraph({ edges: edges, nodes: nodes });
+  }
+
   loadFromQuery(resp: InterprettedQueryResult) {
     console.log('from query: ', resp);
   }
@@ -468,6 +476,32 @@ export class SharedService {
             .play(); // start again
         });
       setTimeout(() => { this.endlessOpacityAnim() }, 1000);
+    }
+  }
+
+  private findAllNodes(x, r: NodeResponse[]) {
+    if (x === null || x === undefined || isPrimitiveType(x)) {
+      return;
+    }
+    for (let k in x) {
+      if (isNodeResponse(x[k])) {
+        r.push(x[k]);
+      } else {
+        this.findAllNodes(x[k], r);
+      }
+    }
+  }
+
+  private findAllEdges(x, r: EdgeResponse[]) {
+    if (x === null || x === undefined || isPrimitiveType(x)) {
+      return;
+    }
+    for (let k in x) {
+      if (isEdgeResponse(x[k])) {
+        r.push(x[k]);
+      } else {
+        this.findAllEdges(x[k], r);
+      }
     }
   }
 

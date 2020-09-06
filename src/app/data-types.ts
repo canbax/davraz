@@ -1,4 +1,5 @@
 import { BehaviorSubject } from 'rxjs';
+import { isPrimitiveType } from './constants';
 
 export interface DbConfig {
   url: string;
@@ -27,6 +28,13 @@ export interface NodeResponse {
   attributes: any;
 }
 
+export function isNodeResponse(x: any): boolean {
+  if (x === undefined || x === null || isPrimitiveType(x)) {
+    return false;
+  }
+  return 'v_id' in x && 'v_type' in x && 'attributes' in x;
+}
+
 export interface EdgeResponse {
   directed: boolean;
   e_type: string;
@@ -35,6 +43,14 @@ export interface EdgeResponse {
   from_type: string;
   to_id: string;
   to_type: string;
+}
+
+export function isEdgeResponse(x: any): boolean {
+  if (x === undefined || x === null || isPrimitiveType(x)) {
+    return false;
+  }
+  return 'directed' in x && 'e_type' in x && 'attributes' in x && 'from_id' in x && 'from_type' in x
+    && 'to_id' in x && 'to_type' in x;
 }
 
 export interface SampleDataDialogData {
