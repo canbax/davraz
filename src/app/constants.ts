@@ -656,7 +656,14 @@ export function makeElemDraggable(elem: HTMLElement, dragHandle: HTMLElement) {
     pos3 = e.clientX;
     pos4 = e.clientY;
     // set the element's new position:
-    elem.style.top = (elem.offsetTop - pos2) + "px";
+    let newTop = elem.offsetTop - pos2;
+    if (newTop < 10) {
+      newTop = 10;
+    }
+    if (newTop > window.innerHeight - 40) {
+      newTop = window.innerHeight - 40;
+    }
+    elem.style.top = newTop + "px";
     elem.style.left = (elem.offsetLeft - pos1) + "px";
     elem.style.zIndex = '1002';
   }
