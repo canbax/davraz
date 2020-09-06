@@ -1,7 +1,5 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
 import { TigerGraphApiClientService } from '../tiger-graph-api-client.service';
-import { makeElemDraggable } from '../constants';
 import { SharedService } from '../shared.service';
 import { DbQuery, InstalledDbQuery } from '../data-types';
 import { SettingsService } from '../settings.service';
@@ -41,7 +39,7 @@ export class DbQueryComponent implements OnInit {
             const o2 = {};
             o2[k] = o[k];
             const s = JSON.stringify(o2, null, 4).substr(2).slice(0, -2).replace('"', '').replace('"', '').trim();
-            obj.params.push({ desc: s, inp: '', name: k });
+            obj.params.push({ desc: s, inp: '', name: k, obj: o[k] });
           }
         }
         this.installedQueries.push(obj);
@@ -73,7 +71,6 @@ export class DbQueryComponent implements OnInit {
   }
 
   runInstalledQuery() {
-    console.log('curr q: ', this.currInstalledQuery);
     const arr = [];
     for (const o of this.currInstalledQuery.params) {
       const o2 = {};
@@ -81,9 +78,19 @@ export class DbQueryComponent implements OnInit {
       arr.push(o2);
     }
     this._tgApi.query((x) => {
-      console.log('asd');
       this._s.loadGraph4InstalledQuery(x);
       this.rawInstalledQueryResponse = JSON.stringify(x, null, 4);
+      for (let i = 0; i < this.currInstalledQuery.params.length; i++) {
+        const obj = this.currInstalledQuery.params[i].obj;
+        if (obj.is_id === 'true') {
+          let elem = this._s.cy.$id('n_' + this.currInstalledQuery.params[i].inp).filter('.' + obj.id_type);
+          // might be edge also
+          if (elem.length < 1) {
+            elem = this._s.cy.$id('e_' + this.currInstalledQuery.params[i].inp).filter('.' + obj.id_type);
+          }
+          this._s.viewUtils.highlight(elem, this._s.appConf.currHighlightIdx.getValue());
+        }
+      }
     }, this.currInstalledQuery.name, arr);
   }
 
