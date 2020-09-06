@@ -11,7 +11,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatRadioModule } from '@angular/material/radio';
-import { AngularDraggableModule } from 'angular2-draggable';
 import { MatSelectModule } from '@angular/material/select';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatChipsModule } from '@angular/material/chips';
@@ -20,6 +19,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { MatDividerModule } from '@angular/material/divider';
 
 import { AppComponent } from './app.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -65,7 +65,7 @@ import { DraggableDivComponent } from './draggable-div/draggable-div.component';
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
-    AngularDraggableModule
+    MatDividerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,6 +1,5 @@
-<div #mainElem *ngIf="_isShow" ngResizable [rzHandles]="'nw'" class="draggable-content mat-elevation-z8"
-  (rzStop)="onResizeStop($event)" [style.width]="currSize.width + 'px'" [style.height]="currSize.height + 'px'"
-  [style.top]="position.top" [style.left]="position.left">
+<div #mainElem *ngIf="_isShow" class="draggable-content mat-elevation-z8" [style.width]="currSize.width"
+  [style.height]="currSize.height" [style.top]="position.top" [style.left]="position.left">
   <div #moverElem style="cursor: move;" class="gray1 p5">
     <div class="center-txt mat-card-title p5">{{header}}</div>
     <div>

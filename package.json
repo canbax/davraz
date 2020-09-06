@@ -22,7 +22,6 @@
     "@angular/platform-browser-dynamic": "~10.0.5",
     "@angular/router": "~10.0.5",
     "a-color-picker": "^1.2.1",
-    "angular2-draggable": "^2.3.2",
     "cytoscape": "^3.15.2",
     "cytoscape-avsdf": "^1.0.0",
     "cytoscape-chola": "github:iVis-at-Bilkent/cytoscape.js-chola#unstable",

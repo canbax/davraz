@@ -16,7 +16,7 @@ export class DraggableDivComponent implements OnInit {
   @ViewChild('moverElem', { static: false }) moverElem;
   _isShow = false;
   position = { top: '0px', left: '0px' };
-  currSize: { width: number, height: number } = { width: 375, height: 600 };
+  currSize: { width: string, height: string } = { width: '500px', height: '600px' };
 
   constructor() { }
 
@@ -26,6 +26,8 @@ export class DraggableDivComponent implements OnInit {
       if (!x) {
         this.position.top = this.mainElem.nativeElement.style.top;
         this.position.left = this.mainElem.nativeElement.style.left;
+        this.currSize.width = this.mainElem.nativeElement.style.width;
+        this.currSize.height = this.mainElem.nativeElement.style.height;
       }
       if (x) {
         setTimeout(() => {
