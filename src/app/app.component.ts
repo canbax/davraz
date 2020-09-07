@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfigDialogComponent } from './config-dialog/config-dialog.component';
 import { Subject } from 'rxjs';
 import { SharedService } from './shared.service';
-import { readTxtFile, obj2str } from './constants';
+import { readTxtFile, obj2str, COMPOUND_CLASS } from './constants';
 import { SavePngDialogComponent } from './save-png-dialog/save-png-dialog.component';
 import { DbQueryComponent } from './db-query/db-query.component';
 import { ObjectPropertiesComponent } from './object-properties/object-properties.component';
@@ -210,7 +210,7 @@ export class AppComponent implements OnInit {
   }
 
   showObjProps(isSelectEvent: boolean) {
-    const selected = this._s.cy.$(':selected');
+    const selected = this._s.cy.$(':selected').not('.' + COMPOUND_CLASS);
     if (isSelectEvent && selected && selected.length == 1) {
       this.objPropHeader = selected.classes()[0];
       this.isShowObjectProperties.next(true);

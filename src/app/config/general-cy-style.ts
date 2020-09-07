@@ -64,7 +64,16 @@ export const GENERAL_CY_STYLE: any =
         "overlay-color": "#BFBFBF",
         "overlay-padding": "6px",
         "overlay-opacity": 0.5,
-        
+      }
+    },
+    {
+      selector: "node.Compound",
+      style: {
+        "background-opacity": 0.07,
+        "background-color": "#555",
+        "shape": "barrel",
+        "border-color": "#263238",
+        "font-size": "9px"
       }
     },
   ];

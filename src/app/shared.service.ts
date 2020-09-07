@@ -179,9 +179,9 @@ export class SharedService {
       },
       {
         id: 'performLayout',
-        content: 'Perform Layout',
+        content: 'Incremental Layout',
         coreAsWell: true,
-        onClickFunction: this.performLayout.bind(this)
+        onClickFunction: () => { this.isRandomizedLayout = false; this.performLayout(); }
       },
       {
         id: 'deleteSelected',
