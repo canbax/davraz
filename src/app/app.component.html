@@ -41,6 +41,14 @@
     <mat-menu #layout="matMenu">
       <button (click)="randomizedLayout()" mat-menu-item>Randomized layout</button>
       <button (click)="incrementalLayout()" mat-menu-item>Incremental layout</button>
+      <button mat-menu-item [matMenuTriggerFor]="layoutAlgoMenu">
+        All algorithms
+      </button>
+      <mat-menu #layoutAlgoMenu="matMenu">
+        <button *ngFor="let l of layoutAlgos" (click)="runLayoutAlgo(l)" mat-menu-item>
+          {{l}}
+        </button>
+      </mat-menu>
     </mat-menu>
 
     <button mat-button [matMenuTriggerFor]="highlight">Highlight<mat-icon>arrow_drop_down</mat-icon></button>

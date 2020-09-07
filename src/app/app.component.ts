@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfigDialogComponent } from './config-dialog/config-dialog.component';
 import { Subject } from 'rxjs';
 import { SharedService } from './shared.service';
-import { readTxtFile, obj2str, COMPOUND_CLASS } from './constants';
+import { readTxtFile, obj2str, COMPOUND_CLASS, Layout } from './constants';
 import { SavePngDialogComponent } from './save-png-dialog/save-png-dialog.component';
 import { DbQueryComponent } from './db-query/db-query.component';
 import { ObjectPropertiesComponent } from './object-properties/object-properties.component';
@@ -32,6 +32,7 @@ export class AppComponent implements OnInit {
   objPropComp = ObjectPropertiesComponent;
   tableComp = TableViewComponent;
   existingTypes: string[] = [];
+  layoutAlgos: string[] = [];
 
   constructor(private _tgApi: TigerGraphApiClientService, private _s: SharedService, public dialog: MatDialog) {
     this._tgApi.simpleRequest();
@@ -49,6 +50,7 @@ export class AppComponent implements OnInit {
       this.existingTypes = Object.keys(d);
     });
     this._s.isLoading.subscribe(x => { this.isLoading = x; });
+    this.layoutAlgos = Object.keys(Layout);
   }
 
   openDbConfigDialog() {
@@ -251,12 +253,17 @@ export class AppComponent implements OnInit {
 
   randomizedLayout() {
     this._s.isRandomizedLayout = true;
-    this._s.performLayout()
+    this._s.performLayout();
   }
 
   incrementalLayout() {
     this._s.isRandomizedLayout = false;
-    this._s.performLayout()
+    this._s.performLayout();
+  }
+
+  runLayoutAlgo(algo: string) {
+    this._s.isRandomizedLayout = true;
+    this._s.performLayout(algo);
   }
 
   showAsTable(elems) {

@@ -86,12 +86,15 @@ export class SharedService {
     this.cy.on('mouseover mouseout', 'node, edge', fn3);
   }
 
-  private runLayout(): void {
+  private runLayout(algoName: string = null): void {
     const elems4layout = this.cy.elements().not(':hidden, :transparent');
     if (elems4layout.length < 1) {
       return;
     }
-    const l = Layout[this.appConf.currLayout.getValue()];
+    if (!algoName) {
+      algoName = this.appConf.currLayout.getValue();
+    }
+    const l = Layout[algoName];
     if (!l) {
       console.log('undefined layout')
     }
