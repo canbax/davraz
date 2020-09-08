@@ -84,6 +84,8 @@ export class SharedService {
     this.cy.on('add remove', fn2);
     const fn3 = debounce((e) => { this.elemHoverChanged.next(e) }, OBJ_INFO_UPDATE_DELAY);
     this.cy.on('mouseover mouseout', 'node, edge', fn3);
+
+    this.bindComponentSelector();
   }
 
   private runLayout(algoName: string = null): void {
@@ -142,6 +144,31 @@ export class SharedService {
       colorCount: MAX_HIGHLIGHT_CNT
     };
     this.viewUtils = this.cy.viewUtilities(options);
+  }
+
+  private bindComponentSelector() {
+    let isSelectionLocked: boolean = false;
+
+    this.cy.on('taphold', 'node', (e) => {
+      if (!e.originalEvent.shiftKey) {
+        return;
+      }
+      e.target.component().select();
+      // it selects current node again to prevent that, disable selection until next tap event
+      this.cy.autounselectify(true);
+      isSelectionLocked = true;
+    });
+
+    this.cy.on('free', 'node', () => {
+      if (!isSelectionLocked) {
+        return;
+      }
+      // wait to prevent unselect clicked node, after tapend 
+      setTimeout(() => {
+        this.cy.autounselectify(false);
+        isSelectionLocked = false;
+      }, 100);
+    });
   }
 
   getHighlightStyles(): any[] {
@@ -250,6 +277,7 @@ export class SharedService {
     if (!ele) {
       return;
     }
+    this.isLoading.next(true);
     this._tgApi.getNeighborsOfNode(this.loadGraph.bind(this), ele);
   }
 
@@ -327,19 +355,23 @@ export class SharedService {
   collapseCompoundEdges(edges2collapse?: any) {
     if (!edges2collapse) {
       edges2collapse = this.cy.edges(':visible');
+    } else {
+      edges2collapse = edges2collapse.filter('[^originalEnds]'); // do not collapse meta-edges
+      this.expandCollapseApi.collapseEdges(edges2collapse);
+      return;
     }
     edges2collapse = edges2collapse.filter('[^originalEnds]'); // do not collapse meta-edges
     let sourceTargetPairs = {};
-    let isCollapseBasedOnType = false;
-    let edgeCollapseLimit = 2;
+    // let isCollapseBasedOnType = false;
+    let edgeCollapseLimit = 1;
     for (let i = 0; i < edges2collapse.length; i++) {
       let e = edges2collapse[i];
       const s = e.data('source');
       const t = e.data('target');
       let edgeId = s + t;
-      if (isCollapseBasedOnType) {
-        edgeId = e.classes()[0] + s + t;
-      }
+      // if (isCollapseBasedOnType) {
+      //   edgeId = e.classes()[0] + s + t;
+      // }
       if (!sourceTargetPairs[edgeId]) {
         sourceTargetPairs[edgeId] = { cnt: 1, s: s, t: t };
       } else {
@@ -401,7 +433,9 @@ export class SharedService {
       console.log('error in graph response: ', resp);
       return;
     }
-
+    const currHiglightIdx = this.appConf.currHighlightIdx.getValue();
+    this.viewUtils.removeHighlights();
+    this.isRandomizedLayout = this.cy.$().length < 1;
     const node_ids = {};
     // add nodes
     for (const node of resp.nodes) {
@@ -413,7 +447,10 @@ export class SharedService {
         continue;
       }
       node_ids[node.v_id] = true;
-      this.cy.add({ data: node.attributes, classes: node.v_type })
+      this.cy.add({ data: node.attributes, classes: node.v_type });
+      if (!this.isRandomizedLayout) {
+        this.viewUtils.highlight(this.cy.$id(node.attributes.id), currHiglightIdx);
+      }
     }
 
     for (const edge of resp.edges) {
@@ -430,8 +467,12 @@ export class SharedService {
         continue;
       }
       this.cy.add({ data: edge.attributes, classes: edge.e_type });
+      if (!this.isRandomizedLayout) {
+        this.viewUtils.highlight(this.cy.$id(edge.attributes.id), currHiglightIdx);
+      }
     }
 
+    this.isLoading.next(false);
     this.performLayout();
   }
 

@@ -138,6 +138,7 @@ export class AppComponent implements OnInit {
     });
   }
 
+  @HostListener('document:keydown.delete', ['$event'])
   deleteSelected() {
     this._s.deleteSelected();
   }
@@ -212,8 +213,19 @@ export class AppComponent implements OnInit {
   }
 
   showObjProps(isSelectEvent: boolean) {
-    const selected = this._s.cy.$(':selected').not('.' + COMPOUND_CLASS);
-    if (isSelectEvent && selected && selected.length == 1) {
+    const selected = this._s.cy.$(':selected');
+    const compounds = selected.filter('.' + COMPOUND_CLASS);
+    const collapsedEdge = selected.filter('.cy-expand-collapse-collapsed-edge');
+    if (compounds.length > 0) {
+      if (compounds.hasClass('cy-expand-collapse-collapsed-node')) {
+        this.showAsTable(compounds.data('collapsedChildren'));
+      } else {
+        this.showAsTable(compounds.children());
+      }
+    } else if (collapsedEdge.length > 0) {
+      this.showAsTable(collapsedEdge.data('collapsedEdges'));
+    }
+    else if (isSelectEvent && selected && selected.length == 1) {
       this.objPropHeader = selected.classes()[0];
       this.isShowObjectProperties.next(true);
     }

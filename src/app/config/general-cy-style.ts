@@ -76,5 +76,19 @@ export const GENERAL_CY_STYLE: any =
         "font-size": "9px"
       }
     },
+    {
+      selector: "edge.cy-expand-collapse-collapsed-edge",
+      style: {
+        "font-size": "7px",
+        "line-style": "dotted",
+        "curve-style": "bezier",
+        "line-fill": "linear-gradient",
+        "line-gradient-stop-colors": "#e0f7fa #006064",
+        "line-gradient-stop-positions": "0 50 100",
+        "target-arrow-shape": "triangle",
+        "target-arrow-color": "#006064",
+        "text-rotation": "autorotate"
+      }
+    },
   ];
 
