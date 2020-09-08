@@ -1,7 +1,5 @@
 <input #fileInp type="file" (change)="fileSelected()" accept="text/*, .json, .vall" style="display: none;" />
 
-
-
 <div class="root">
 
   <app-draggable-div [isShow]="isShowDatabaseQuery" [header]="'Run GSQL'" [component]="dbQueryComp">
@@ -14,7 +12,7 @@
   </app-draggable-div>
 
   <mat-toolbar>
-    <span>Graph Imager</span>
+    <span>Davraz</span>
     <button mat-button [matMenuTriggerFor]="file">File<mat-icon>arrow_drop_down</mat-icon></button>
     <mat-menu #file="matMenu">
       <button (click)="loadGraphFromFile()" mat-menu-item>Load</button>
