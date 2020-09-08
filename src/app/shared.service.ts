@@ -88,6 +88,7 @@ export class SharedService {
     this.cy.on('mouseover mouseout', 'node, edge', fn3);
 
     this.bindComponentSelector();
+    this.addFnStyles();
   }
 
   private runLayout(algoName: string = null): void {
@@ -230,7 +231,7 @@ export class SharedService {
       {
         id: 'collapseEdge',
         content: 'Collapse',
-        selector: 'edge[^collapsedEdges][^originalEnds]',
+        selector: 'edge',
         onClickFunction: (e) => {
           const ele = e.target || e.cyTarget;
           if (!ele) {
@@ -358,7 +359,6 @@ export class SharedService {
     if (!edges2collapse) {
       edges2collapse = this.cy.edges(':visible');
     } else {
-      edges2collapse = edges2collapse.filter('[^originalEnds]'); // do not collapse meta-edges
       this.expandCollapseApi.collapseEdges(edges2collapse);
       return;
     }
@@ -498,8 +498,49 @@ export class SharedService {
   markovClustering() {
     let clusters = this.cy.$(':visible').markovClustering({ attributes: [() => { return 1; }] });
     for (let i = 0; i < clusters.length; i++) {
-      this.addParentNode(i);
-      clusters[i].move({ parent: 'c' + i });
+      this.addParentNode('_markov' + i);
+      clusters[i].move({ parent: 'c' + '_markov' + i });
+    }
+  }
+
+  degree1Clustering() {
+    const node2node = {};
+    const edges = this.cy.edges(':visible');
+    for (let i = 0; i < edges.length; i++) {
+      const src = edges[i].source().id();
+      const tgt = edges[i].target().id();
+      if (src == tgt) {
+        continue;
+      }
+      if (node2node[src]) {
+        node2node[src].push(tgt);
+      } else {
+        node2node[src] = [tgt];
+      }
+      if (node2node[tgt]) {
+        node2node[tgt].push(src);
+      } else {
+        node2node[tgt] = [src];
+      }
+    }
+    let cntCluster = 0;
+
+    for (let k in node2node) {
+      const neighbors = node2node[k]
+      if (neighbors.length > 10) {
+        const cluster = [];
+        for (const nei of neighbors) {
+          if (node2node[nei].length == 1) {
+            cluster.push(this.cy.$id(nei));
+          }
+        }
+        if (cluster.length >= 10) {
+          this.addParentNode('_deg1' + cntCluster);
+          for (const node of cluster) {
+            node.move({ parent: 'c' + '_deg1' + cntCluster });
+          }
+        }
+      }
     }
   }
 
@@ -531,6 +572,19 @@ export class SharedService {
       this.graphHistory.push(g);
       this.addNewGraphHistoryItem.next(true);
     }, 1000);
+  }
+
+  private addFnStyles() {
+    this.cy.style().selector('edge.' + COLLAPSED_EDGE_CLASS)
+      .style({
+        'label': (e) => {
+          return '(' + e.data('collapsedEdges').length + ')';
+        },
+        'width': (e) => {
+          let n = e.data('collapsedEdges').length;
+          return (3 + Math.log2(n)) + 'px';
+        },
+      }).update();
   }
 
   private endlessOpacityAnim() {

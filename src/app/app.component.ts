@@ -226,16 +226,9 @@ export class AppComponent implements OnInit {
   }
 
   showObjProps(isSelectEvent: boolean) {
-    const selected = this._s.cy.$(':selected');
-    const compounds = selected.filter('.' + COMPOUND_CLASS);
+    const selected = this._s.cy.$(':selected').not('.' + COMPOUND_CLASS);
     const collapsedEdge = selected.filter('.cy-expand-collapse-collapsed-edge');
-    if (compounds.length > 0) {
-      if (compounds.hasClass('cy-expand-collapse-collapsed-node')) {
-        this.showAsTable(compounds.data('collapsedChildren'));
-      } else {
-        this.showAsTable(compounds.children());
-      }
-    } else if (collapsedEdge.length > 0) {
+    if (collapsedEdge.length > 0) {
       this.showAsTable(collapsedEdge.data('collapsedEdges'));
     }
     else if (isSelectEvent && selected && selected.length == 1) {
@@ -282,6 +275,11 @@ export class AppComponent implements OnInit {
   markovClustering() {
     this._s.markovClustering();
     this._s.add2GraphHistory('apply markov clustering');
+  }
+
+  degree1Clustering() {
+    this._s.degree1Clustering();
+    this._s.add2GraphHistory('degree-1 clustering');
   }
 
   randomizedLayout() {

@@ -102,14 +102,17 @@
       </mat-menu>
     </mat-menu>
 
+    <button mat-button [matMenuTriggerFor]="cluster">Cluster<mat-icon>arrow_drop_down</mat-icon></button>
+    <mat-menu #cluster="matMenu">
+      <button (click)="markovClustering()" mat-menu-item>Markov Clustering</button>
+      <button (click)="degree1Clustering()" mat-menu-item>Cluster degree-1 nodes</button>
+    </mat-menu>
+
     <button mat-icon-button (click)="showDbQuery()" title="Interpretted GSQL Query">
       <mat-icon>code</mat-icon>
     </button>
     <button mat-icon-button (click)="openDbConfigDialog()" title="Settings">
       <mat-icon>settings</mat-icon>
-    </button>
-    <button mat-icon-button (click)="markovClustering()" title="Markov Clustering">
-      <mat-icon>group_work</mat-icon>
     </button>
 
   </mat-toolbar>
