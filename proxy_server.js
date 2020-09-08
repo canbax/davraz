@@ -20,14 +20,6 @@ function readDbConfig() {
   return data;
 }
 
-function writeDbConfig(key, val) {
-  const data = JSON.parse(fs.readFileSync(CONFIG_FILE));
-  data[key] = val;
-  fs.writeFileSync(CONFIG_FILE, JSON.stringify(data));
-  return data;
-}
-
-
 // set necessary configurations for the database
 app.get('/getdbconfig', async (req, res) => {
   res.write(JSON.stringify(readDbConfig()));
