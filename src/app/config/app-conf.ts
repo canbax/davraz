@@ -21,5 +21,5 @@ export const APP_CONF = {
   "sampleDataNodeCount": 3,
   "sampleDataEdgeCount": 2,
   "currLayout": "fcose",
-  "graphHistoryLimit": 10
+  "graphHistoryLimit": 25
 }

@@ -144,18 +144,22 @@ export class AppComponent implements OnInit {
   @HostListener('document:keydown.delete', ['$event'])
   deleteSelected() {
     this._s.deleteSelected();
+    this._s.add2GraphHistory('selected deleted');
   }
 
   deleteUnselected() {
     this._s.deleteUnselected();
+    this._s.add2GraphHistory('unselected deleted');
   }
 
   hideSelected() {
     this._s.hideSelected();
+    this._s.add2GraphHistory('selected hidden');
   }
 
   hideUnselected() {
     this._s.hideUnselected();
+    this._s.add2GraphHistory('unselected hidden');
   }
 
   showAll() {
@@ -186,6 +190,7 @@ export class AppComponent implements OnInit {
         this._s.viewUtils.highlight(elems[i], this._s.appConf.currHighlightIdx.getValue());
       }
     }
+    this._s.add2GraphHistory('highlighted based on text');
   }
 
   @HostListener('document:keydown.escape', ['$event'])
@@ -197,22 +202,27 @@ export class AppComponent implements OnInit {
 
   highlightSelected() {
     this._s.viewUtils.highlight(this._s.cy.$(':selected'), this._s.appConf.currHighlightIdx.getValue());
+    this._s.add2GraphHistory('highlight selected');
   }
 
   highlightUnselected() {
     this._s.viewUtils.highlight(this._s.cy.$(':unselected'), this._s.appConf.currHighlightIdx.getValue());
+    this._s.add2GraphHistory('highlight unselected');
   }
 
   removeHighlight4Selected() {
     this._s.viewUtils.removeHighlights(this._s.cy.$(':selected'), this._s.appConf.currHighlightIdx.getValue());
+    this._s.add2GraphHistory('remove highlight for selected');
   }
 
   removeHighlight4Unselected() {
     this._s.viewUtils.removeHighlights(this._s.cy.$(':unselected'), this._s.appConf.currHighlightIdx.getValue());
+    this._s.add2GraphHistory('remove highlight for unselected');
   }
 
   removeHighlights() {
     this._s.viewUtils.removeHighlights();
+    this._s.add2GraphHistory('remove highlights');
   }
 
   showObjProps(isSelectEvent: boolean) {
@@ -236,34 +246,42 @@ export class AppComponent implements OnInit {
 
   addCompound4Selected() {
     this._s.addCompound4Selected();
+    this._s.add2GraphHistory('add compound for selected');
   }
 
   removeCompound4Selected() {
     this._s.removeCompound4Selected();
+    this._s.add2GraphHistory('remove compound for selected');
   }
 
   removeCompoundNodes() {
     this._s.removeCompoundNodes();
+    this._s.add2GraphHistory('remove compound nodes');
   }
 
   collapseCompoundNodes() {
     this._s.collapseCompoundNodes();
+    this._s.add2GraphHistory('collapse compound nodes');
   }
 
   collapseCompoundEdges() {
     this._s.collapseCompoundEdges();
+    this._s.add2GraphHistory('collapse compound edges');
   }
 
   expandCompoundNodes() {
     this._s.expandCompoundNodes();
+    this._s.add2GraphHistory('expand compound nodes');
   }
 
   expandCompoundEdges() {
     this._s.expandCompoundEdges();
+    this._s.add2GraphHistory('expand compound edges');
   }
 
   markovClustering() {
     this._s.markovClustering();
+    this._s.add2GraphHistory('apply markov clustering');
   }
 
   randomizedLayout() {
