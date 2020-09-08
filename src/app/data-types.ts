@@ -64,6 +64,7 @@ export interface AppConfig {
   isIgnoreCaseInText: BehaviorSubject<boolean>;
   sampleDataNodeCount: BehaviorSubject<number>;
   sampleDataEdgeCount: BehaviorSubject<number>;
+  graphHistoryLimit: BehaviorSubject<number>;
   currLayout: BehaviorSubject<string>;
 }
 
@@ -89,4 +90,10 @@ export interface TableData {
 export interface InstalledDbQuery {
   name: string;
   params: { name: string, desc: string, inp: string, obj: any }[];
+}
+
+export interface GraphHistoryItem {
+  expo: string;
+  base64png: string;
+  json: any;
 }

@@ -31,6 +31,7 @@ import { ObjectPropertiesComponent } from './object-properties/object-properties
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TableViewComponent } from './table-view/table-view.component';
 import { DraggableDivComponent } from './draggable-div/draggable-div.component';
+import { GraphHistoryComponent } from './graph-history/graph-history.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { DraggableDivComponent } from './draggable-div/draggable-div.component';
     SavePngDialogComponent,
     ObjectPropertiesComponent,
     TableViewComponent,
-    DraggableDivComponent
+    DraggableDivComponent,
+    GraphHistoryComponent
   ],
   imports: [
     BrowserModule,

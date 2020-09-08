@@ -14,7 +14,7 @@ import viewUtilities from 'cytoscape-view-utilities';
 import contextMenus from 'cytoscape-context-menus';
 
 import { Layout, LAYOUT_ANIM_DUR, expandCollapseCuePosition, EXPAND_COLLAPSE_CUE_SIZE, debounce, MAX_HIGHLIGHT_CNT, deepCopy, COLLAPSED_EDGE_CLASS, COMPOUND_CLASS, COLLAPSED_NODE_CLASS, OBJ_INFO_UPDATE_DELAY, isPrimitiveType } from './constants';
-import { AppConfig, GraphResponse, NodeResponse, InterprettedQueryResult, TableData, isNodeResponse, isEdgeResponse, EdgeResponse } from './data-types';
+import { AppConfig, GraphResponse, NodeResponse, InterprettedQueryResult, TableData, isNodeResponse, isEdgeResponse, EdgeResponse, GraphHistoryItem } from './data-types';
 import { Subject, BehaviorSubject } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
@@ -40,6 +40,8 @@ export class SharedService {
   elemHoverChanged: Subject<any> = new Subject();
   tableData: Subject<TableData> = new Subject();
   elems2highlight = null;
+  graphHistory: GraphHistoryItem[] = [];
+  addNewGraphHistoryItem = new BehaviorSubject<boolean>(false);
 
   constructor(public dialog: MatDialog, private _tgApi: TigerGraphApiClientService, private _settings: SettingsService) {
     let isGraphEmpty = () => { return this.cy.elements().not(':hidden, :transparent').length > 0 };
@@ -278,7 +280,7 @@ export class SharedService {
       return;
     }
     this.isLoading.next(true);
-    this._tgApi.getNeighborsOfNode(this.loadGraph.bind(this), ele);
+    this._tgApi.getNeighborsOfNode((x) => { this.loadGraph(x); this.add2GraphHistory('get neighbors of node'); }, ele);
   }
 
   selectAllThisType(event) {
@@ -436,6 +438,7 @@ export class SharedService {
     const currHiglightIdx = this.appConf.currHighlightIdx.getValue();
     this.viewUtils.removeHighlights();
     this.isRandomizedLayout = this.cy.$().length < 1;
+    let isAddedNew = false;
     const node_ids = {};
     // add nodes
     for (const node of resp.nodes) {
@@ -451,6 +454,7 @@ export class SharedService {
       if (!this.isRandomizedLayout) {
         this.viewUtils.highlight(this.cy.$id(node.attributes.id), currHiglightIdx);
       }
+      isAddedNew = true;
     }
 
     for (const edge of resp.edges) {
@@ -470,10 +474,13 @@ export class SharedService {
       if (!this.isRandomizedLayout) {
         this.viewUtils.highlight(this.cy.$id(edge.attributes.id), currHiglightIdx);
       }
+      isAddedNew = true;
     }
 
     this.isLoading.next(false);
-    this.performLayout();
+    if (isAddedNew) {
+      this.performLayout();
+    }
   }
 
   loadGraph4InstalledQuery(x) {
@@ -505,6 +512,25 @@ export class SharedService {
       this.elems2highlight = e.neighborhood().union(e);
     }
     this.endlessOpacityAnim();
+  }
+
+  add2GraphHistory(expo: string) {
+    setTimeout(() => {
+      if (this.graphHistory.length > this.appConf.graphHistoryLimit.getValue() - 1) {
+        this.graphHistory.splice(0, 1);
+      }
+      const options = { bg: 'white', scale: 3, full: true };
+      const base64png: string = this.cy.png(options);
+      const elements = this.cy.json().elements;
+
+      let g: GraphHistoryItem = {
+        expo: expo,
+        base64png: base64png,
+        json: elements
+      };
+      this.graphHistory.push(g);
+      this.addNewGraphHistoryItem.next(true);
+    }, 1000);
   }
 
   private endlessOpacityAnim() {

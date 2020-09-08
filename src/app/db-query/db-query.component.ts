@@ -48,7 +48,10 @@ export class DbQueryComponent implements OnInit {
   }
 
   runQuery() {
-    this._tgApi.runInterprettedQuery(this.gsql, (x) => { this._s.loadGraph({ nodes: x.results[0].results, edges: [] }) });
+    this._tgApi.runInterprettedQuery(this.gsql, (x) => {
+      this._s.loadGraph({ nodes: x.results[0].results, edges: [] });
+      this._s.add2GraphHistory('run interpretted query');
+    });
   }
 
   saveQuery() {
@@ -79,6 +82,7 @@ export class DbQueryComponent implements OnInit {
     }
     this._tgApi.query((x) => {
       this._s.loadGraph4InstalledQuery(x);
+      this._s.add2GraphHistory('installed query');
       this.rawInstalledQueryResponse = JSON.stringify(x, null, 4);
       for (let i = 0; i < this.currInstalledQuery.params.length; i++) {
         const obj = this.currInstalledQuery.params[i].obj;

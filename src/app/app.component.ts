@@ -9,6 +9,7 @@ import { SavePngDialogComponent } from './save-png-dialog/save-png-dialog.compon
 import { DbQueryComponent } from './db-query/db-query.component';
 import { ObjectPropertiesComponent } from './object-properties/object-properties.component';
 import { TableViewComponent } from './table-view/table-view.component';
+import { GraphHistoryComponent } from './graph-history/graph-history.component';
 
 @Component({
   selector: 'app-root',
@@ -21,6 +22,7 @@ export class AppComponent implements OnInit {
   isShowDatabaseQuery = new Subject<boolean>();
   isShowObjectProperties = new Subject<boolean>();
   isShowTableView = new Subject<boolean>();
+  isShowGraphHistory = new Subject<boolean>();
   @ViewChild('fileInp', { static: false }) fileInp;
   @ViewChild('searchInp', { static: false }) searchInp;
   isShowSearchInp = false;
@@ -31,6 +33,7 @@ export class AppComponent implements OnInit {
   dbQueryComp = DbQueryComponent;
   objPropComp = ObjectPropertiesComponent;
   tableComp = TableViewComponent;
+  graphHistoryComp = GraphHistoryComponent;
   existingTypes: string[] = [];
   layoutAlgos: string[] = [];
 
@@ -65,7 +68,7 @@ export class AppComponent implements OnInit {
     const n1 = this._s.appConf.sampleDataNodeCount.getValue();
     const n2 = this._s.appConf.sampleDataEdgeCount.getValue();
     this._s.isLoading.next(true);
-    this._tgApi.sampleData(x => { this._s.loadGraph(x); this._s.isLoading.next(false); }, n1, n2);
+    this._tgApi.sampleData(x => { this._s.loadGraph(x); this._s.isLoading.next(false); this._s.add2GraphHistory('Load sample data'); }, n1, n2);
   }
 
   showDbQuery() {
@@ -326,6 +329,10 @@ export class AppComponent implements OnInit {
 
   showTypeOfObjAsTable(t: string) {
     this.showAsTable(this._s.cy.$('.' + t).filter(':visible'));
+  }
+
+  showGraphHistory() {
+    this.isShowGraphHistory.next(true);
   }
 
   private str2file(str: string, fileName: string) {

@@ -1,0 +1,23 @@
+.std-icon {
+  width: 16px;
+}
+
+.img-bg {
+  z-index: 1000;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0px;
+  left: 0px;
+  background-color: lightgray;
+  opacity: 0.9;
+}
+
+.popped-img {
+  height: 250px;
+  width: auto;
+}
+
+.active {
+  background: #BFBFBF
+}

@@ -10,6 +10,8 @@
   </app-draggable-div>
   <app-draggable-div [isShow]="isShowTableView" [header]="tableHeader" [component]="tableComp">
   </app-draggable-div>
+  <app-draggable-div [isShow]="isShowGraphHistory" [header]="'Graph History'" [component]="graphHistoryComp">
+  </app-draggable-div>
 
   <mat-toolbar>
     <span>Graph Imager</span>
@@ -28,6 +30,7 @@
       <button (click)="hideSelected()" mat-menu-item>Hide Selected</button>
       <button (click)="hideUnselected()" mat-menu-item>Hide Unselected</button>
       <button (click)="showAll()" mat-menu-item>Show All</button>
+      <button (click)="showGraphHistory()" mat-menu-item>Show Graph History</button>
     </mat-menu>
 
     <button mat-button [matMenuTriggerFor]="data">Data<mat-icon>arrow_drop_down</mat-icon></button>

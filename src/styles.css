@@ -71,3 +71,9 @@ app-draggable-div {
   border-radius: .25rem !important;
   z-index: 1003;
 }
+
+.sm-btn {
+  min-width: fit-content;
+  padding: 3px;
+  line-height: 12px;
+}
