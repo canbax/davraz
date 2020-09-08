@@ -44,4 +44,7 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# files depend on data
 db-config.json
+cy-style.ts
