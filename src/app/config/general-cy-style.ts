@@ -29,6 +29,7 @@ export const GENERAL_CY_STYLE: any =
     {
       selector: "node.hover",
       style: {
+        "background-opacity": 1,
         "background-fill": "radial-gradient",
         "background-gradient-stop-colors": "#e0f7fa #18ffff",
         "background-gradient-stop-positions": "0 50 100",
