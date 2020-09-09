@@ -1,6 +1,11 @@
 # Davraz
 
-A graph visualization and exploration tool. Firstly designed for tiger graph database, might support other graph databases in the feature.
+A graph visualization and exploration tool. Firstly designed for tiger graph database, might support other graph databases in the feature. Check the [introductory video](https://www.youtube.com/watch?v=I8BgFve4sA8)
+
+1. To visualize a tiger graph database fill [db-config.json](db-config.json) file. You should fill everything except for `token` and `tokenExpire` fields.
+2. Run `node proxy_server.js` to run proxt server
+3. Run `npm run ng s` to run in development mode.
+4. Open http://localhost:4200 if everything is OK, `Data>Sample Data` should bring some data from your Tiger Graph Database. 
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.4.
 
