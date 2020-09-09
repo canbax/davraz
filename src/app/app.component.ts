@@ -193,6 +193,18 @@ export class AppComponent implements OnInit {
     this._s.add2GraphHistory('highlighted based on text');
   }
 
+  @HostListener('document:keydown.control.a', ['$event'])
+  selectAllHotKeyFn(event: KeyboardEvent) {
+    const activeElement = document.activeElement as any;
+    if ((activeElement.tagName == 'INPUT' && activeElement.value && activeElement.value.length > 0) || activeElement.tagName == 'TEXTAREA') {
+      return;
+    }
+    event.preventDefault();
+    if (event.ctrlKey) {
+      this._s.cy.$().not(':hidden, :transparent').select();
+    }
+  }
+
   @HostListener('document:keydown.escape', ['$event'])
   closeSearchInp() {
     if (this.isShowSearchInp && this.searchTxt) {
