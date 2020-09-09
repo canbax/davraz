@@ -322,7 +322,8 @@ export class SharedService {
     for (let i = 0; i < elems.length; i++) {
       elems[i].move({ parent: 'c' + id });
     }
-    this.performLayout(false);
+    this.isRandomizedLayout = false;
+    this.performLayout();
   }
 
   removeCompound4Selected(elems = null) {
@@ -342,7 +343,8 @@ export class SharedService {
       children.move({ parent: grandParent });
       this.cy.remove(elems[i]);
     }
-    this.performLayout(false);
+    this.isRandomizedLayout = false;
+    this.performLayout();
   }
 
   removeCompoundNodes() {

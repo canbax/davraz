@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfigDialogComponent } from './config-dialog/config-dialog.component';
 import { Subject } from 'rxjs';
 import { SharedService } from './shared.service';
-import { readTxtFile, obj2str, COMPOUND_CLASS, Layout } from './constants';
+import { readTxtFile, obj2str, COMPOUND_CLASS, Layout, COLLAPSED_EDGE_CLASS } from './constants';
 import { SavePngDialogComponent } from './save-png-dialog/save-png-dialog.component';
 import { DbQueryComponent } from './db-query/db-query.component';
 import { ObjectPropertiesComponent } from './object-properties/object-properties.component';
@@ -237,7 +237,7 @@ export class AppComponent implements OnInit {
 
   showObjProps(isSelectEvent: boolean) {
     const selected = this._s.cy.$(':selected').not('.' + COMPOUND_CLASS);
-    const collapsedEdge = selected.filter('.cy-expand-collapse-collapsed-edge');
+    const collapsedEdge = selected.filter('.' + COLLAPSED_EDGE_CLASS);
     if (collapsedEdge.length > 0) {
       this.showAsTable(collapsedEdge.data('collapsedEdges'));
     }
@@ -324,7 +324,9 @@ export class AppComponent implements OnInit {
       this.tableHeader = 'Multiple Types of Objects';
       cols = ['properties'];
       for (let i = 0; i < elems.length; i++) {
-        data.push({ properties: JSON.stringify(elems[i].data()) });
+        if (!elems[i].hasClass(COMPOUND_CLASS) && !elems[i].hasClass(COLLAPSED_EDGE_CLASS)) {
+          data.push({ properties: JSON.stringify(elems[i].data()) });
+        }
       }
     } else {
       this.tableHeader = cNames.join();
