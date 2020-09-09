@@ -21,5 +21,6 @@ export const APP_CONF = {
   "sampleDataNodeCount": 3,
   "sampleDataEdgeCount": 2,
   "currLayout": "fcose",
-  "graphHistoryLimit": 25
+  "graphHistoryLimit": 25,
+  "server": "http://localhost:9000"
 }

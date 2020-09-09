@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SettingsService } from './settings.service';
-import { PROXY_URL } from './constants';
-import { DbConfig, InterprettedQueryResult, GraphResponse, NodeResponse, EdgeResponse, TigerGraphDbConfig, InstalledDbQuery } from './data-types';
+import { InterprettedQueryResult, GraphResponse, NodeResponse, EdgeResponse, TigerGraphDbConfig } from './data-types';
 import { combineLatest, Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
@@ -12,15 +11,18 @@ import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
 })
 export class TigerGraphApiClientService {
 
-  constructor(private _http: HttpClient, private _settings: SettingsService, public dialog: MatDialog) { }
+  url: string;
+  constructor(private _http: HttpClient, private _settings: SettingsService, public dialog: MatDialog) {
+    this.url = this._settings.getAppConfig().server.getValue();
+  }
 
-  getConfig(cb: (conf: DbConfig) => void) {
-    this._http.get(`${PROXY_URL}/getdbconfig`)
-      .subscribe(x => { cb(x as DbConfig) });
+  getConfig(cb: (conf: TigerGraphDbConfig) => void) {
+    this._http.get(`${this.url}/getdbconfig`)
+      .subscribe(x => { cb(x as TigerGraphDbConfig) });
   }
 
   setConfig(config: TigerGraphDbConfig, cb) {
-    this._http.post(`${PROXY_URL}/setdbconfig`, config, { headers: { 'Content-Type': 'application/json' } }).subscribe(x => {
+    this._http.post(`${this.url}/setdbconfig`, config, { headers: { 'Content-Type': 'application/json' } }).subscribe(x => {
       if (x['error']) {
         const dialogRef = this.dialog.open(ErrorDialogComponent);
         dialogRef.componentInstance.title = 'Error on http request';
@@ -35,7 +37,7 @@ export class TigerGraphApiClientService {
   }
 
   refreshToken(secret, cb) {
-    this._http.get(`${PROXY_URL}/requesttoken?secret=${secret}`)
+    this._http.get(`${this.url}/requesttoken?secret=${secret}`)
       .subscribe(x => {
         if (x['error']) {
           const dialogRef = this.dialog.open(ErrorDialogComponent);
@@ -60,7 +62,7 @@ export class TigerGraphApiClientService {
   }
 
   runInterprettedQuery(q: string, cb: (r: InterprettedQueryResult) => void) {
-    this._http.post(`${PROXY_URL}/gsql`, { q: q },
+    this._http.post(`${this.url}/gsql`, { q: q },
       { headers: { 'Content-Type': 'application/json' } })
       .subscribe(x => { cb(x as InterprettedQueryResult); });
   }
@@ -70,7 +72,7 @@ export class TigerGraphApiClientService {
     let firstNodes: NodeResponse[] = [];
     const arr: Observable<Object>[] = [];
     for (const t of nodeTypes) {
-      const o = this._http.get(`${PROXY_URL}/samplenodes?cnt=${nodeCnt}&type=${t}`);
+      const o = this._http.get(`${this.url}/samplenodes?cnt=${nodeCnt}&type=${t}`);
       arr.push(o);
       o.subscribe(x => {
         firstNodes = firstNodes.concat((x as GraphResponse).nodes);
@@ -82,7 +84,10 @@ export class TigerGraphApiClientService {
     // after we get all the nodes get edges from these nodes
     combineLatest(arr).subscribe(() => {
       for (const n of firstNodes) {
-        const o = this._http.get(`${PROXY_URL}/edges4nodes?cnt=${edgeCnt}&src_type=${n.v_type}&id=${n.v_id}`);
+        if (n == null) {
+          continue;
+        }
+        const o = this._http.get(`${this.url}/edges4nodes?cnt=${edgeCnt}&src_type=${n.v_type}&id=${n.v_id}`);
         arr2.push(o);
         o.subscribe(x => {
           firstEdges = firstEdges.concat((x as GraphResponse).edges);
@@ -94,7 +99,7 @@ export class TigerGraphApiClientService {
       // get target nodes of the edges
       combineLatest(arr2).subscribe(() => {
         for (const e of firstEdges) {
-          const o = this._http.get(`${PROXY_URL}/nodes4edges?cnt=${nodeCnt}&type=${e.to_type}&id=${e.to_id}`);
+          const o = this._http.get(`${this.url}/nodes4edges?cnt=${nodeCnt}&type=${e.to_type}&id=${e.to_id}`);
           arr3.push(o);
           o.subscribe(x => {
             secondNodes = secondNodes.concat((x as GraphResponse).nodes);
@@ -110,7 +115,7 @@ export class TigerGraphApiClientService {
   }
 
   endPoints(cb: (r: InterprettedQueryResult) => void) {
-    this._http.get(`${PROXY_URL}/endpoints`).subscribe(x => { cb(x as InterprettedQueryResult) });
+    this._http.get(`${this.url}/endpoints`).subscribe(x => { cb(x as InterprettedQueryResult) });
   }
 
   getNeighborsOfNode(cb: (r: GraphResponse) => void, elem) {
@@ -118,12 +123,12 @@ export class TigerGraphApiClientService {
     const id = elem.id().substr(2);
     let edges: EdgeResponse[] = [];
     let nodes: NodeResponse[] = [];
-    this._http.get(`${PROXY_URL}/edges4nodes?cnt=1000&src_type=${t}&id=${id}`).subscribe(x => {
+    this._http.get(`${this.url}/edges4nodes?cnt=1000&src_type=${t}&id=${id}`).subscribe(x => {
       const resp = x as GraphResponse;
       const arr: Observable<Object>[] = [];
       edges = edges.concat(resp.edges);
       for (const e of resp.edges) {
-        const o = this._http.get(`${PROXY_URL}/nodes4edges?cnt=1000&type=${e.to_type}&id=${e.to_id}`);
+        const o = this._http.get(`${this.url}/nodes4edges?cnt=1000&type=${e.to_type}&id=${e.to_id}`);
         arr.push(o);
         o.subscribe(x2 => {
           nodes = nodes.concat((x2 as GraphResponse).nodes);
@@ -136,7 +141,7 @@ export class TigerGraphApiClientService {
   }
 
   query(cb, query: string, params: any[]) {
-    this._http.post(`${PROXY_URL}/query`, { query: query, params: params }, { headers: { 'Content-Type': 'application/json' } }).subscribe(x => {
+    this._http.post(`${this.url}/query`, { query: query, params: params }, { headers: { 'Content-Type': 'application/json' } }).subscribe(x => {
       if (x['error']) {
         const dialogRef = this.dialog.open(ErrorDialogComponent);
         dialogRef.componentInstance.title = 'Error on http request';
@@ -151,7 +156,7 @@ export class TigerGraphApiClientService {
   }
 
   getInstalledQueries(cb: (r: any[]) => void) {
-    this._http.get(`${PROXY_URL}/endpoints`).subscribe(x => {
+    this._http.get(`${this.url}/endpoints`).subscribe(x => {
       const keyNames4query = Object.keys(x).filter(x => x.includes('/query/'));
       // Object.keys(x).filter(x => x.includes('/query')).map(x => {const arr = x.split('/'); return arr[arr.length-1]} )
       let endPoints = keyNames4query.map(x => { const arr = x.split('/'); return arr[arr.length - 1] });

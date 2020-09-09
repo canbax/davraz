@@ -35,6 +35,7 @@ app.post('/setdbconfig', async (req, res) => {
   const secret = req.body.secret;
   const username = req.body.username;
   const password = req.body.password;
+  const graphName = req.body.graphName;
 
   if (url) {
     data.url = url;
@@ -53,6 +54,9 @@ app.post('/setdbconfig', async (req, res) => {
   }
   if (password) {
     data.password = password;
+  }
+  if (graphName) {
+    data.graphName = graphName;
   }
 
   fs.writeFileSync(CONFIG_FILE, JSON.stringify(data));
@@ -101,7 +105,7 @@ app.get('/sampledata', async (req, res) => {
   const nodeTypes = ['BusRide', 'TrainRide', 'Flight', 'FundsTransfer', 'PhoneCall', 'Person', 'HotelStay', 'Phone', 'BankAccount', 'CaseReport', 'Address'];
   let nodes = [];
   for (const t of nodeTypes) {
-    const url = conf.url + `/graph/connectivity/vertices/${t}?_api_=v2&limit=${nodeCnt}`;
+    const url = conf.url + `/graph/${conf.bName}/vertices/${t}?_api_=v2&limit=${nodeCnt}`;
     const { body } = await got(url, {
       headers: {
         'Authorization': 'Bearer ' + conf.token,
@@ -113,7 +117,7 @@ app.get('/sampledata', async (req, res) => {
 
   let edges = [];
   for (const node of nodes) {
-    const url = conf.url + `/graph/connectivity/edges?source_vertex_id=${node.v_id}&source_vertex_type=${node.v_type}&_api_=v2&limit=${edgeCnt}`;
+    const url = conf.url + `/graph/${conf.graphName}/edges?source_vertex_id=${node.v_id}&source_vertex_type=${node.v_type}&_api_=v2&limit=${edgeCnt}`;
     const { body } = await got(url, {
       headers: {
         'Authorization': 'Bearer ' + conf.token,
@@ -124,7 +128,7 @@ app.get('/sampledata', async (req, res) => {
   }
 
   for (const edge of edges) {
-    const url = conf.url + `/graph/connectivity/vertices?vertex_type=${edge.to_type}&vertex_id=${edge.to_id}&_api_=v2&limit=${nodeCnt}`;
+    const url = conf.url + `/graph/${conf.graphName}/vertices?vertex_type=${edge.to_type}&vertex_id=${edge.to_id}&_api_=v2&limit=${nodeCnt}`;
     const { body } = await got(url, {
       headers: {
         'Authorization': 'Bearer ' + conf.token,
@@ -144,7 +148,7 @@ app.get('/samplenodes', async (req, res) => {
   const type = req.query.type;
 
   let nodes = [];
-  const url = conf.url + `/graph/connectivity/vertices/${type}?_api_=v2&limit=${cnt}`;
+  const url = conf.url + `/graph/${conf.graphName}/vertices/${type}?_api_=v2&limit=${cnt}`;
   const { body } = await got(url, {
     headers: {
       'Authorization': 'Bearer ' + conf.token,
@@ -164,7 +168,7 @@ app.get('/edges4nodes', async (req, res) => {
   const src_type = req.query.src_type;
 
   let edges = [];
-  const url = conf.url + `/graph/connectivity/edges?source_vertex_id=${id}&source_vertex_type=${src_type}&_api_=v2&limit=${cnt}`;
+  const url = conf.url + `/graph/${conf.graphName}/edges?source_vertex_id=${id}&source_vertex_type=${src_type}&_api_=v2&limit=${cnt}`;
   const { body } = await got(url, {
     headers: {
       'Authorization': 'Bearer ' + conf.token,
@@ -184,7 +188,7 @@ app.get('/nodes4edges', async (req, res) => {
   const id = req.query.id;
 
   let nodes = [];
-  const url = conf.url + `/graph/connectivity/vertices?vertex_type=${type}&vertex_id=${id}&_api_=v2&limit=${cnt}`;
+  const url = conf.url + `/graph/${conf.graphName}/vertices?vertex_type=${type}&vertex_id=${id}&_api_=v2&limit=${cnt}`;
   const { body } = await got(url, {
     headers: {
       'Authorization': 'Bearer ' + conf.token,
@@ -208,7 +212,7 @@ app.post('/query', async (req, res) => {
   }
   s = s.slice(0, -1);
   let nodes = [];
-  const url = conf.url + `/query/connectivity/${q}?${s}`;
+  const url = conf.url + `/query/${conf.graphName}/${q}?${s}`;
   const { body } = await got(url, {
     headers: {
       'Authorization': 'Bearer ' + conf.token,

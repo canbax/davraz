@@ -37,6 +37,11 @@
         </button>
         <br>
         <mat-form-field>
+          <mat-label>Graph Name</mat-label>
+          <input matInput [(ngModel)]="dbConf.graphName" name="server">
+        </mat-form-field>
+        <br>
+        <mat-form-field>
           <mat-label>Database username</mat-label>
           <input matInput [(ngModel)]="dbConf.username" name="username">
         </mat-form-field>
@@ -44,6 +49,11 @@
         <mat-form-field>
           <mat-label>Database password</mat-label>
           <input matInput type="password" [(ngModel)]="dbConf.password" name="password">
+        </mat-form-field>
+        <br>
+        <mat-form-field class="full-width">
+          <mat-label>Proxy Server URL</mat-label>
+          <input matInput type="text" (change)="changeConfig('server')" name="proxy-server-url" [(ngModel)]="server">
         </mat-form-field>
       </form>
 

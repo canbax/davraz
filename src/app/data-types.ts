@@ -1,15 +1,6 @@
 import { BehaviorSubject } from 'rxjs';
 import { isPrimitiveType } from './constants';
 
-export interface DbConfig {
-  url: string;
-  secret: string;
-  token: string;
-  tokenExpire: number;
-  username: string;
-  password: string;
-}
-
 export interface InterprettedQueryResult {
   error: boolean;
   message: string;
@@ -66,6 +57,7 @@ export interface AppConfig {
   sampleDataEdgeCount: BehaviorSubject<number>;
   graphHistoryLimit: BehaviorSubject<number>;
   currLayout: BehaviorSubject<string>;
+  server: BehaviorSubject<string>;
 }
 
 export interface TigerGraphDbConfig {
@@ -75,6 +67,7 @@ export interface TigerGraphDbConfig {
   password: string;
   token: string;
   tokenExpire: number;
+  graphName: string;
 }
 
 export interface DbQuery {

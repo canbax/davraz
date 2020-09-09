@@ -13,13 +13,14 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class ConfigDialogComponent {
 
-  dbConf: TigerGraphDbConfig = { password: '', secret: '', token: '', tokenExpire: 0, url: '', username: '' };
+  dbConf: TigerGraphDbConfig = { password: '', secret: '', token: '', tokenExpire: 0, url: '', username: '', graphName: '' };
   tokenExpireDateStr = '';
   appConf: AppConfig;
   currHighlightStyle: { wid: number, color: string, name: string };
   currHighlightIdx: number;
   isIgnoreCaseInText: boolean;
   sampleDataNodeCount: number;
+  server: string;
   sampleDataEdgeCount: number;
   layoutOptions: string[];
   currLayout: string;
@@ -32,6 +33,7 @@ export class ConfigDialogComponent {
 
   saveDbConfig() {
     this._tgApi.setConfig(this.dbConf, null);
+    this.changeConfig('server');
   }
 
   refreshDbToken() {
@@ -51,6 +53,7 @@ export class ConfigDialogComponent {
     this.sampleDataNodeCount = this.appConf.sampleDataNodeCount.getValue();
     this.sampleDataEdgeCount = this.appConf.sampleDataEdgeCount.getValue();
     this.currLayout = this.appConf.currLayout.getValue();
+    this.server = this.appConf.server.getValue();
   }
 
   private syncDbConfig() {
@@ -61,6 +64,7 @@ export class ConfigDialogComponent {
       this.dbConf.password = dbConf.password;
       this.dbConf.token = dbConf.token;
       this.dbConf.tokenExpire = dbConf.tokenExpire;
+      this.dbConf.graphName = dbConf.graphName;
       this.tokenExpireDateStr = new Date(this.dbConf.tokenExpire * 1000).toDateString();
     });
   }

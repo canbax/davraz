@@ -1,5 +1,3 @@
-export const PROXY_URL = 'http://localhost:9000';
-
 export const OBJ_INFO_UPDATE_DELAY = 200;
 
 export const LAYOUT_ANIM_DUR = 500;
