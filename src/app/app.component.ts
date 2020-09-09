@@ -154,12 +154,10 @@ export class AppComponent implements OnInit {
 
   hideSelected() {
     this._s.hideSelected();
-    this._s.add2GraphHistory('selected hidden');
   }
 
   hideUnselected() {
     this._s.hideUnselected();
-    this._s.add2GraphHistory('unselected hidden');
   }
 
   showAll() {

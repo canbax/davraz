@@ -571,7 +571,7 @@ export class SharedService {
       };
       this.graphHistory.push(g);
       this.addNewGraphHistoryItem.next(true);
-    }, 1000);
+    }, 100);
   }
 
   private addFnStyles() {
