@@ -32,7 +32,7 @@
           <input matInput [(ngModel)]="dbConf.tokenExpire" name="tokenExpire">
         </mat-form-field>
         <span>&nbsp;{{tokenExpireDateStr}}&nbsp;</span>
-        <button class="p5" mat-icon-button (click)="refreshDbToken()">
+        <button class="p5" mat-icon-button title="Generate New Token" (click)="refreshDbToken()">
           <mat-icon>sync</mat-icon>
         </button>
         <br>
