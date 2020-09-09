@@ -11,8 +11,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## todo (or might todo)
 
-* context menu
-* raw query support
+* adding/updating graph elements 
 * client-side filterig with raw cytoscape.js
 * badges on the nodes
 * show statistics
