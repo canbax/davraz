@@ -3,7 +3,7 @@
 A graph visualization and exploration tool. Firstly designed for tiger graph database, might support other graph databases in the feature. Check the [introductory video](https://www.youtube.com/watch?v=I8BgFve4sA8)
 
 1. To visualize a tiger graph database, fill [db-config.json](db-config.json) file. You should fill everything except for `token` and `tokenExpire` fields.
-2. Run `node proxy_server.js` to run proxy server
+2. Run `node proxy_server.js` to run proxy server. Proxy server makes HTTP request to Tiger Graph REST API and passes responses to the client-side.
 3. Run `npm run ng s` to run angular in development mode.
 4. Open http://localhost:4200 if everything is OK, `Data>Sample Data` should bring some data from your Tiger Graph Database. 
 
