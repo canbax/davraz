@@ -2,12 +2,22 @@
 
 A graph visualization and exploration tool. Firstly designed for tiger graph database, might support other graph databases in the feature. Check the [introductory video](https://www.youtube.com/watch?v=I8BgFve4sA8)
 
-1. To visualize a tiger graph database fill [db-config.json](db-config.json) file. You should fill everything except for `token` and `tokenExpire` fields.
-2. Run `node proxy_server.js` to run proxt server
-3. Run `npm run ng s` to run in development mode.
+1. To visualize a tiger graph database, fill [db-config.json](db-config.json) file. You should fill everything except for `token` and `tokenExpire` fields.
+2. Run `node proxy_server.js` to run proxy server
+3. Run `npm run ng s` to run angular in development mode.
 4. Open http://localhost:4200 if everything is OK, `Data>Sample Data` should bring some data from your Tiger Graph Database. 
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.4.
+
+## todo (or might todo)
+
+* context menu
+* raw query support
+* client-side filterig with raw cytoscape.js
+* badges on the nodes
+* show statistics
+* graph theoretical properties
+* support for Neo4j
 
 ## Development server
 
@@ -32,20 +42,3 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
-
-## todo (or might todo)
-
-* clustering (markov clustering and custom easy clustering for nodes with too many children)
-* context menu
-* raw query support
-* loading spinner
-* better sample data
-* custom cytoscape.js styles
-* client-side filterig with raw cytoscape.js
-* badges on the nodes
-* view utilities hightlighting
-* show obj properties on click
-* show statistics
-* table view
-* graph theoretical properties
-* run tiger graph query and visualize results
