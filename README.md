@@ -7,7 +7,8 @@ A graph visualization and exploration tool. Firstly designed for tiger graph dat
 3. Run `npm i` and run `npm run ng s` to run angular in development mode.
 4. Open http://localhost:4200 if everything is OK, `Data>Sample Data` should bring some data from your Tiger Graph Database. 
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.4.
+## YAAAY!
+This project got a 1st Place Reward in [TigerGraph 2020 Graphathon](https://devpost.com/software/graphex)
 
 ## todo (or might todo)
 
@@ -17,6 +18,8 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 * show statistics
 * graph theoretical properties
 * support for Neo4j
+
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.4.
 
 ## Development server
 
