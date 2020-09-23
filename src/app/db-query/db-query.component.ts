@@ -45,6 +45,8 @@ export class DbQueryComponent implements OnInit {
         this.installedQueries.push(obj);
       }
     });
+
+    this.loadQuery(this.queries[0]);
   }
 
   runQuery() {
