@@ -609,7 +609,7 @@ export const deepCopy = <T>(target: T): T => {
 };
 
 // https://www.w3schools.com/howto/howto_js_draggable.asp
-export function makeElemDraggable(elem: HTMLElement, dragHandle: HTMLElement) {
+export function makeElemDraggable(elem: HTMLElement, dragHandle: HTMLElement, onDrag) {
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
   dragHandle.onmousedown = dragMouseDown;
 
@@ -649,6 +649,9 @@ export function makeElemDraggable(elem: HTMLElement, dragHandle: HTMLElement) {
     elem.style.top = newTop + "px";
     elem.style.left = (elem.offsetLeft - pos1) + "px";
     elem.style.zIndex = '1002';
+    if (onDrag) {
+      onDrag();
+    }
   }
 
   function closeDragElement() {

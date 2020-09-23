@@ -16,7 +16,13 @@ export class DraggableDivComponent implements OnInit {
   @ViewChild('moverElem', { static: false }) moverElem;
   _isShow = false;
   position = { top: '0px', left: '0px' };
+  isFullView = false;
+  prevPosition = { top: '0px', left: '0px' };
   currSize: { width: string, height: string } = { width: '500px', height: '600px' };
+  prevSize: { width: string, height: string } = { width: '500px', height: '600px' };
+  isNewlyMinized = false;
+  readonly maxWid = (window.innerWidth - 20) + 'px';
+  readonly maxHei = (window.innerHeight - 20) + 'px';
 
   constructor() { }
 
@@ -35,7 +41,8 @@ export class DraggableDivComponent implements OnInit {
       }
       if (x) {
         setTimeout(() => {
-          makeElemDraggable(this.mainElem.nativeElement, this.moverElem.nativeElement);
+          const fn = () => { this.isFullView = false; this.saveCurrentState() };
+          makeElemDraggable(this.mainElem.nativeElement, this.moverElem.nativeElement, fn);
         }, 0);
       }
     });
@@ -46,19 +53,44 @@ export class DraggableDivComponent implements OnInit {
   }
 
   openInFull() {
-    this.currSize.width = (window.innerWidth - 20) + 'px';
-    this.currSize.height = (window.innerHeight - 20) + 'px';
+    if (!this.isNewlyMinized) {
+      this.saveCurrentState();
+    } else {
+      this.isNewlyMinized = false;
+    }
+
+    this.currSize.width = this.maxWid;
+    this.currSize.height = this.maxHei;
     this.position.top = '10px';
     this.position.left = '10px';
     this.setMainElemStyle();
+    this.isFullView = true;
   }
 
   minimize() {
+    this.isNewlyMinized = true;
+    this.isFullView = false;
     this.position.top = (window.innerHeight - 50) + 'px';
     this.position.left = '10px';
     this.currSize.width = '50px';
     this.currSize.height = '40px';
     this.setMainElemStyle();
+  }
+
+  restorePrevState() {
+    this.isFullView = false;
+    this.position.left = this.prevPosition.left;
+    this.position.top = this.prevPosition.top;
+    this.currSize.height = this.prevSize.height;
+    this.currSize.width = this.prevSize.width;
+    this.setMainElemStyle();
+  }
+
+  private saveCurrentState() {
+    this.prevPosition.top = this.mainElem.nativeElement.style.top;
+    this.prevPosition.left = this.mainElem.nativeElement.style.left;
+    this.prevSize.width = this.mainElem.nativeElement.style.width;
+    this.prevSize.height = this.mainElem.nativeElement.style.height;
   }
 
   private setMainElemStyle() {
