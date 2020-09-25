@@ -46,7 +46,9 @@ export class DbQueryComponent implements OnInit {
       }
     });
 
-    this.loadQuery(this.queries[0]);
+    if (this.queries && this.queries.length > 0) {
+      this.loadQuery(this.queries[0]);
+    }
   }
 
   runQuery() {
