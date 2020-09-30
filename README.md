@@ -7,8 +7,43 @@ A graph visualization and exploration tool. Firstly designed for tiger graph dat
 3. Run `npm i` and run `npm run ng s` to run angular in development mode.
 4. Open http://localhost:4200 if everything is OK, `Data>Sample Data` should bring some data from your Tiger Graph Database. 
 
+## Screenshots
+
+<p align="center">
+    <img src="doc/img/compound_nodes.png" width="600"/>
+</p>
+<p align="center">
+  Support for compound nodes
+</p>
+
+
+<p align="center">
+    <img src="doc/img/File Explorer like windows.gif" width="600"/>
+</p>
+<p align="center">
+  Windows very similar to file explorer of an operating system
+</p>
+
+
+<p align="center">
+    <img src="doc/img/animated_edges_on_table_hover.gif" width="600"/>
+</p>
+<p align="center">
+  Animated edges when hovered on table
+</p>
+
+<p align="center">
+    <img src="doc/img/show_results_of_installed_query_as_json.png" width="600"/>
+</p>
+<p align="center">
+  Show results of a query as JSON at the same time
+</p>
+
 ## YAAAY!
 This project got a 1st Place Reward in [TigerGraph 2020 Graphathon](https://devpost.com/software/graphex)
+
+I'm a virtual attendee at the Graph+AI World 2020! Graph+AI World Day 2 Keynote #GraphAIWorld https://www.tigergraph.com/graphaiworld/ 
+You can directly watch [my presentation in the event from here](https://player.vimeo.com/video/463259298#t=49m15s)
 
 ## todo (or might todo)
 
