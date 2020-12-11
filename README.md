@@ -3,7 +3,7 @@
 A graph visualization and exploration tool. Firstly designed for tiger graph database, might support other graph databases in the feature. You can watch [introductory video](https://www.youtube.com/watch?v=I8BgFve4sA8)
 
 I was a virtual attendee at the Graph+AI World 2020! Graph+AI World Day 2 Keynote #GraphAIWorld https://www.tigergraph.com/graphaiworld/ 
-You can directly watch [my presentation in the event from here](https://player.vimeo.com/video/463259298#t=49m10s)
+You can directly watch [my presentation in the event from here](https://player.vimeo.com/video/463259298#t=49m05s)
 
 1. To visualize a tiger graph database, fill [db-config.json](db-config.json) file. You should fill everything except for `token` and `tokenExpire` fields.
 2. Run `node proxy_server.js` to run proxy server. Proxy server makes HTTP request to Tiger Graph REST API and passes responses to the client-side.
