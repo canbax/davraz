@@ -77,3 +77,7 @@ app-draggable-div {
   padding: 3px;
   line-height: 12px;
 }
+
+.cdk-overlay-container {
+  z-index: 1004;
+}

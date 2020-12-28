@@ -76,7 +76,7 @@ export const Layout = {
     fit: true, // whether to fit to viewport
     padding: 30, // fit padding
     boundingBox: undefined, // constrain layout bounds; { x1, y1, x2, y2 } or { x1, y1, w, h }
-    animate: false, // whether to transition the node positions
+    animate: true, // whether to transition the node positions
     animationDuration: 500, // duration of animation in ms if enabled
     animationEasing: undefined, // easing of animation if enabled
     animateFilter: function (node, i) { return true; }, // a function that determines whether the node should be animated.  All nodes animated by default on animate enabled.  Non-animated nodes are positioned immediately when the layout starts
@@ -98,7 +98,7 @@ export const Layout = {
     cols: undefined, // force num of columns in the grid
     position: function (node) { }, // returns { row, col } for element
     sort: undefined, // a sorting function to order the nodes; e.g. function(a, b){ return a.data('weight') - b.data('weight') }
-    animate: false, // whether to transition the node positions
+    animate: true, // whether to transition the node positions
     animationDuration: 500, // duration of animation in ms if enabled
     animationEasing: undefined, // easing of animation if enabled
     animateFilter: function (node, i) { return true; }, // a function that determines whether the node should be animated.  All nodes animated by default on animate enabled.  Non-animated nodes are positioned immediately when the layout starts
@@ -119,7 +119,7 @@ export const Layout = {
     sweep: undefined, // how many radians should be between the first and last node (defaults to full circle)
     clockwise: true, // whether the layout should go clockwise (true) or counterclockwise/anticlockwise (false)
     sort: undefined, // a sorting function to order the nodes; e.g. function(a, b){ return a.data('weight') - b.data('weight') }
-    animate: false, // whether to transition the node positions
+    animate: true, // whether to transition the node positions
     animationDuration: 500, // duration of animation in ms if enabled
     animationEasing: undefined, // easing of animation if enabled
     animateFilter: function (node, i) { return true; }, // a function that determines whether the node should be animated.  All nodes animated by default on animate enabled.  Non-animated nodes are positioned immediately when the layout starts
@@ -148,7 +148,7 @@ export const Layout = {
     levelWidth: function (nodes) { // the letiation of concentric values in each level
       return nodes.maxDegree() / 4;
     },
-    animate: false, // whether to transition the node positions
+    animate: true, // whether to transition the node positions
     animationDuration: 500, // duration of animation in ms if enabled
     animationEasing: undefined, // easing of animation if enabled
     animateFilter: function (node, i) { return true; }, // a function that determines whether the node should be animated.  All nodes animated by default on animate enabled.  Non-animated nodes are positioned immediately when the layout starts
@@ -423,7 +423,7 @@ export const Layout = {
     padding: 30, // fit padding
     spacingFactor: undefined, // Applies a multiplicative factor (>0) to expand or compress the overall area that the nodes take up
     nodeDimensionsIncludeLabels: false, // whether labels should be included in determining the space used by a node
-    animate: false, // whether to transition the node positions
+    animate: true, // whether to transition the node positions
     animateFilter: function (node, i) { return true; }, // whether to animate specific nodes when animation is on; non-animated nodes immediately go to their final positions
     animationDuration: 500, // duration of animation in ms if enabled
     animationEasing: undefined, // easing of animation if enabled
@@ -437,7 +437,7 @@ export const Layout = {
     nodeDimensionsIncludeLabels: false, // Boolean which changes whether label dimensions are included when calculating node dimensions
     fit: true, // Whether to fit
     padding: 20, // Padding on fit
-    animate: false, // Whether to transition the node positions
+    animate: true, // Whether to transition the node positions
     animateFilter: function (node, i) { return true; }, // Whether to animate specific nodes when animation is on; non-animated nodes immediately go to their final positions
     animationDuration: 500, // Duration of animation in ms if enabled
     animationEasing: undefined, // Easing of animation if enabled
