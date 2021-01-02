@@ -10,6 +10,7 @@ import { DbQueryComponent } from './db-query/db-query.component';
 import { ObjectPropertiesComponent } from './object-properties/object-properties.component';
 import { TableViewComponent } from './table-view/table-view.component';
 import { GraphHistoryComponent } from './graph-history/graph-history.component';
+import { GENERAL_CY_STYLE } from './config/general-cy-style';
 
 @Component({
   selector: 'app-root',
@@ -90,7 +91,8 @@ export class AppComponent implements OnInit {
         this._s.cy.json({ elements: fileJSON });
         this._s.cy.fit();
       } else if (this.loadFileType == 'LoadStyle') {
-        this._s.cy.style().fromJson(fileJSON).update();
+        this._s.cy.style().resetToDefault().update();
+        this._s.cy.style().fromJson(GENERAL_CY_STYLE).fromJson(fileJSON).update();
       }
 
     });
