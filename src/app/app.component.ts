@@ -18,7 +18,6 @@ import { GraphHistoryComponent } from './graph-history/graph-history.component';
 })
 export class AppComponent implements OnInit {
   cy: any = null;
-  title = 'graph-imager';
   isShowDatabaseQuery = new Subject<boolean>();
   isShowObjectProperties = new Subject<boolean>();
   isShowTableView = new Subject<boolean>();
@@ -36,6 +35,7 @@ export class AppComponent implements OnInit {
   graphHistoryComp = GraphHistoryComponent;
   existingTypes: string[] = [];
   layoutAlgos: string[] = [];
+  private loadFileType: 'LoadGraph' | 'LoadStyle' = 'LoadGraph';
 
   constructor(private _tgApi: TigerGraphApiClientService, private _s: SharedService, public dialog: MatDialog) {
     this._tgApi.simpleRequest();
@@ -86,12 +86,18 @@ export class AppComponent implements OnInit {
   fileSelected() {
     readTxtFile(this.fileInp.nativeElement.files[0], (txt) => {
       const fileJSON = JSON.parse(txt);
-      this._s.cy.json({ elements: fileJSON });
-      this._s.cy.fit();
+      if (this.loadFileType == 'LoadGraph') {
+        this._s.cy.json({ elements: fileJSON });
+        this._s.cy.fit();
+      } else if (this.loadFileType == 'LoadStyle') {
+        this._s.cy.style().fromJson(fileJSON).update();
+      }
+
     });
   }
 
   loadGraphFromFile() {
+    this.loadFileType = 'LoadGraph';
     this.fileInp.nativeElement.value = '';
     this.fileInp.nativeElement.click();
   }
@@ -361,6 +367,16 @@ export class AppComponent implements OnInit {
 
   showGraphHistory() {
     this.isShowGraphHistory.next(true);
+  }
+
+  clearCyStyle() {
+    this._s.cy.style().resetToDefault().update();
+  }
+
+  loadCyStyle() {
+    this.loadFileType = 'LoadStyle';
+    this.fileInp.nativeElement.value = '';
+    this.fileInp.nativeElement.click();
   }
 
   private str2file(str: string, fileName: string) {

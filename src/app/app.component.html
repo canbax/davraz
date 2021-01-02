@@ -1,4 +1,4 @@
-<input #fileInp type="file" (change)="fileSelected()" accept="text/*, .json, .vall" style="display: none;" />
+<input #fileInp type="file" (change)="fileSelected()" accept="text/*, .json" style="display: none;" />
 
 <div class="root">
 
@@ -19,6 +19,8 @@
       <button (click)="saveGraph2File()" mat-menu-item>Save</button>
       <button (click)="saveSelected2File()" mat-menu-item>Save Selected</button>
       <button (click)="saveAsPng()" mat-menu-item>Save as PNG</button>
+      <button (click)="clearCyStyle()" mat-menu-item>Clear Graph Style</button>
+      <button (click)="loadCyStyle()" mat-menu-item>Load Graph Style</button>
     </mat-menu>
 
     <button mat-button [matMenuTriggerFor]="edit">Edit<mat-icon>arrow_drop_down</mat-icon></button>

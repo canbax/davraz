@@ -1,32 +1,6 @@
 export const GENERAL_CY_STYLE: any =
   [
     {
-      selector: "node",
-      style: {
-        "background-opacity": 0,
-        "font-size": "8px",
-        "text-max-width": "44px",
-        "text-valign": "bottom",
-        "text-halign": "center",
-        "text-outline-color": "#555555",
-        "text-outline-width": "2px",
-        "color": "#FFFFFF",
-      }
-    },
-    {
-      selector: "edge",
-      style: {
-        "width": "3px",
-        "font-size": "7px",
-        "text-outline-color": "#555555",
-        "text-outline-width": "1px",
-        "text-rotation": "autorotate",
-        "color": "#FFFFFF",
-        "line-style": "solid",
-        "curve-style": "bezier",
-      }
-    },
-    {
       selector: "node.hover",
       style: {
         "background-opacity": 1,

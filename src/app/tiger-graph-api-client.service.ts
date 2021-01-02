@@ -68,7 +68,7 @@ export class TigerGraphApiClientService {
   }
 
   sampleData(cb: (r: GraphResponse) => void, nodeCnt = 5, edgeCnt = 3) {
-    const nodeTypes = ['BusRide', 'TrainRide', 'Flight', 'FundsTransfer', 'PhoneCall', 'Person', 'HotelStay', 'Phone', 'BankAccount', 'CaseReport', 'Address'];
+    const nodeTypes = ['City', 'Province', 'Country'];
     let firstNodes: NodeResponse[] = [];
     const arr: Observable<Object>[] = [];
     for (const t of nodeTypes) {

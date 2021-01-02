@@ -20,7 +20,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
 import { TigerGraphApiClientService } from './tiger-graph-api-client.service';
 import { SettingsService } from './settings.service';
-import { CY_STYLE } from './config/cy-style';
 import { GENERAL_CY_STYLE } from './config/general-cy-style';
 
 @Injectable({
@@ -52,7 +51,7 @@ export class SharedService {
   init() {
     this.cy = cytoscape({
       // so we can see the ids
-      style: CY_STYLE.concat(GENERAL_CY_STYLE),
+      style: GENERAL_CY_STYLE,
       container: document.getElementById('cy'),
       wheelSensitivity: 0.1,
     });
