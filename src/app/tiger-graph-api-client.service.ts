@@ -111,6 +111,9 @@ export class TigerGraphApiClientService {
           cb({ edges: firstEdges, nodes: firstNodes.concat(secondNodes) });
         });
       });
+      if (arr2.length < 1) {
+        cb({ edges: [], nodes: [] });
+      }
     });
   }
 
