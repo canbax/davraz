@@ -8,7 +8,7 @@
       "text-halign": "center",
       "text-outline-color": "#555555",
       "text-outline-width": "2px",
-      "color": "#FFFFFF",
+      "color": "#FFFFFF"
     }
   },
   {
@@ -21,7 +21,7 @@
       "text-rotation": "autorotate",
       "color": "#FFFFFF",
       "line-style": "solid",
-      "curve-style": "bezier",
+      "curve-style": "bezier"
     }
   },
   {
@@ -120,7 +120,7 @@
       "label": "reports",
       "line-color": "#f50057",
       "target-arrow-shape": "square",
-      "target-arrow-color": "#f50057",
+      "target-arrow-color": "#f50057"
     }
   },
   {
@@ -129,7 +129,7 @@
       "label": "rides",
       "line-color": "#d500f9",
       "target-arrow-shape": "triangle",
-      "target-arrow-color": "#d500f9",
+      "target-arrow-color": "#d500f9"
     }
   },
   {
@@ -138,7 +138,7 @@
       "label": "rides",
       "line-color": "#3d5afe",
       "target-arrow-shape": "triangle-tee",
-      "target-arrow-color": "#3d5afe",
+      "target-arrow-color": "#3d5afe"
     }
   },
   {
@@ -147,7 +147,7 @@
       "label": "flies",
       "line-color": "#00b0ff",
       "target-arrow-shape": "circle-triangle",
-      "target-arrow-color": "#00b0ff",
+      "target-arrow-color": "#00b0ff"
     }
   },
   {
@@ -156,7 +156,7 @@
       "label": "transfers",
       "line-color": "#00e676",
       "target-arrow-shape": "triangle-cross",
-      "target-arrow-color": "#00e676",
+      "target-arrow-color": "#00e676"
     }
   },
   {
@@ -165,7 +165,7 @@
       "label": "has",
       "line-color": "#ffea00",
       "target-arrow-shape": "triangle-backcurve",
-      "target-arrow-color": "#ffea00",
+      "target-arrow-color": "#ffea00"
     }
   },
   {
@@ -174,7 +174,7 @@
       "label": "calls",
       "line-color": "#ffc400",
       "target-arrow-shape": "vee",
-      "target-arrow-color": "#ffc400",
+      "target-arrow-color": "#ffc400"
     }
   },
   {
@@ -183,7 +183,7 @@
       "label": "resides",
       "line-color": "#ff9100",
       "target-arrow-shape": "tee",
-      "target-arrow-color": "#ff9100",
+      "target-arrow-color": "#ff9100"
     }
   },
   {
@@ -192,7 +192,7 @@
       "label": "stays",
       "line-color": "#ff3d00",
       "target-arrow-shape": "circle",
-      "target-arrow-color": "#ff3d00",
+      "target-arrow-color": "#ff3d00"
     }
   }
 ]
