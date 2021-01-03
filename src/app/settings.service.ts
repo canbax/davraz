@@ -61,6 +61,14 @@ export class SettingsService {
     localStorage.setItem('app_config', JSON.stringify(o));
   }
 
+  getRecentCyStyle(): string {
+    return localStorage.getItem('cy_style');
+  }
+
+  setRecentCyStyle(jsonStr: string) {
+    localStorage.setItem('cy_style', jsonStr);
+  }
+
   // convert primitive types in JSON to behaviour subject of that primitive type
   private json2behaviourSubject(obj: any, userPref: any) {
     if (obj === undefined || obj === null) {

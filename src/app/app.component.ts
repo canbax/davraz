@@ -11,6 +11,7 @@ import { ObjectPropertiesComponent } from './object-properties/object-properties
 import { TableViewComponent } from './table-view/table-view.component';
 import { GraphHistoryComponent } from './graph-history/graph-history.component';
 import { GENERAL_CY_STYLE } from './config/general-cy-style';
+import { SettingsService } from './settings.service';
 
 @Component({
   selector: 'app-root',
@@ -38,7 +39,7 @@ export class AppComponent implements OnInit {
   layoutAlgos: string[] = [];
   private loadFileType: 'LoadGraph' | 'LoadStyle' = 'LoadGraph';
 
-  constructor(private _tgApi: TigerGraphApiClientService, private _s: SharedService, public dialog: MatDialog) {
+  constructor(private _tgApi: TigerGraphApiClientService, private _s: SharedService, public dialog: MatDialog, private _settings: SettingsService) {
     this._tgApi.simpleRequest();
   }
 
@@ -55,6 +56,10 @@ export class AppComponent implements OnInit {
     });
     this._s.isLoading.subscribe(x => { this.isLoading = x; });
     this.layoutAlgos = Object.keys(Layout);
+    const s = this._settings.getRecentCyStyle();
+    if (s) {
+      this._s.cy.style().fromJson(GENERAL_CY_STYLE.concat(JSON.parse(s))).update();
+    }
   }
 
   openDbConfigDialog() {
@@ -91,6 +96,7 @@ export class AppComponent implements OnInit {
         this._s.cy.json({ elements: fileJSON });
         this._s.cy.fit();
       } else if (this.loadFileType == 'LoadStyle') {
+        this._settings.setRecentCyStyle(txt);
         this._s.cy.style().fromJson(GENERAL_CY_STYLE.concat(fileJSON)).update();
       }
 
