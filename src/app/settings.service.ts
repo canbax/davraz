@@ -46,10 +46,10 @@ export class SettingsService {
   getAppConfig(): AppConfig {
     const i = localStorage.getItem('app_config');
     let appConf: AppConfig = {} as AppConfig;
+    this.json2behaviourSubject(APP_CONF, appConf);
     if (i) {
       this.json2behaviourSubject(JSON.parse(i), appConf);
     } else {
-      this.json2behaviourSubject(APP_CONF, appConf);
       // save app config if it does not exist
       this.setAppConfig(appConf);
     }

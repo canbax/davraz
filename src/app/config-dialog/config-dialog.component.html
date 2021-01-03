@@ -55,6 +55,16 @@
           <mat-label>Proxy Server URL</mat-label>
           <input matInput type="text" (change)="changeConfig('server')" name="proxy-server-url" [(ngModel)]="server">
         </mat-form-field>
+        <mat-form-field class="full-width">
+          <mat-label>Note Types (Need to bring sample data)</mat-label>
+          <mat-chip-list #chipList aria-label="Fruit selection">
+            <mat-chip *ngFor="let t of nodeTypes" [selectable]="true" [removable]="true" (removed)="removeNodeType(t)">
+              {{t}}
+              <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+            <input placeholder="New node type" [matChipInputFor]="chipList" [matChipInputAddOnBlur]="true" (matChipInputTokenEnd)="addNodeType($event)">
+          </mat-chip-list>
+        </mat-form-field>
       </form>
 
       <button class="p5" mat-icon-button [mat-dialog-close]="true" (click)="saveDbConfig()">

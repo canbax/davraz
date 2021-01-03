@@ -58,6 +58,7 @@ export interface AppConfig {
   graphHistoryLimit: BehaviorSubject<number>;
   currLayout: BehaviorSubject<string>;
   server: BehaviorSubject<string>;
+  nodeTypes: BehaviorSubject<string>[];
 }
 
 export interface TigerGraphDbConfig {

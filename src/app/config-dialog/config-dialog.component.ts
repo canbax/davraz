@@ -5,6 +5,7 @@ import { SettingsService } from '../settings.service';
 import { getCyStyleFromColorAndWid, Layout } from '../constants';
 import { SharedService } from '../shared.service';
 import { BehaviorSubject } from 'rxjs';
+import { MatChipInputEvent } from '@angular/material/chips';
 
 @Component({
   selector: 'app-config-dialog',
@@ -24,6 +25,7 @@ export class ConfigDialogComponent {
   sampleDataEdgeCount: number;
   layoutOptions: string[];
   currLayout: string;
+  nodeTypes: string[] = [];
 
   constructor(private _s: SharedService, private _tgApi: TigerGraphApiClientService, private _settings: SettingsService) {
     this.syncDbConfig();
@@ -54,6 +56,7 @@ export class ConfigDialogComponent {
     this.sampleDataEdgeCount = this.appConf.sampleDataEdgeCount.getValue();
     this.currLayout = this.appConf.currLayout.getValue();
     this.server = this.appConf.server.getValue();
+    this.nodeTypes = this.appConf.nodeTypes.map(x => x.getValue());
   }
 
   private syncDbConfig() {
@@ -77,7 +80,6 @@ export class ConfigDialogComponent {
     this.currHighlightStyle.wid = curr.wid.getValue();
     this._settings.setAppConfig(this.appConf);
   }
-
 
   changeHighlightStyle() {
     let cyStyle = getCyStyleFromColorAndWid(this.currHighlightStyle.color, this.currHighlightStyle.wid);
@@ -116,6 +118,34 @@ export class ConfigDialogComponent {
 
   changeConfig(s: string) {
     this.appConf[s].next(this[s]);
+    this._settings.setAppConfig(this.appConf);
+  }
+
+  addNodeType(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    // Add our fruit
+    if ((value || '').trim()) {
+      const v = value.trim();
+      this.nodeTypes.push(v);
+      this.appConf.nodeTypes.push(new BehaviorSubject<string>(v));
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+    this._settings.setAppConfig(this.appConf);
+  }
+
+  removeNodeType(e) {
+    console.log('remove node type: ', e);
+    const index = this.nodeTypes.indexOf(e);
+    if (index >= 0) {
+      this.nodeTypes.splice(index, 1);
+      this.appConf.nodeTypes.splice(index, 1);
+    }
     this._settings.setAppConfig(this.appConf);
   }
 
