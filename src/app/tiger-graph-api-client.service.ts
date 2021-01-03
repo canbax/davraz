@@ -5,6 +5,7 @@ import { InterprettedQueryResult, GraphResponse, NodeResponse, EdgeResponse, Tig
 import { combineLatest, Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +13,14 @@ import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
 export class TigerGraphApiClientService {
 
   url: string;
-  constructor(private _http: HttpClient, private _settings: SettingsService, public dialog: MatDialog) {
+  constructor(private _http: HttpClient, private _settings: SettingsService, public dialog: MatDialog, private _snackBar: MatSnackBar) {
     this.url = this._settings.getAppConfig().server.getValue();
+  }
+
+  errFn = (err) => {
+    const msg = JSON.stringify(err);
+    console.log('err: ', msg);
+    this._snackBar.open('Error in http request: ' + err.message, 'close');
   }
 
   refreshToken(cb) {
@@ -28,7 +35,7 @@ export class TigerGraphApiClientService {
         }
         cb(x);
         console.log('resp: ', x);
-      });
+      }, this.errFn);
   }
 
   simpleRequest() {
@@ -42,14 +49,14 @@ export class TigerGraphApiClientService {
           return;
         }
         console.log('resp: ', x);
-      });
+      }, this.errFn);
   }
 
   runInterprettedQuery(q: string, cb: (r: InterprettedQueryResult) => void) {
     const conf = this._settings.getTigerGraphDbConfig();
     this._http.post(`${this.url}/gsql`, { q: q, username: conf.username, password: conf.password, url: conf.url },
       { headers: { 'Content-Type': 'application/json' } })
-      .subscribe(x => { cb(x as InterprettedQueryResult); });
+      .subscribe(x => { cb(x as InterprettedQueryResult); }, this.errFn);
   }
 
   sampleData(cb: (r: GraphResponse) => void, nodeCnt = 5, edgeCnt = 3) {
@@ -62,7 +69,7 @@ export class TigerGraphApiClientService {
       arr.push(o);
       o.subscribe(x => {
         firstNodes = firstNodes.concat((x as GraphResponse).nodes);
-      });
+      }, this.errFn);
     }
 
     let firstEdges: EdgeResponse[] = [];
@@ -77,7 +84,7 @@ export class TigerGraphApiClientService {
         arr2.push(o);
         o.subscribe(x => {
           firstEdges = firstEdges.concat((x as GraphResponse).edges);
-        })
+        }, this.errFn)
       }
 
       let secondNodes: NodeResponse[] = [];
@@ -89,22 +96,22 @@ export class TigerGraphApiClientService {
           arr3.push(o);
           o.subscribe(x => {
             secondNodes = secondNodes.concat((x as GraphResponse).nodes);
-          })
+          }, this.errFn)
         }
 
         // we should add edges to graph after we get both source and target's of edges
         combineLatest(arr3).subscribe(() => {
           cb({ edges: firstEdges, nodes: firstNodes.concat(secondNodes) });
         });
-      });
+      }, this.errFn);
       if (arr2.length < 1) {
         cb({ edges: [], nodes: [] });
       }
-    });
+    }, this.errFn);
   }
 
   endPoints(cb: (r: InterprettedQueryResult) => void) {
-    this._http.post(`${this.url}/endpoints`, {}).subscribe(x => { cb(x as InterprettedQueryResult) });
+    this._http.post(`${this.url}/endpoints`, {}).subscribe(x => { cb(x as InterprettedQueryResult) }, this.errFn);
   }
 
   getNeighborsOfNode(cb: (r: GraphResponse) => void, elem) {
@@ -122,17 +129,17 @@ export class TigerGraphApiClientService {
         arr.push(o);
         o.subscribe(x2 => {
           nodes = nodes.concat((x2 as GraphResponse).nodes);
-        });
+        }, this.errFn);
 
         const o2 = this._http.post(`${this.url}/nodes4edges`, { cnt: 1000, type: e.from_type, id: e.from_id, graphName: conf.graphName, url: conf.url, token: conf.token });
         arr.push(o2);
         o2.subscribe(x2 => {
           nodes = nodes.concat((x2 as GraphResponse).nodes);
-        });
+        }, this.errFn);
       }
       combineLatest(arr).subscribe(() => {
         cb({ edges: edges, nodes: nodes });
-      });
+      }, this.errFn);
     });
   }
 
@@ -148,7 +155,7 @@ export class TigerGraphApiClientService {
         cb(x);
       }
       console.log('resp: ', x);
-    });
+    }, this.errFn);
   }
 
   getInstalledQueries(cb: (r: any[]) => void) {
@@ -164,6 +171,6 @@ export class TigerGraphApiClientService {
         r.push(x['GET /query/' + name].parameters);
       }
       cb(r);
-    });
+    }, this.errFn);
   }
 }

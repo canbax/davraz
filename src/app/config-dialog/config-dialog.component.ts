@@ -115,12 +115,18 @@ export class ConfigDialogComponent {
   }
 
   changeConfig(s: string) {
+    if (s == 'server' && this[s].endsWith('/')) {
+      this[s] = this[s].substring(0, this[s].length - 1);
+    }
     this.appConf[s].next(this[s]);
     this._settings.setAppConfig(this.appConf);
   }
 
   changeTigerGraphDbConfigs() {
     for (const key in this.appConf.tigerGraphDbConfig) {
+      if (key == 'url' && this.tigerGraphDbConf[key].endsWith('/')) {
+        this.tigerGraphDbConf[key] = this.tigerGraphDbConf[key].substring(0, this.tigerGraphDbConf[key].length - 1);
+      }
       this.appConf.tigerGraphDbConfig[key].next(this.tigerGraphDbConf[key]);
     }
     this._settings.setAppConfig(this.appConf);

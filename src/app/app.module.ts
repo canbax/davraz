@@ -20,6 +20,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { AppComponent } from './app.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -67,7 +68,8 @@ import { GraphHistoryComponent } from './graph-history/graph-history.component';
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
-    MatDividerModule
+    MatDividerModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

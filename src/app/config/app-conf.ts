@@ -22,7 +22,7 @@ export const APP_CONF = {
   sampleDataEdgeCount: 2,
   currLayout: 'fcose',
   graphHistoryLimit: 25,
-  server: 'http://localhost:9000',
+  server: 'https://tiger-api.herokuapp.com',
   nodeTypes: [],
   tigerGraphDbConfig: {
     url: 'https://covid19.i.tgcloud.io:9000',
