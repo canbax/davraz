@@ -14,7 +14,7 @@ import { MatChipInputEvent } from '@angular/material/chips';
 })
 export class ConfigDialogComponent {
 
-  dbConf: TigerGraphDbConfig = { password: '', secret: '', token: '', tokenExpire: 0, url: '', username: '', graphName: '' };
+  tigerGraphDbConf: TigerGraphDbConfig = { password: '', secret: '', token: '', tokenExpire: 0, url: '', username: '', graphName: '' };
   tokenExpireDateStr = '';
   appConf: AppConfig;
   currHighlightStyle: { wid: number, color: string, name: string };
@@ -34,15 +34,16 @@ export class ConfigDialogComponent {
   }
 
   saveDbConfig() {
-    this._tgApi.setConfig(this.dbConf, null);
+    this._tgApi.setConfig(this.tigerGraphDbConf, null);
     this.changeConfig('server');
+    this.changeTigerGraphDbConfigs();
   }
 
   refreshDbToken() {
-    this._tgApi.refreshToken(this.dbConf.secret, (x) => {
-      this.dbConf.tokenExpire = x.expiration;
-      this.dbConf.token = x.token;
-      this._tgApi.setConfig(this.dbConf, this.syncDbConfig.bind(this));
+    this._tgApi.refreshToken(this.tigerGraphDbConf.secret, (x) => {
+      this.tigerGraphDbConf.tokenExpire = x.expiration;
+      this.tigerGraphDbConf.token = x.token;
+      this._tgApi.setConfig(this.tigerGraphDbConf, this.syncDbConfig.bind(this));
     });
   }
 
@@ -60,16 +61,15 @@ export class ConfigDialogComponent {
   }
 
   private syncDbConfig() {
-    this._tgApi.getConfig(dbConf => {
-      this.dbConf.url = dbConf.url;
-      this.dbConf.secret = dbConf.secret;
-      this.dbConf.username = dbConf.username;
-      this.dbConf.password = dbConf.password;
-      this.dbConf.token = dbConf.token;
-      this.dbConf.tokenExpire = dbConf.tokenExpire;
-      this.dbConf.graphName = dbConf.graphName;
-      this.tokenExpireDateStr = new Date(this.dbConf.tokenExpire * 1000).toDateString();
-    });
+    const c = this._s.appConf.tigerGraphDbConfig;
+    this.tigerGraphDbConf.url = c.url.getValue();
+    this.tigerGraphDbConf.secret = c.secret.getValue();
+    this.tigerGraphDbConf.username = c.username.getValue();
+    this.tigerGraphDbConf.password = c.password.getValue();
+    this.tigerGraphDbConf.token = c.token.getValue();
+    this.tigerGraphDbConf.tokenExpire = c.tokenExpire.getValue();
+    this.tigerGraphDbConf.graphName = c.graphName.getValue();
+    this.tokenExpireDateStr = new Date(this.tigerGraphDbConf.tokenExpire * 1000).toDateString();
   }
 
   changeCurrHiglightStyle() {
@@ -121,6 +121,13 @@ export class ConfigDialogComponent {
     this._settings.setAppConfig(this.appConf);
   }
 
+  changeTigerGraphDbConfigs() {
+    for (const key in this.appConf.tigerGraphDbConfig) {
+      this.appConf.tigerGraphDbConfig[key].next(this.tigerGraphDbConf[key]);
+    }
+    this._settings.setAppConfig(this.appConf);
+  }
+
   addNodeType(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
@@ -140,7 +147,6 @@ export class ConfigDialogComponent {
   }
 
   removeNodeType(e) {
-    console.log('remove node type: ', e);
     const index = this.nodeTypes.indexOf(e);
     if (index >= 0) {
       this.nodeTypes.splice(index, 1);

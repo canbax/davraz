@@ -14,22 +14,22 @@
       <form>
         <mat-form-field class="full-width">
           <mat-label>Database URL</mat-label>
-          <input matInput [(ngModel)]="dbConf.url" name="url">
+          <input matInput [(ngModel)]="tigerGraphDbConf.url" name="url">
         </mat-form-field>
         <br>
         <mat-form-field class="full-width">
           <mat-label>Database secret</mat-label>
-          <input matInput [(ngModel)]="dbConf.secret" name="secret">
+          <input matInput [(ngModel)]="tigerGraphDbConf.secret" name="secret">
         </mat-form-field>
         <br>
         <mat-form-field class="full-width">
           <mat-label>Token</mat-label>
-          <input matInput [(ngModel)]="dbConf.token" name="token">
+          <input matInput [(ngModel)]="tigerGraphDbConf.token" name="token">
         </mat-form-field>
         <br>
         <mat-form-field>
           <mat-label>Token expire</mat-label>
-          <input matInput [(ngModel)]="dbConf.tokenExpire" name="tokenExpire">
+          <input matInput [(ngModel)]="tigerGraphDbConf.tokenExpire" name="tokenExpire">
         </mat-form-field>
         <span>&nbsp;{{tokenExpireDateStr}}&nbsp;</span>
         <button class="p5" mat-icon-button title="Generate New Token" (click)="refreshDbToken()">
@@ -38,17 +38,17 @@
         <br>
         <mat-form-field>
           <mat-label>Graph Name</mat-label>
-          <input matInput [(ngModel)]="dbConf.graphName" name="server">
+          <input matInput [(ngModel)]="tigerGraphDbConf.graphName" name="graphName">
         </mat-form-field>
         <br>
         <mat-form-field>
           <mat-label>Database username</mat-label>
-          <input matInput [(ngModel)]="dbConf.username" name="username">
+          <input matInput [(ngModel)]="tigerGraphDbConf.username" name="username">
         </mat-form-field>
         <br>
         <mat-form-field>
           <mat-label>Database password</mat-label>
-          <input matInput type="password" [(ngModel)]="dbConf.password" name="password">
+          <input matInput type="password" [(ngModel)]="tigerGraphDbConf.password" name="password">
         </mat-form-field>
         <br>
         <mat-form-field class="full-width">
@@ -62,12 +62,13 @@
               {{t}}
               <mat-icon matChipRemove>cancel</mat-icon>
             </mat-chip>
-            <input placeholder="New node type" [matChipInputFor]="chipList" [matChipInputAddOnBlur]="true" (matChipInputTokenEnd)="addNodeType($event)">
+            <input placeholder="New node type" [matChipInputFor]="chipList" [matChipInputAddOnBlur]="true"
+              (matChipInputTokenEnd)="addNodeType($event)">
           </mat-chip-list>
         </mat-form-field>
       </form>
 
-      <button class="p5" mat-icon-button [mat-dialog-close]="true" (click)="saveDbConfig()">
+      <button class="p5" mat-fab [mat-dialog-close]="true" (click)="saveDbConfig()" title="save">
         <mat-icon>save</mat-icon>
       </button>
     </mat-expansion-panel>

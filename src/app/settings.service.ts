@@ -93,7 +93,7 @@ export class SettingsService {
     return o;
   }
 
-  private mapBehaviourSubject2Json(obj, mappedObj) {
+  mapBehaviourSubject2Json(obj, mappedObj) {
     for (const k in obj) {
       if (obj[k] instanceof BehaviorSubject) {
         mappedObj[k] = (obj[k] as BehaviorSubject<any>).getValue();

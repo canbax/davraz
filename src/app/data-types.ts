@@ -59,6 +59,15 @@ export interface AppConfig {
   currLayout: BehaviorSubject<string>;
   server: BehaviorSubject<string>;
   nodeTypes: BehaviorSubject<string>[];
+  tigerGraphDbConfig: {
+    url: BehaviorSubject<string>;
+    secret: BehaviorSubject<string>;
+    username: BehaviorSubject<string>;
+    password: BehaviorSubject<string>;
+    token: BehaviorSubject<string>;
+    tokenExpire: BehaviorSubject<number>;
+    graphName: BehaviorSubject<string>;
+  };
 }
 
 export interface TigerGraphDbConfig {
