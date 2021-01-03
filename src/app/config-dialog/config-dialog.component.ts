@@ -34,16 +34,14 @@ export class ConfigDialogComponent {
   }
 
   saveDbConfig() {
-    this._tgApi.setConfig(this.tigerGraphDbConf, null);
     this.changeConfig('server');
     this.changeTigerGraphDbConfigs();
   }
 
   refreshDbToken() {
-    this._tgApi.refreshToken(this.tigerGraphDbConf.secret, (x) => {
+    this._tgApi.refreshToken((x) => {
       this.tigerGraphDbConf.tokenExpire = x.expiration;
       this.tigerGraphDbConf.token = x.token;
-      this._tgApi.setConfig(this.tigerGraphDbConf, this.syncDbConfig.bind(this));
     });
   }
 

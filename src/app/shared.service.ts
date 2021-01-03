@@ -46,9 +46,6 @@ export class SharedService {
     let isGraphEmpty = () => { return this.cy.elements().not(':hidden, :transparent').length > 0 };
     this.performLayout = debounce(this.runLayout, 2 * LAYOUT_ANIM_DUR, true, isGraphEmpty);
     this.appConf = this._settings.getAppConfig();
-    const tigerGraphApiConf = {};
-    this._settings.mapBehaviourSubject2Json(this.appConf.tigerGraphDbConfig, tigerGraphApiConf);
-    this._tgApi.setConfig(tigerGraphApiConf as TigerGraphDbConfig, null);
   }
 
   init() {

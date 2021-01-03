@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DbQuery, AppConfig } from './data-types';
+import { DbQuery, AppConfig, TigerGraphDbConfig } from './data-types';
 import { BehaviorSubject } from 'rxjs';
 import { isPrimitiveType } from './constants';
 import { APP_CONF } from './config/app-conf';
@@ -93,7 +93,7 @@ export class SettingsService {
     return o;
   }
 
-  mapBehaviourSubject2Json(obj, mappedObj) {
+  private mapBehaviourSubject2Json(obj, mappedObj) {
     for (const k in obj) {
       if (obj[k] instanceof BehaviorSubject) {
         mappedObj[k] = (obj[k] as BehaviorSubject<any>).getValue();
@@ -106,5 +106,12 @@ export class SettingsService {
         this.mapBehaviourSubject2Json(obj[k], mappedObj[k]);
       }
     }
+  }
+
+  getTigerGraphDbConfig(): TigerGraphDbConfig {
+    const tigerGraphApiConf = {};
+    const obj = this.getAppConfig().tigerGraphDbConfig;
+    this.mapBehaviourSubject2Json(obj, tigerGraphApiConf);
+    return tigerGraphApiConf as TigerGraphDbConfig;
   }
 }
