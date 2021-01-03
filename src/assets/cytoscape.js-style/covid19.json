@@ -1,7 +1,7 @@
-[
-  {
+[{
     "selector": "node",
     "style": {
+      "background-opacity": 0,
       "font-size": "8px",
       "text-max-width": "44px",
       "text-valign": "bottom",
@@ -12,91 +12,115 @@
     }
   },
   {
+    "selector": "edge",
+    "style": {
+      "width": "3px",
+      "font-size": "7px",
+      "text-outline-color": "#555555",
+      "text-outline-width": "1px",
+      "text-rotation": "autorotate",
+      "color": "#FFFFFF",
+      "line-style": "solid",
+      "curve-style": "bezier"
+    }
+  },
+  {
+    "selector": "node.Province",
+    "style": {
+      "label": "data(id)",
+      "shape": "ellipse",
+      "background-opacity": 1,
+      "background-color": "#c7c7c7"
+    }
+  },
+  {
+    "selector": "node.Country",
+    "style": {
+      "label": "data(id)",
+      "shape": "round-rectangle",
+      "background-fit": "contain",
+      "background-image": "assets/img/flag.svg"
+    }
+  },
+  {
+    "selector": "node.InfectionCase",
+    "style": {
+      "label": "data(id)",
+      "shape": "ellipse",
+      "background-fit": "contain",
+      "background-image": "assets/img/disease.svg"
+    }
+  },
+  {
     "selector": "node.Patient",
     "style": {
       "label": "data(patient_id)",
-      "background-color": "#54d971"
-    }
-  },
-  {
-    "selector": "node.BankAccount",
-    "style": {
-      "shape": "round-rectangle",
-      "background-fit": "contain",
-      "background-image": "assets/img/bank-account.svg"
-    }
-  },
-  {
-    "selector": "node.TrainRide",
-    "style": {
-      "shape": "ellipse",
-      "background-fit": "contain",
-      "background-image": "assets/img/train.svg"
-    }
-  },
-  {
-    "selector": "node.CaseReport",
-    "style": {
-      "shape": "round-rectangle",
-      "background-fit": "contain",
-      "background-image": "assets/img/case-report.svg"
-    }
-  },
-  {
-    "selector": "node.HotelStay",
-    "style": {
-      "shape": "round-rectangle",
-      "background-fit": "contain",
-      "background-image": "assets/img/hotel.svg"
-    }
-  },
-  {
-    "selector": "node.PhoneCall",
-    "style": {
-      "shape": "round-rectangle",
-      "background-fit": "contain",
-      "background-image": "assets/img/call.svg"
-    }
-  },
-  {
-    "selector": "node.Phone",
-    "style": {
-      "shape": "round-rectangle",
-      "background-fit": "contain",
-      "background-image": "assets/img/smartphone.svg"
-    }
-  },
-  {
-    "selector": "node.Address",
-    "style": {
-      "shape": "ellipse",
-      "background-fit": "contain",
-      "background-image": "assets/img/home.svg"
-    }
-  },
-  {
-    "selector": "node.BusRide",
-    "style": {
-      "shape": "ellipse",
-      "background-fit": "contain",
-      "background-image": "assets/img/bus.svg"
-    }
-  },
-  {
-    "selector": "node.Flight",
-    "style": {
-      "shape": "ellipse",
-      "background-fit": "contain",
-      "background-image": "assets/img/flight.svg"
-    }
-  },
-  {
-    "selector": "node.Person",
-    "style": {
-      "label": "data(fullName)",
       "shape": "ellipse",
       "background-fit": "contain",
       "background-image": "assets/img/person.svg"
+    }
+  },
+  {
+    "selector": "node.City",
+    "style": {
+      "label": "data(id)",
+      "shape": "round-rectangle",
+      "background-fit": "contain",
+      "background-image": "assets/img/city.svg"
+    }
+  },
+  {
+    "selector": "node.TravelEvent",
+    "style": {
+      "label": "data(id)",
+      "shape": "ellipse",
+      "background-fit": "contain",
+      "background-image": "assets/img/travel.svg"
+    }
+  },
+  {
+    "selector": "node.Year_",
+    "style": {
+      "label": "data(year_)",
+      "shape": "ellipse",
+      "background-opacity": 1,
+      "background-color": "#1f77b4"
+    }
+  },
+  {
+    "selector": "node.WeatherStat",
+    "style": {
+      "label": "data(code)",
+      "shape": "ellipse",
+      "background-fit": "contain",
+      "background-image": "assets/img/weather.svg"
+    }
+  },
+  {
+    "selector": "node.Day_",
+    "style": {
+      "label": "data(day_)",
+      "shape": "ellipse",
+      "background-opacity": 1,
+      "background-color": "#cedb9c"
+    }
+  },
+  {
+    "selector": "node.Month_",
+    "style": {
+      "label": "data(month_)",
+      "shape": "ellipse",
+      "background-opacity": 1,
+      "background-color": "#5254a3"
+    }
+  },
+  {
+    "selector": "node.SearchStat",
+    "style": {
+      "label": "data(id)",
+      "shape": "ellipse",
+      "background-fit": "contain",
+      "background-image": "assets/img/searchStat.svg"
     }
   },
   {
