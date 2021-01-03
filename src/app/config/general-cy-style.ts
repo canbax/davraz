@@ -1,4 +1,4 @@
-export const GENERAL_CY_STYLE: any =
+export const GENERAL_CY_STYLE: any[] =
   [
     {
       selector: "node.hover",

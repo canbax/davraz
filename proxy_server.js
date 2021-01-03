@@ -50,7 +50,7 @@ app.post('/samplenodes', async (req, res) => {
   const token = req.body.token;
 
   let nodes = [];
-  const url = `${u}/graph/${graphName}/vertices/${type}?_api_=v2&limit=${cnt}`;
+  const url = `${u}/graph/${graphName}/vertices/${type}?_api=v2&limit=${cnt}`;
   const { body } = await got(url, {
     headers: {
       'Authorization': 'Bearer ' + token,
@@ -72,7 +72,7 @@ app.post('/edges4nodes', async (req, res) => {
   const token = req.body.token;
 
   let edges = [];
-  const url = `${u}/graph/${graphName}/edges?source_vertex_id=${id}&source_vertex_type=${src_type}&_api_=v2&limit=${cnt}`;
+  const url = `${u}/graph/${graphName}/edges/${src_type}/${id}?_api=v2&limit=${cnt}`;
   const { body } = await got(url, {
     headers: {
       'Authorization': 'Bearer ' + token,
@@ -86,15 +86,15 @@ app.post('/edges4nodes', async (req, res) => {
 });
 
 app.post('/nodes4edges', async (req, res) => {
-  const cnt = req.query.cnt;
-  const type = req.query.type;
-  const id = req.query.id;
+  const cnt = req.body.cnt;
+  const type = req.body.type;
+  const id = req.body.id;
   const graphName = req.body.graphName;
   const u = req.body.url;
   const token = req.body.token;
 
   let nodes = [];
-  const url = `${u}/graph/${graphName}/vertices?vertex_type=${type}&vertex_id=${id}&_api_=v2&limit=${cnt}`;
+  const url = `${u}/graph/${graphName}/vertices/${type}/${id}?_api=v2&limit=${cnt}`;
   const { body } = await got(url, {
     headers: {
       'Authorization': 'Bearer ' + token,

@@ -91,8 +91,7 @@ export class AppComponent implements OnInit {
         this._s.cy.json({ elements: fileJSON });
         this._s.cy.fit();
       } else if (this.loadFileType == 'LoadStyle') {
-        this._s.cy.style().resetToDefault().update();
-        this._s.cy.style().fromJson(GENERAL_CY_STYLE).fromJson(fileJSON).update();
+        this._s.cy.style().fromJson(GENERAL_CY_STYLE.concat(fileJSON)).update();
       }
 
     });

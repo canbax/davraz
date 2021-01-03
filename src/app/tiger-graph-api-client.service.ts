@@ -122,7 +122,13 @@ export class TigerGraphApiClientService {
         arr.push(o);
         o.subscribe(x2 => {
           nodes = nodes.concat((x2 as GraphResponse).nodes);
-        })
+        });
+
+        const o2 = this._http.post(`${this.url}/nodes4edges`, { cnt: 1000, type: e.from_type, id: e.from_id, graphName: conf.graphName, url: conf.url, token: conf.token });
+        arr.push(o2);
+        o2.subscribe(x2 => {
+          nodes = nodes.concat((x2 as GraphResponse).nodes);
+        });
       }
       combineLatest(arr).subscribe(() => {
         cb({ edges: edges, nodes: nodes });
