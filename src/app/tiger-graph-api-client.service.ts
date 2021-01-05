@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SettingsService } from './settings.service';
-import { InterprettedQueryResult, GraphResponse, NodeResponse, EdgeResponse, TigerGraphDbConfig } from './data-types';
+import { InterprettedQueryResult, GraphResponse, NodeResponse, EdgeResponse, DbClient } from './data-types';
 import { combineLatest, Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
@@ -10,17 +10,31 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 @Injectable({
   providedIn: 'root'
 })
-export class TigerGraphApiClientService {
+export class TigerGraphApiClientService implements DbClient {
 
   url: string;
   constructor(private _http: HttpClient, private _settings: SettingsService, public dialog: MatDialog, private _snackBar: MatSnackBar) {
     this.url = this._settings.getAppConfig().server.getValue();
   }
 
-  errFn = (err) => {
+  private errFn = (err) => {
     const msg = JSON.stringify(err);
     console.log('err: ', msg);
     this._snackBar.open('Error in http request: ' + err.message, 'close');
+  }
+
+  private simpleRequest() {
+    const conf = this._settings.getTigerGraphDbConfig();
+    this._http.post(`${this.url}/echo`, { token: conf.token, url: conf.url })
+      .subscribe(x => {
+        if (x['error']) {
+          const dialogRef = this.dialog.open(ErrorDialogComponent);
+          dialogRef.componentInstance.title = 'Error on http request';
+          dialogRef.componentInstance.content = JSON.stringify(x);
+          return;
+        }
+        console.log('resp: ', x);
+      }, this.errFn);
   }
 
   refreshToken(cb) {
@@ -38,21 +52,8 @@ export class TigerGraphApiClientService {
       }, this.errFn);
   }
 
-  simpleRequest() {
-    const conf = this._settings.getTigerGraphDbConfig();
-    this._http.post(`${this.url}/echo`, { token: conf.token, url: conf.url })
-      .subscribe(x => {
-        if (x['error']) {
-          const dialogRef = this.dialog.open(ErrorDialogComponent);
-          dialogRef.componentInstance.title = 'Error on http request';
-          dialogRef.componentInstance.content = JSON.stringify(x);
-          return;
-        }
-        console.log('resp: ', x);
-      }, this.errFn);
-  }
-
-  runInterprettedQuery(q: string, cb: (r: InterprettedQueryResult) => void) {
+  // In terms of TigerGraph this is an InterPretted Query, https://docs.tigergraph.com/dev/gsql-ref/querying/query-operations#interpret-query
+  runQuery(q: string, cb: (r: InterprettedQueryResult) => void) {
     const conf = this._settings.getTigerGraphDbConfig();
     this._http.post(`${this.url}/gsql`, { q: q, username: conf.username, password: conf.password, url: conf.url },
       { headers: { 'Content-Type': 'application/json' } })
@@ -110,10 +111,6 @@ export class TigerGraphApiClientService {
     }, this.errFn);
   }
 
-  endPoints(cb: (r: InterprettedQueryResult) => void) {
-    this._http.post(`${this.url}/endpoints`, {}).subscribe(x => { cb(x as InterprettedQueryResult) }, this.errFn);
-  }
-
   getNeighborsOfNode(cb: (r: GraphResponse) => void, elem) {
     const t = elem.classes()[0];
     const id = elem.id().substr(2);
@@ -143,7 +140,9 @@ export class TigerGraphApiClientService {
     });
   }
 
-  query(cb, query: string, params: any[]) {
+  // In terms of TigerGraph this is simply a Query, https://docs.tigergraph.com/dev/gsql-ref/querying/introduction-query
+  // You should first create the query then install it then call it. Actually, it looks more similar to a "Stored Procedure" in SQL terminology.
+  runStoredProcedure(cb, query: string, params: any[]) {
     this._http.post(`${this.url} / query`, { query: query, params: params }, { headers: { 'Content-Type': 'application/json' } }).subscribe(x => {
       if (x['error']) {
         const dialogRef = this.dialog.open(ErrorDialogComponent);

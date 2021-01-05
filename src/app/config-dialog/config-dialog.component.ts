@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { TigerGraphApiClientService } from '../tiger-graph-api-client.service';
 import { TigerGraphDbConfig, AppConfig, DatabaseType } from '../data-types';
 import { SettingsService } from '../settings.service';
 import { getCyStyleFromColorAndWid, Layout } from '../constants';
 import { SharedService } from '../shared.service';
 import { BehaviorSubject } from 'rxjs';
 import { MatChipInputEvent } from '@angular/material/chips';
+import { DbClientService } from '../db-client.service';
 
 @Component({
   selector: 'app-config-dialog',
@@ -29,7 +29,7 @@ export class ConfigDialogComponent {
   currLayout: string;
   nodeTypes: string[] = [];
 
-  constructor(private _s: SharedService, private _tgApi: TigerGraphApiClientService, private _settings: SettingsService) {
+  constructor(private _s: SharedService, private _dbApi: DbClientService, private _settings: SettingsService) {
     this.syncDbConfig();
     this.syncAppConfig();
     this.layoutOptions = Object.keys(Layout);
@@ -42,7 +42,7 @@ export class ConfigDialogComponent {
   }
 
   refreshDbToken() {
-    this._tgApi.refreshToken((x) => {
+    this._dbApi.refreshToken((x) => {
       this.tigerGraphDbConf.tokenExpire = x.expiration;
       this.tigerGraphDbConf.token = x.token;
     });

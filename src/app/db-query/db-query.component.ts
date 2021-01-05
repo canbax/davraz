@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { TigerGraphApiClientService } from '../tiger-graph-api-client.service';
+import { DbClientService } from '../db-client.service';
 import { SharedService } from '../shared.service';
 import { DbQuery, InstalledDbQuery } from '../data-types';
 import { SettingsService } from '../settings.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-db-query',
@@ -22,12 +24,11 @@ export class DbQueryComponent implements OnInit {
   currInstalledQuery: InstalledDbQuery;
   rawInstalledQueryResponse = '';
 
-  constructor(private _tgApi: TigerGraphApiClientService, private _s: SharedService, private _settings: SettingsService) { }
+  constructor(private _dbApi: DbClientService, private _s: SharedService, private _settings: SettingsService, private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.queries = this._settings.getAllDbQueries();
-    this._tgApi.getInstalledQueries((x) => {
-      console.log('installed queries: ', x);
+    this._dbApi.getInstalledQueries((x) => {
       this.installedQueries = [];
 
       for (const o of x) {
@@ -52,7 +53,11 @@ export class DbQueryComponent implements OnInit {
   }
 
   runQuery() {
-    this._tgApi.runInterprettedQuery(this.gsql, (x) => {
+    this._dbApi.runQuery(this.gsql, (x) => {
+      if (!x || !(x.results)) {
+        this._snackBar.open('Empty response from query: ' + JSON.stringify(x), 'close');
+        return;
+      }
       this._s.loadGraph({ nodes: x.results[0].results, edges: [] });
       this._s.add2GraphHistory('run interpretted query');
     });
@@ -84,7 +89,7 @@ export class DbQueryComponent implements OnInit {
       o2[o.name] = o.inp;
       arr.push(o2);
     }
-    this._tgApi.query((x) => {
+    this._dbApi.runStoredProcedure((x) => {
       this._s.loadGraph4InstalledQuery(x);
       this._s.add2GraphHistory('installed query');
       this.rawInstalledQueryResponse = JSON.stringify(x, null, 4);

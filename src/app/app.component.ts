@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
-import { TigerGraphApiClientService } from './tiger-graph-api-client.service';
+import { DbClientService } from './db-client.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfigDialogComponent } from './config-dialog/config-dialog.component';
 import { Subject } from 'rxjs';
@@ -39,8 +39,7 @@ export class AppComponent implements OnInit {
   layoutAlgos: string[] = [];
   private loadFileType: 'LoadGraph' | 'LoadStyle' = 'LoadGraph';
 
-  constructor(private _tgApi: TigerGraphApiClientService, private _s: SharedService, public dialog: MatDialog, private _settings: SettingsService) {
-    this._tgApi.simpleRequest();
+  constructor(private _dbApi: DbClientService, private _s: SharedService, public dialog: MatDialog, private _settings: SettingsService) {
   }
 
   ngOnInit(): void {
@@ -74,7 +73,7 @@ export class AppComponent implements OnInit {
     const n1 = this._s.appConf.sampleDataNodeCount.getValue();
     const n2 = this._s.appConf.sampleDataEdgeCount.getValue();
     this._s.isLoading.next(true);
-    this._tgApi.sampleData(x => { this._s.loadGraph(x); this._s.isLoading.next(false); this._s.add2GraphHistory('Load sample data'); }, n1, n2);
+    this._dbApi.sampleData(x => { this._s.loadGraph(x); this._s.isLoading.next(false); this._s.add2GraphHistory('Load sample data'); }, n1, n2);
   }
 
   showDbQuery() {
@@ -83,10 +82,6 @@ export class AppComponent implements OnInit {
 
   clearData() {
     this._s.cy.remove(this._s.cy.$());
-  }
-
-  endPoints() {
-    this._tgApi.endPoints(this._s.loadFromQuery);
   }
 
   fileSelected() {

@@ -18,7 +18,7 @@ import { AppConfig, GraphResponse, NodeResponse, InterprettedQueryResult, TableD
 import { Subject, BehaviorSubject } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
-import { TigerGraphApiClientService } from './tiger-graph-api-client.service';
+import { DbClientService } from './db-client.service';
 import { SettingsService } from './settings.service';
 import { GENERAL_CY_STYLE } from './config/general-cy-style';
 
@@ -42,7 +42,7 @@ export class SharedService {
   graphHistory: GraphHistoryItem[] = [];
   addNewGraphHistoryItem = new BehaviorSubject<boolean>(false);
 
-  constructor(public dialog: MatDialog, private _tgApi: TigerGraphApiClientService, private _settings: SettingsService) {
+  constructor(public dialog: MatDialog, private _dbApi: DbClientService, private _settings: SettingsService) {
     let isGraphEmpty = () => { return this.cy.elements().not(':hidden, :transparent').length > 0 };
     this.performLayout = debounce(this.runLayout, 2 * LAYOUT_ANIM_DUR, true, isGraphEmpty);
     this.appConf = this._settings.getAppConfig();
@@ -280,7 +280,7 @@ export class SharedService {
       return;
     }
     this.isLoading.next(true);
-    this._tgApi.getNeighborsOfNode((x) => { this.loadGraph(x); this.add2GraphHistory('get neighbors of node'); }, ele);
+    this._dbApi.getNeighborsOfNode((x) => { this.loadGraph(x); this.add2GraphHistory('get neighbors of node'); }, ele);
   }
 
   selectAllThisType(event) {

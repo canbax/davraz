@@ -106,3 +106,19 @@ export enum DatabaseType {
   tigerGraph = 0,
   neo4j = 1
 }
+
+export interface DbClient {
+
+  refreshToken: (cb) => void;
+
+  runQuery: (q: string, cb: (r: InterprettedQueryResult) => void) => void;
+
+  sampleData: (cb: (r: GraphResponse) => void, nodeCnt, edgeCnt) => void;
+
+  getNeighborsOfNode: (cb: (r: GraphResponse) => void, elem) => void;
+
+  runStoredProcedure: (cb, query: string, params: any[]) => void;
+
+  getInstalledQueries: (cb: (r: any[]) => void) => void;
+
+}
