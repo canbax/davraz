@@ -59,6 +59,7 @@ export interface AppConfig {
   currLayout: BehaviorSubject<string>;
   server: BehaviorSubject<string>;
   nodeTypes: BehaviorSubject<string>[];
+  databaseType: BehaviorSubject<DatabaseType>;
   tigerGraphDbConfig: {
     url: BehaviorSubject<string>;
     secret: BehaviorSubject<string>;
@@ -99,4 +100,9 @@ export interface GraphHistoryItem {
   expo: string;
   base64png: string;
   json: any;
+}
+
+export enum DatabaseType {
+  tigerGraph = 0,
+  neo4j = 1
 }

@@ -1,8 +1,16 @@
 <h1 mat-dialog-title>Settings</h1>
 <mat-dialog-content>
+  <mat-form-field>
+    <mat-label>Database Type</mat-label>
+    <mat-select [(value)]="databaseType" (selectionChange)="changeConfig('databaseType')">
+      <mat-option *ngFor="let o of dbTypes" [value]="o.enum">
+        {{o.str}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>&nbsp;
 
   <mat-accordion>
-    <mat-expansion-panel>
+    <mat-expansion-panel *ngIf="databaseType==0">
       <mat-expansion-panel-header>
         <mat-panel-title>
           Tiger Graph Database Connection

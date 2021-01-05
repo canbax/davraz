@@ -32,5 +32,6 @@ export const APP_CONF = {
     username: 'tigergraph',
     password: '123456',
     graphName: 'MyGraph'
-  }
+  },
+  databaseType: 0
 }

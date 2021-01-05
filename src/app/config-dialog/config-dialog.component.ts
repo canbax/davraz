@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { TigerGraphApiClientService } from '../tiger-graph-api-client.service';
-import { TigerGraphDbConfig, AppConfig } from '../data-types';
+import { TigerGraphDbConfig, AppConfig, DatabaseType } from '../data-types';
 import { SettingsService } from '../settings.service';
 import { getCyStyleFromColorAndWid, Layout } from '../constants';
 import { SharedService } from '../shared.service';
@@ -20,6 +20,8 @@ export class ConfigDialogComponent {
   currHighlightStyle: { wid: number, color: string, name: string };
   currHighlightIdx: number;
   isIgnoreCaseInText: boolean;
+  databaseType: DatabaseType;
+  dbTypes: { enum: DatabaseType, str: string }[];
   sampleDataNodeCount: number;
   server: string;
   sampleDataEdgeCount: number;
@@ -31,6 +33,7 @@ export class ConfigDialogComponent {
     this.syncDbConfig();
     this.syncAppConfig();
     this.layoutOptions = Object.keys(Layout);
+    this.dbTypes = [{ str: 'TigerGraph', enum: DatabaseType.tigerGraph }, { str: 'Neo4j', enum: DatabaseType.neo4j }];
   }
 
   saveDbConfig() {
@@ -56,6 +59,7 @@ export class ConfigDialogComponent {
     this.currLayout = this.appConf.currLayout.getValue();
     this.server = this.appConf.server.getValue();
     this.nodeTypes = this.appConf.nodeTypes.map(x => x.getValue());
+    this.databaseType = this.appConf.databaseType.getValue();
   }
 
   private syncDbConfig() {
