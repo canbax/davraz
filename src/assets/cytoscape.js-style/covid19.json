@@ -124,84 +124,192 @@
     }
   },
   {
-    "selector": "edge.hasCaseReport",
+    "selector": "edge.PROVINCE_IN_COUNTRY",
     "style": {
-      "label": "reports",
+      "label": "in country",
       "line-color": "#f50057",
       "target-arrow-shape": "square",
       "target-arrow-color": "#f50057"
     }
   },
   {
-    "selector": "edge.hasBusRide",
+    "selector": "edge.WEATHER_CONDITION",
     "style": {
-      "label": "rides",
+      "label": "weather",
       "line-color": "#d500f9",
       "target-arrow-shape": "triangle",
       "target-arrow-color": "#d500f9"
     }
   },
   {
-    "selector": "edge.hasTrainRide",
+    "selector": "edge.CITY_IN_PROVINCE",
     "style": {
-      "label": "rides",
+      "label": "in province",
       "line-color": "#3d5afe",
       "target-arrow-shape": "triangle-tee",
       "target-arrow-color": "#3d5afe"
     }
   },
   {
-    "selector": "edge.hasFlight",
+    "selector": "edge.CASE_IN_CITY",
     "style": {
-      "label": "flies",
+      "label": "in city",
       "line-color": "#00b0ff",
       "target-arrow-shape": "circle-triangle",
       "target-arrow-color": "#00b0ff"
     }
   },
   {
-    "selector": "edge.hasFundsTransfer",
+    "selector": "edge.CASE_IN_PROVINCE",
     "style": {
-      "label": "transfers",
+      "label": "in province",
       "line-color": "#00e676",
       "target-arrow-shape": "triangle-cross",
       "target-arrow-color": "#00e676"
     }
   },
   {
-    "selector": "edge.hasPhone",
+    "selector": "edge.PATIENT_FROM_PROVINCE",
     "style": {
-      "label": "has",
+      "label": "from province",
       "line-color": "#ffea00",
       "target-arrow-shape": "triangle-backcurve",
       "target-arrow-color": "#ffea00"
     }
   },
   {
-    "selector": "edge.hasPhoneCall",
+    "selector": "edge.PATIENT_FROM_COUNTRY",
     "style": {
-      "label": "calls",
+      "label": "from country",
       "line-color": "#ffc400",
       "target-arrow-shape": "vee",
       "target-arrow-color": "#ffc400"
     }
   },
   {
-    "selector": "edge.hasHomeAddress",
+    "selector": "edge.PATIENT_FROM_CITY",
     "style": {
-      "label": "resides",
+      "label": "from city",
+      "line-color": "#ffc400",
+      "target-arrow-shape": "vee",
+      "target-arrow-color": "#ffc400"
+    }
+  },
+  {
+    "selector": "edge.BELONGS_TO_CASE",
+    "style": {
+      "label": "belongs to case",
       "line-color": "#ff9100",
       "target-arrow-shape": "tee",
       "target-arrow-color": "#ff9100"
     }
   },
   {
-    "selector": "edge.hasHotelStay",
+    "selector": "edge.INFECTED_BY",
     "style": {
-      "label": "stays",
+      "label": "infected by",
       "line-color": "#ff3d00",
       "target-arrow-shape": "circle",
       "target-arrow-color": "#ff3d00"
+    }
+  },
+  {
+    "selector": "edge.BIRTH_STAMP",
+    "style": {
+      "label": "birth",
+      "line-color": "#ff3d00",
+      "target-arrow-shape": "circle",
+      "target-arrow-color": "#ff3d00"
+    }
+  },
+  {
+    "selector": "edge.YEAR_MONTH",
+    "style": {
+      "label": "year month",
+      "line-color": "#ff3d00",
+      "target-arrow-shape": "circle",
+      "target-arrow-color": "#ff3d00"
+    }
+  },
+  {
+    "selector": "edge.PATIENT_TRAVELED",
+    "style": {
+      "label": "patient travel",
+      "line-color": "#ff3d00",
+      "target-arrow-shape": "circle",
+      "target-arrow-color": "#ff3d00"
+    }
+  },
+  {
+    "selector": "edge.TRAVEL_EVENT_IN",
+    "style": {
+      "label": "travel in",
+      "line-color": "#ff3d00",
+      "target-arrow-shape": "circle",
+      "target-arrow-color": "#ff3d00"
+    }
+  },
+  {
+    "selector": "edge.TRAVEL_STAMP",
+    "style": {
+      "label": "travel stamp",
+      "line-color": "#ff3d00",
+      "target-arrow-shape": "circle",
+      "target-arrow-color": "#ff3d00"
+    }
+  },
+  {
+    "selector": "edge.WEATHER_STAMP",
+    "style": {
+      "label": "weather stamp",
+      "line-color": "#ff3d00",
+      "target-arrow-shape": "circle",
+      "target-arrow-color": "#ff3d00"
+    }
+  },
+  {
+    "selector": "edge.MONTH_DAY",
+    "style": {
+      "label": "month day",
+      "line-color": "#ff3d00",
+      "target-arrow-shape": "circle",
+      "target-arrow-color": "#ff3d00"
+    }
+  },
+  {
+    "selector": "edge.DECEASE_STAMP",
+    "style": {
+      "label": "decase stamp",
+      "line-color": "#fd8d3c",
+      "target-arrow-shape": "circle",
+      "target-arrow-color": "#fd8d3c"
+    }
+  },
+  {
+    "selector": "edge.RELEASED_STAMP",
+    "style": {
+      "label": "released stamp",
+      "line-color": "#6baed6",
+      "target-arrow-shape": "circle",
+      "target-arrow-color": "#6baed6"
+    }
+  },
+  {
+    "selector": "edge.SYMPTOM_STAMP",
+    "style": {
+      "label": "symptom stamp",
+      "line-color": "#de9ed6",
+      "target-arrow-shape": "vee",
+      "target-arrow-color": "#de9ed6"
+    }
+  },
+  {
+    "selector": "edge.CONFIRM_STAMP",
+    "style": {
+      "label": "confirm stamp",
+      "line-color": "#a55194",
+      "target-arrow-shape": "vee",
+      "target-arrow-color": "#a55194"
     }
   }
 ]
