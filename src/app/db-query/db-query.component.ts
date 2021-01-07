@@ -28,7 +28,7 @@ export class DbQueryComponent implements OnInit {
 
   ngOnInit(): void {
     this.queries = this._settings.getAllDbQueries();
-    this._dbApi.getInstalledQueries((x) => {
+    this._dbApi.getStoredProcedures((x) => {
       this.installedQueries = [];
 
       for (const o of x) {

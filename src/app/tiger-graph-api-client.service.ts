@@ -157,7 +157,7 @@ export class TigerGraphApiClientService implements DbClient {
     }, this.errFn);
   }
 
-  getInstalledQueries(cb: (r: any[]) => void) {
+  getStoredProcedures(cb: (r: any[]) => void) {
     const conf = this._settings.getTigerGraphDbConfig();
     this._http.post(`${this.url}/endpoints`, { url: conf.url, token: conf.token }).subscribe(x => {
       const keyNames4query = Object.keys(x).filter(x => x.includes('/query/'));

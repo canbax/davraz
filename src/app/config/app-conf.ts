@@ -33,5 +33,10 @@ export const APP_CONF = {
     password: '123456',
     graphName: 'MyGraph'
   },
+  neo4jDbConfig: {
+    url: 'http://localhost:7474/db/data/transaction/commit',
+    username: 'neo4j',
+    password: '123',
+  },
   databaseType: 0
 }

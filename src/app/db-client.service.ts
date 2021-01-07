@@ -39,7 +39,7 @@ export class DbClientService implements DbClient {
     this.client.runStoredProcedure(cb, query, params);
   }
 
-  getInstalledQueries(cb: (r: any[]) => void) {
-    this.client.getInstalledQueries(cb);
+  getStoredProcedures(cb: (r: any[]) => void) {
+    this.client.getStoredProcedures(cb);
   }
 }

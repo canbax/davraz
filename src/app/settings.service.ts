@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DbQuery, AppConfig, TigerGraphDbConfig } from './data-types';
+import { DbQuery, AppConfig, TigerGraphDbConfig, Neo4jDbConfig } from './data-types';
 import { BehaviorSubject } from 'rxjs';
 import { isPrimitiveType } from './constants';
 import { APP_CONF } from './config/app-conf';
@@ -121,5 +121,12 @@ export class SettingsService {
     const obj = this.getAppConfig().tigerGraphDbConfig;
     this.mapBehaviourSubject2Json(obj, tigerGraphApiConf);
     return tigerGraphApiConf as TigerGraphDbConfig;
+  }
+
+  getNeo4jDbConfig(): Neo4jDbConfig {
+    const neo4jDbConf = {};
+    const obj = this.getAppConfig().neo4jDbConfig;
+    this.mapBehaviourSubject2Json(obj, neo4jDbConf);
+    return neo4jDbConf as Neo4jDbConfig;
   }
 }

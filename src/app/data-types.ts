@@ -68,7 +68,12 @@ export interface AppConfig {
     token: BehaviorSubject<string>;
     tokenExpire: BehaviorSubject<number>;
     graphName: BehaviorSubject<string>;
-  };
+  },
+  neo4jDbConfig: {
+    url: BehaviorSubject<string>;
+    username: BehaviorSubject<string>;
+    password: BehaviorSubject<string>;
+  }
 }
 
 export interface TigerGraphDbConfig {
@@ -79,6 +84,12 @@ export interface TigerGraphDbConfig {
   token: string;
   tokenExpire: number;
   graphName: string;
+}
+
+export interface Neo4jDbConfig {
+  url: string;
+  username: string;
+  password: string;
 }
 
 export interface DbQuery {
@@ -119,6 +130,6 @@ export interface DbClient {
 
   runStoredProcedure: (cb, query: string, params: any[]) => void;
 
-  getInstalledQueries: (cb: (r: any[]) => void) => void;
+  getStoredProcedures: (cb: (r: any[]) => void) => void;
 
 }
