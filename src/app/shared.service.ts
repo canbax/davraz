@@ -92,24 +92,40 @@ export class SharedService {
   }
 
   private magnifyOnHover() {
+    const ANIM_DUR = 50;
     let anim = null;
-    let reverseAnim = null;
-    const ANIM_DUR = 100;
+    let timeout;
+    let state = 0;
 
     return function (event) {
       const isEdge = event.target.isEdge();
+      const isOn = event.type === 'mouseover';
+      console.log('event on ', event.target.id(), isOn);
 
-      if (event.type === 'mouseover') {
-        if (isEdge) {
-          anim = event.target.animation({ style: { 'width': event.target.width() + 5 }, duration: ANIM_DUR });
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        if (isOn) {
+          if (state != 0) {
+            return;
+          }
+          if (isEdge) {
+            anim = event.target.animation({ style: { 'width': event.target.width() + 5 }, duration: ANIM_DUR });
+          } else {
+            anim = event.target.animation({ style: { 'padding': 5, }, duration: ANIM_DUR });
+          }
+          anim.play().promise('completed').then(x => {
+            console.log('bigger');
+            state = 1;
+          });
         } else {
-          anim = event.target.animation({ style: { 'padding': 5, }, duration: ANIM_DUR });
+          if (anim && state == 1) {
+            anim.reverse().play().promise('completed').then(x => {
+              console.log('smaller');
+              state = 0;
+            });
+          }
         }
-        reverseAnim = anim.reverse();
-        anim.play().promise('completed').then(() => { console.log('anim played'); });
-      } else {
-        reverseAnim.play().promise('completed').then(() => { console.log('reverse played'); });;
-      }
+      }, ANIM_DUR);
     }
   }
 
