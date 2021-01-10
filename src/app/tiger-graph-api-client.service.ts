@@ -62,6 +62,13 @@ export class TigerGraphApiClientService implements DbClient {
 
   sampleData(cb: (r: GraphResponse) => void, nodeCnt = 5, edgeCnt = 3) {
     const nodeTypes = this._settings.getAppConfig().nodeTypes.map(x => x.getValue());
+    if (!nodeTypes || nodeTypes.length < 1) {
+      cb({ edges: [], nodes: [] });
+      const dialogRef = this.dialog.open(ErrorDialogComponent);
+      dialogRef.componentInstance.title = 'Data Request';
+      dialogRef.componentInstance.content = '"Node Types" should not be empty!';
+      return;
+    }
     const conf = this._settings.getTigerGraphDbConfig();
     let firstNodes: NodeResponse[] = [];
     const arr: Observable<Object>[] = [];
