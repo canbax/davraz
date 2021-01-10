@@ -85,9 +85,32 @@ export class SharedService {
     this.cy.on('add remove', fn2);
     const fn3 = debounce((e) => { this.elemHoverChanged.next(e) }, OBJ_INFO_UPDATE_DELAY);
     this.cy.on('mouseover mouseout', 'node, edge', fn3);
+    this.cy.on('mouseover mouseout', 'node, edge', this.magnifyOnHover().bind(this));
 
     this.bindComponentSelector();
     this.addFnStyles();
+  }
+
+  private magnifyOnHover() {
+    let anim = null;
+    let reverseAnim = null;
+    const ANIM_DUR = 100;
+
+    return function (event) {
+      const isEdge = event.target.isEdge();
+
+      if (event.type === 'mouseover') {
+        if (isEdge) {
+          anim = event.target.animation({ style: { 'width': event.target.width() + 5 }, duration: ANIM_DUR });
+        } else {
+          anim = event.target.animation({ style: { 'padding': 5, }, duration: ANIM_DUR });
+        }
+        reverseAnim = anim.reverse();
+        anim.play().promise('completed').then(() => { console.log('anim played'); });
+      } else {
+        reverseAnim.play().promise('completed').then(() => { console.log('reverse played'); });;
+      }
+    }
   }
 
   private runLayout(algoName: string = null): void {
