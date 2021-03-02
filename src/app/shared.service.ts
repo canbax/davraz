@@ -93,38 +93,51 @@ export class SharedService {
 
   private magnifyOnHover() {
     const ANIM_DUR = 50;
-    let anim = null;
+    let id2Anim = {};
     let timeout;
-    let state = 0;
+    let prevEnteredId = null;
+
 
     return function (event) {
-      const isEdge = event.target.isEdge();
+      const tgt = event.target;
+      const isEdge = tgt.isEdge();
       const isOn = event.type === 'mouseover';
-      console.log('event on ', event.target.id(), isOn);
+      const currId = tgt.id();
+      let str = isOn ? 'on' : 'off'
 
-      clearTimeout(timeout);
+      if (isOn && !prevEnteredId) {
+        prevEnteredId = currId;
+      }
+      if (!isOn && prevEnteredId == currId) {
+        clearTimeout(timeout);
+        prevEnteredId = null;
+
+      }
+      if (!isOn && id2Anim[currId]) {
+        id2Anim[currId].reverse().play();
+        id2Anim[currId] = undefined;
+      }
+
       timeout = setTimeout(() => {
-        if (isOn) {
-          if (state != 0) {
-            return;
-          }
-          if (isEdge) {
-            anim = event.target.animation({ style: { 'width': event.target.width() + 5 }, duration: ANIM_DUR });
-          } else {
-            anim = event.target.animation({ style: { 'padding': 5, }, duration: ANIM_DUR });
-          }
-          anim.play().promise('completed').then(x => {
-            console.log('bigger');
-            state = 1;
-          });
-        } else {
-          if (anim && state == 1) {
-            anim.reverse().play().promise('completed').then(x => {
-              console.log('smaller');
-              state = 0;
-            });
-          }
+        const nodeAnim = {
+          style: {
+            'padding': 5, 'font-size': '10px', 'z-index': 15
+          }, duration: ANIM_DUR
+        };
+        const edgeAnim = {
+          style: {
+            'width': 5, 'font-size': '10px', 'z-index': 15
+          }, duration: ANIM_DUR
+        };
+        if (!isOn) {
+          return;
         }
+        if (isEdge) {
+          id2Anim[currId] = tgt.animation(edgeAnim);
+        } else {
+          id2Anim[currId] = tgt.animation(nodeAnim);
+        }
+        id2Anim[currId].play();
       }, ANIM_DUR);
     }
   }
