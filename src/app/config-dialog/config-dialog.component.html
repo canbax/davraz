@@ -80,6 +80,36 @@
         <mat-icon>save</mat-icon>
       </button>
     </mat-expansion-panel>
+    <mat-expansion-panel *ngIf="databaseType==1">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Neo4j Database Connection
+        </mat-panel-title>
+        <mat-panel-description>
+          Connect to a Neo4j REST API
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <form>
+        <mat-form-field class="full-width">
+          <mat-label>Database URL</mat-label>
+          <input matInput [(ngModel)]="neo4jDbConf.url" name="url">
+        </mat-form-field>
+        <br>
+        <mat-form-field class="full-width">
+          <mat-label>Username</mat-label>
+          <input matInput [(ngModel)]="neo4jDbConf.username" name="secret">
+        </mat-form-field>
+        <br>
+        <mat-form-field class="full-width">
+          <mat-label>Password</mat-label>
+          <input matInput [(ngModel)]="neo4jDbConf.password" name="token">
+        </mat-form-field>
+      </form>
+
+      <button class="p5" mat-fab [mat-dialog-close]="true" (click)="saveDbConfig()" title="save">
+        <mat-icon>save</mat-icon>
+      </button>
+    </mat-expansion-panel>
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>

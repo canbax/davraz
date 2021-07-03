@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TigerGraphDbConfig, AppConfig, DatabaseType } from '../data-types';
+import { TigerGraphDbConfig, AppConfig, DatabaseType, Neo4jDbConfig } from '../data-types';
 import { SettingsService } from '../settings.service';
 import { getCyStyleFromColorAndWid, Layout } from '../constants';
 import { SharedService } from '../shared.service';
@@ -15,6 +15,7 @@ import { DbClientService } from '../db-client.service';
 export class ConfigDialogComponent {
 
   tigerGraphDbConf: TigerGraphDbConfig = { password: '', secret: '', token: '', tokenExpire: 0, url: '', username: '', graphName: '' };
+  neo4jDbConf: Neo4jDbConfig = { url: '', username: '', password: '' };
   tokenExpireDateStr = '';
   appConf: AppConfig;
   currHighlightStyle: { wid: number, color: string, name: string };
@@ -39,6 +40,7 @@ export class ConfigDialogComponent {
   saveDbConfig() {
     this.changeConfig('server');
     this.changeTigerGraphDbConfigs();
+    this.changeNeo4jDbConfigs();
   }
 
   refreshDbToken() {
@@ -72,6 +74,12 @@ export class ConfigDialogComponent {
     this.tigerGraphDbConf.tokenExpire = c.tokenExpire.getValue();
     this.tigerGraphDbConf.graphName = c.graphName.getValue();
     this.tokenExpireDateStr = new Date(this.tigerGraphDbConf.tokenExpire * 1000).toDateString();
+
+    const c2 = this._s.appConf.neo4jDbConfig;
+    this.neo4jDbConf.url = c2.url.getValue();
+    this.neo4jDbConf.username = c2.username.getValue();
+    this.neo4jDbConf.password = c2.password.getValue();
+    
   }
 
   changeCurrHiglightStyle() {
@@ -132,6 +140,13 @@ export class ConfigDialogComponent {
         this.tigerGraphDbConf[key] = this.tigerGraphDbConf[key].substring(0, this.tigerGraphDbConf[key].length - 1);
       }
       this.appConf.tigerGraphDbConfig[key].next(this.tigerGraphDbConf[key]);
+    }
+    this._settings.setAppConfig(this.appConf);
+  }
+
+  changeNeo4jDbConfigs() {
+    for (const key in this.appConf.neo4jDbConfig) {
+      this.appConf.neo4jDbConfig[key].next(this.neo4jDbConf[key]);
     }
     this._settings.setAppConfig(this.appConf);
   }

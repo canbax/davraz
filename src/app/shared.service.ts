@@ -103,7 +103,6 @@ export class SharedService {
       const isEdge = tgt.isEdge();
       const isOn = event.type === 'mouseover';
       const currId = tgt.id();
-      let str = isOn ? 'on' : 'off'
 
       if (isOn && !prevEnteredId) {
         prevEnteredId = currId;
