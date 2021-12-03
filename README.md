@@ -6,7 +6,7 @@ I was a virtual attendee at the Graph+AI World 2020! Graph+AI World Day 2 Keynot
 You can directly watch [my presentation in the event from here](https://player.vimeo.com/video/463259298#t=49m08s)
 
 1. To visualize a tiger graph database, fill [db-config.json](db-config.json) file. You should fill everything except for `token` and `tokenExpire` fields.
-2. Run `node proxy_server.js` to run proxy server. Proxy server makes HTTP request to Tiger Graph REST API and passes responses to the client-side.
+2. We need a proxy server to communicate with the Tiger Graph REST API. You can use https://github.com/canbax/tiger-api to run a proxy server. The server makes HTTP request to Tiger Graph REST API and passes responses to the client-side.
 3. Run `npm i` and run `npm run ng s` to run angular in development mode.
 4. Open http://localhost:4200 if everything is OK, `Data>Sample Data` should bring some data from your Tiger Graph Database. 
 
