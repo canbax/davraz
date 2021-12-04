@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import cytoscape from 'cytoscape';
 import fcose from 'cytoscape-fcose';
-import chola from 'cytoscape-chola';
 import avsdf from 'cytoscape-avsdf';
 import cola from 'cytoscape-cola';
 import euler from 'cytoscape-euler';
@@ -58,7 +57,6 @@ export class SharedService {
     window['cy'] = this.cy;
 
     cytoscape.use(fcose);
-    cytoscape.use(chola);
     cytoscape.use(avsdf);
     cytoscape.use(cola);
     cytoscape.use(euler);

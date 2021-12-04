@@ -1,6 +1,6 @@
 {
   "name": "graph-imager",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -24,8 +24,6 @@
     "a-color-picker": "^1.2.1",
     "cytoscape": "^3.19.0",
     "cytoscape-avsdf": "^1.0.0",
-    "cytoscape-chola": "github:iVis-at-Bilkent/cytoscape.js-chola#unstable",
-    "cytoscape-cise": "github:iVis-at-Bilkent/cytoscape.js-cise#develop",
     "cytoscape-cola": "^2.4.0",
     "cytoscape-context-menus": "github:iVis-at-Bilkent/cytoscape.js-context-menus#unstable",
     "cytoscape-dagre": "^2.3.2",
