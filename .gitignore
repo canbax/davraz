@@ -48,3 +48,5 @@ Thumbs.db
 # files depend on data
 db-config.json
 cy-style.ts
+
+.angular/**
