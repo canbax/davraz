@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AppConfService } from '../app-conf.service';
 import { GraphHistoryItem } from '../data-types';
 import { SharedService } from '../shared.service';
 
@@ -9,7 +10,7 @@ import { SharedService } from '../shared.service';
 })
 export class GraphHistoryComponent implements OnInit {
 
-  constructor(private _s: SharedService) { }
+  constructor(private _s: SharedService, private _c: AppConfService) { }
   graphHistory: GraphHistoryItem[];
   activeItemIdx = 0;
 
@@ -20,7 +21,7 @@ export class GraphHistoryComponent implements OnInit {
         this.activeItemIdx = this._s.graphHistory.length - 1;
       }
     });
-    this._s.appConf.graphHistoryLimit.subscribe(x => {
+    this._c.appConf.graphHistoryLimit.subscribe(x => {
       while (this._s.graphHistory.length > x) {
         this._s.graphHistory.splice(0, 1);
         this.activeItemIdx = this.activeItemIdx - 1;

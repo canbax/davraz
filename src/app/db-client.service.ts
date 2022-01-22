@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { DatabaseType, DbClient, GraphResponse, InterprettedQueryResult } from './data-types';
-import { SettingsService } from './settings.service';
-import { SharedService } from './shared.service';
 import { TigerGraphApiClientService } from './tiger-graph-api-client.service';
 import { Neo4jApiClientService } from './neo4j-api-client.service';
+import { AppConfService } from './app-conf.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +10,8 @@ import { Neo4jApiClientService } from './neo4j-api-client.service';
 export class DbClientService implements DbClient {
 
   client: DbClient;
-  constructor(private _tgApi: TigerGraphApiClientService, private _s: SettingsService, private _neo4jApi: Neo4jApiClientService) {
-    const dbVendor = this._s.getAppConfig().databaseType.getValue();
+  constructor(private _tgApi: TigerGraphApiClientService, private _c: AppConfService, private _neo4jApi: Neo4jApiClientService) {
+    const dbVendor = this._c.appConf.databaseType.getValue();
     if (dbVendor == DatabaseType.tigerGraph) {
       this.client = this._tgApi;
     } else if (dbVendor == DatabaseType.neo4j) {

@@ -2,8 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AppConfService } from './app-conf.service';
 import { DbClient, EdgeResponse, GraphResponse, InterprettedQueryResult, NodeResponse } from './data-types';
-import { SettingsService } from './settings.service';
+import { SharedService } from './shared.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,10 @@ import { SettingsService } from './settings.service';
 export class Neo4jApiClientService implements DbClient {
 
   url: string;
-  constructor(private _http: HttpClient, private _settings: SettingsService, public dialog: MatDialog, private _snackBar: MatSnackBar) {
-    this.url = this._settings.getAppConfig().neo4jDbConfig.url.getValue();
+  constructor(private _http: HttpClient, private _s: AppConfService, public dialog: MatDialog, private _snackBar: MatSnackBar) {
+    this._s.appConf.neo4jDbConfig.url.subscribe(x => {
+      this.url = x;
+    });
   }
 
   private errFn = (err) => {
@@ -22,7 +25,7 @@ export class Neo4jApiClientService implements DbClient {
   }
 
   private run(cql, cb: (r: GraphResponse) => void) {
-    const conf = this._settings.getAppConfig().neo4jDbConfig;
+    const conf = this._s.appConf.neo4jDbConfig;
     const url = conf.url.getValue();
     const username = conf.username.getValue();
     const password = conf.password.getValue();

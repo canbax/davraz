@@ -3,8 +3,9 @@ import { TigerGraphApiClientService } from '../tiger-graph-api-client.service';
 import { DbClientService } from '../db-client.service';
 import { SharedService } from '../shared.service';
 import { DbQuery, InstalledDbQuery } from '../data-types';
-import { SettingsService } from '../settings.service';
+import { LocalStorageService } from '../local-storage.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AppConfService } from '../app-conf.service';
 
 @Component({
   selector: 'app-db-query',
@@ -13,8 +14,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class DbQueryComponent implements OnInit {
 
-  gsql = `INTERPRET QUERY () FOR GRAPH connectivity {   
-    start =   {Person.*};
+  gsql =
+    `INTERPRET QUERY () FOR GRAPH MyGraph {   
+    start =   {ANY};
     results = SELECT s FROM start:s LIMIT 10;
     PRINT results;
     }`;
@@ -24,7 +26,7 @@ export class DbQueryComponent implements OnInit {
   currInstalledQuery: InstalledDbQuery;
   rawInstalledQueryResponse = '';
 
-  constructor(private _dbApi: DbClientService, private _s: SharedService, private _settings: SettingsService, private _snackBar: MatSnackBar) { }
+  constructor(private _dbApi: DbClientService, private _s: SharedService, private _c: AppConfService, private _settings: LocalStorageService, private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.queries = this._settings.getAllDbQueries();
@@ -101,7 +103,7 @@ export class DbQueryComponent implements OnInit {
           if (elem.length < 1) {
             elem = this._s.cy.$id('e_' + this.currInstalledQuery.params[i].inp).filter('.' + obj.id_type);
           }
-          this._s.viewUtils.highlight(elem, this._s.appConf.currHighlightIdx.getValue());
+          this._s.viewUtils.highlight(elem, this._c.appConf.currHighlightIdx.getValue());
         }
       }
     }, this.currInstalledQuery.name, arr);

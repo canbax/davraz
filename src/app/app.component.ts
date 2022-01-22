@@ -11,7 +11,8 @@ import { ObjectPropertiesComponent } from './object-properties/object-properties
 import { TableViewComponent } from './table-view/table-view.component';
 import { GraphHistoryComponent } from './graph-history/graph-history.component';
 import { GENERAL_CY_STYLE } from './config/general-cy-style';
-import { SettingsService } from './settings.service';
+import { LocalStorageService } from './local-storage.service';
+import { AppConfService } from './app-conf.service';
 
 @Component({
   selector: 'app-root',
@@ -39,13 +40,13 @@ export class AppComponent implements OnInit {
   layoutAlgos: string[] = [];
   private loadFileType: 'LoadGraph' | 'LoadStyle' = 'LoadGraph';
 
-  constructor(private _dbApi: DbClientService, private _s: SharedService, public dialog: MatDialog, private _settings: SettingsService) {
+  constructor(private _dbApi: DbClientService, private _s: SharedService, private _c: AppConfService, private _l: LocalStorageService, public dialog: MatDialog) {
   }
 
   ngOnInit(): void {
     this._s.init();
     this._s.elemSelectChanged.subscribe(this.showObjProps.bind(this));
-    this._s.graphChanged.subscribe(x => {
+    this._s.graphChanged.subscribe(_ => {
       const cNames = this._s.cy.$(':visible').map(x => x.classes()[0]);
       const d = {};
       for (let i = 0; i < cNames.length; i++) {
@@ -55,7 +56,7 @@ export class AppComponent implements OnInit {
     });
     this._s.isLoading.subscribe(x => { this.isLoading = x; });
     this.layoutAlgos = Object.keys(Layout);
-    const s = this._settings.getRecentCyStyle();
+    const s = this._l.getRecentCyStyle();
     if (s) {
       this._s.cy.style().fromJson(GENERAL_CY_STYLE.concat(JSON.parse(s))).update();
     }
@@ -65,13 +66,12 @@ export class AppComponent implements OnInit {
     const dialogRef = this.dialog.open(ConfigDialogComponent, { width: '50%' });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
     });
   }
 
   loadSampleData() {
-    const n1 = this._s.appConf.sampleDataNodeCount.getValue();
-    const n2 = this._s.appConf.sampleDataEdgeCount.getValue();
+    const n1 = this._c.appConf.sampleDataNodeCount.getValue();
+    const n2 = this._c.appConf.sampleDataEdgeCount.getValue();
     this._s.isLoading.next(true);
     this._dbApi.sampleData(x => { this._s.loadGraph(x); this._s.isLoading.next(false); this._s.add2GraphHistory('Load sample data'); }, n1, n2);
   }
@@ -91,7 +91,7 @@ export class AppComponent implements OnInit {
         this._s.cy.json({ elements: fileJSON });
         this._s.cy.fit();
       } else if (this.loadFileType == 'LoadStyle') {
-        this._settings.setRecentCyStyle(txt);
+        this._l.setRecentCyStyle(txt);
         this._s.cy.style().fromJson(GENERAL_CY_STYLE.concat(fileJSON)).update();
       }
 
@@ -145,7 +145,6 @@ export class AppComponent implements OnInit {
     const dialogRef = this.dialog.open(SavePngDialogComponent);
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
     });
   }
 
@@ -188,12 +187,12 @@ export class AppComponent implements OnInit {
     const elems = this._s.cy.$();
     for (let i = 0; i < elems.length; i++) {
       const s = obj2str(elems[i].data());
-      if (this._s.appConf.isIgnoreCaseInText.getValue()) {
+      if (this._c.appConf.isIgnoreCaseInText.getValue()) {
         if (s.toLowerCase().includes(this.searchTxt.toLowerCase())) {
-          this._s.viewUtils.highlight(elems[i], this._s.appConf.currHighlightIdx.getValue());
+          this._s.viewUtils.highlight(elems[i], this._c.appConf.currHighlightIdx.getValue());
         }
       } else if (s.includes(this.searchTxt)) {
-        this._s.viewUtils.highlight(elems[i], this._s.appConf.currHighlightIdx.getValue());
+        this._s.viewUtils.highlight(elems[i], this._c.appConf.currHighlightIdx.getValue());
       }
     }
     this._s.add2GraphHistory('highlighted based on text');
@@ -219,22 +218,22 @@ export class AppComponent implements OnInit {
   }
 
   highlightSelected() {
-    this._s.viewUtils.highlight(this._s.cy.$(':selected'), this._s.appConf.currHighlightIdx.getValue());
+    this._s.viewUtils.highlight(this._s.cy.$(':selected'), this._c.appConf.currHighlightIdx.getValue());
     this._s.add2GraphHistory('highlight selected');
   }
 
   highlightUnselected() {
-    this._s.viewUtils.highlight(this._s.cy.$(':unselected'), this._s.appConf.currHighlightIdx.getValue());
+    this._s.viewUtils.highlight(this._s.cy.$(':unselected'), this._c.appConf.currHighlightIdx.getValue());
     this._s.add2GraphHistory('highlight unselected');
   }
 
   removeHighlight4Selected() {
-    this._s.viewUtils.removeHighlights(this._s.cy.$(':selected'), this._s.appConf.currHighlightIdx.getValue());
+    this._s.viewUtils.removeHighlights(this._s.cy.$(':selected'), this._c.appConf.currHighlightIdx.getValue());
     this._s.add2GraphHistory('remove highlight for selected');
   }
 
   removeHighlight4Unselected() {
-    this._s.viewUtils.removeHighlights(this._s.cy.$(':unselected'), this._s.appConf.currHighlightIdx.getValue());
+    this._s.viewUtils.removeHighlights(this._s.cy.$(':unselected'), this._c.appConf.currHighlightIdx.getValue());
     this._s.add2GraphHistory('remove highlight for unselected');
   }
 

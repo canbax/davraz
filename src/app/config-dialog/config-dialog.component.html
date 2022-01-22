@@ -61,7 +61,7 @@
         <br>
         <mat-form-field class="full-width">
           <mat-label>Proxy Server URL</mat-label>
-          <input matInput type="text" (change)="changeConfig('server')" name="proxy-server-url" [(ngModel)]="server">
+          <input matInput type="text" [(ngModel)]="tigerGraphDbConf.proxyUrl" name="proxy-server-url">
         </mat-form-field>
         <mat-form-field class="full-width">
           <mat-label>Note Types (Need to bring sample data)</mat-label>

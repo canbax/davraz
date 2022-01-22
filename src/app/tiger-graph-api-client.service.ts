@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { SettingsService } from './settings.service';
+import { LocalStorageService } from './local-storage.service';
 import { InterprettedQueryResult, GraphResponse, NodeResponse, EdgeResponse, DbClient } from './data-types';
 import { combineLatest, Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AppConfService } from './app-conf.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +14,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class TigerGraphApiClientService implements DbClient {
 
   url: string;
-  constructor(private _http: HttpClient, private _settings: SettingsService, public dialog: MatDialog, private _snackBar: MatSnackBar) {
-    this.url = this._settings.getAppConfig().server.getValue();
+  constructor(private _http: HttpClient, private _c: AppConfService, public dialog: MatDialog, private _snackBar: MatSnackBar) {
+    this._c.appConf.tigerGraphDbConfig.proxyUrl.subscribe(x => {
+      this.url = x;
+      console.log('tiger graph proxy url changed!', x);
+    });
   }
 
   private errFn = (err) => {
@@ -24,7 +28,7 @@ export class TigerGraphApiClientService implements DbClient {
   }
 
   private simpleRequest() {
-    const conf = this._settings.getTigerGraphDbConfig();
+    const conf = this._c.getConfAsJSON().tigerGraphDbConfig;
     this._http.post(`${this.url}/echo`, { token: conf.token, url: conf.url })
       .subscribe(x => {
         if (x['error']) {
@@ -38,7 +42,7 @@ export class TigerGraphApiClientService implements DbClient {
   }
 
   refreshToken(cb) {
-    const conf = this._settings.getTigerGraphDbConfig();
+    const conf = this._c.getConfAsJSON().tigerGraphDbConfig;
     this._http.post(`${this.url}/requesttoken`, { secret: conf.secret, url: conf.url })
       .subscribe(x => {
         if (x['error']) {
@@ -54,14 +58,14 @@ export class TigerGraphApiClientService implements DbClient {
 
   // In terms of TigerGraph this is an InterPretted Query, https://docs.tigergraph.com/dev/gsql-ref/querying/query-operations#interpret-query
   runQuery(q: string, cb: (r: InterprettedQueryResult) => void) {
-    const conf = this._settings.getTigerGraphDbConfig();
+    const conf = this._c.getConfAsJSON().tigerGraphDbConfig;
     this._http.post(`${this.url}/gsql`, { q: q, username: conf.username, password: conf.password, url: conf.url },
       { headers: { 'Content-Type': 'application/json' } })
       .subscribe(x => { cb(x as InterprettedQueryResult); }, this.errFn);
   }
 
   sampleData(cb: (r: GraphResponse) => void, nodeCnt = 5, edgeCnt = 3) {
-    const nodeTypes = this._settings.getAppConfig().nodeTypes.map(x => x.getValue());
+    const nodeTypes = this._c.getConfAsJSON().nodeTypes;
     if (!nodeTypes || nodeTypes.length < 1) {
       cb({ edges: [], nodes: [] });
       const dialogRef = this.dialog.open(ErrorDialogComponent);
@@ -69,7 +73,7 @@ export class TigerGraphApiClientService implements DbClient {
       dialogRef.componentInstance.content = '"Node Types" should not be empty!';
       return;
     }
-    const conf = this._settings.getTigerGraphDbConfig();
+    const conf = this._c.getConfAsJSON().tigerGraphDbConfig;
     let firstNodes: NodeResponse[] = [];
     const arr: Observable<Object>[] = [];
     for (const t of nodeTypes) {
@@ -123,7 +127,7 @@ export class TigerGraphApiClientService implements DbClient {
     const id = elem.id().substr(2);
     let edges: EdgeResponse[] = [];
     let nodes: NodeResponse[] = [];
-    const conf = this._settings.getTigerGraphDbConfig();
+    const conf = this._c.getConfAsJSON().tigerGraphDbConfig;
     this._http.post(`${this.url}/edges4nodes`, { cnt: 1000, src_type: t, id: id, graphName: conf.graphName, url: conf.url, token: conf.token }).subscribe(x => {
       const resp = x as GraphResponse;
       const arr: Observable<Object>[] = [];
@@ -165,7 +169,7 @@ export class TigerGraphApiClientService implements DbClient {
   }
 
   getStoredProcedures(cb: (r: any[]) => void) {
-    const conf = this._settings.getTigerGraphDbConfig();
+    const conf = this._c.getConfAsJSON().tigerGraphDbConfig;
     this._http.post(`${this.url}/endpoints`, { url: conf.url, token: conf.token }).subscribe(x => {
       const keyNames4query = Object.keys(x).filter(x => x.includes('/query/'));
       // Object.keys(x).filter(x => x.includes('/query')).map(x => {const arr = x.split('/'); return arr[arr.length-1]} )

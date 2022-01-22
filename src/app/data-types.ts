@@ -57,7 +57,7 @@ export interface AppConfig {
   sampleDataEdgeCount: BehaviorSubject<number>;
   graphHistoryLimit: BehaviorSubject<number>;
   currLayout: BehaviorSubject<string>;
-  server: BehaviorSubject<string>;
+
   nodeTypes: BehaviorSubject<string>[];
   databaseType: BehaviorSubject<DatabaseType>;
   tigerGraphDbConfig: {
@@ -68,6 +68,7 @@ export interface AppConfig {
     token: BehaviorSubject<string>;
     tokenExpire: BehaviorSubject<number>;
     graphName: BehaviorSubject<string>;
+    proxyUrl: BehaviorSubject<string>;
   },
   neo4jDbConfig: {
     url: BehaviorSubject<string>;
@@ -84,6 +85,7 @@ export interface TigerGraphDbConfig {
   token: string;
   tokenExpire: number;
   graphName: string;
+  proxyUrl: string;
 }
 
 export interface Neo4jDbConfig {

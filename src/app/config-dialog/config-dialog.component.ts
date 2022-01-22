@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { TigerGraphDbConfig, AppConfig, DatabaseType, Neo4jDbConfig } from '../data-types';
-import { SettingsService } from '../settings.service';
 import { getCyStyleFromColorAndWid, Layout } from '../constants';
 import { SharedService } from '../shared.service';
 import { BehaviorSubject } from 'rxjs';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { DbClientService } from '../db-client.service';
+import { AppConfService } from '../app-conf.service';
 
 @Component({
   selector: 'app-config-dialog',
@@ -14,7 +14,7 @@ import { DbClientService } from '../db-client.service';
 })
 export class ConfigDialogComponent {
 
-  tigerGraphDbConf: TigerGraphDbConfig = { password: '', secret: '', token: '', tokenExpire: 0, url: '', username: '', graphName: '' };
+  tigerGraphDbConf: TigerGraphDbConfig = { password: '', secret: '', token: '', tokenExpire: 0, url: '', username: '', graphName: '', proxyUrl: '' };
   neo4jDbConf: Neo4jDbConfig = { url: '', username: '', password: '' };
   tokenExpireDateStr = '';
   appConf: AppConfig;
@@ -24,13 +24,12 @@ export class ConfigDialogComponent {
   databaseType: DatabaseType;
   dbTypes: { enum: DatabaseType, str: string }[];
   sampleDataNodeCount: number;
-  server: string;
   sampleDataEdgeCount: number;
   layoutOptions: string[];
   currLayout: string;
   nodeTypes: string[] = [];
 
-  constructor(private _s: SharedService, private _dbApi: DbClientService, private _settings: SettingsService) {
+  constructor(private _s: SharedService, private _c: AppConfService, private _dbApi: DbClientService) {
     this.syncDbConfig();
     this.syncAppConfig();
     this.layoutOptions = Object.keys(Layout);
@@ -38,7 +37,6 @@ export class ConfigDialogComponent {
   }
 
   saveDbConfig() {
-    this.changeConfig('server');
     this.changeTigerGraphDbConfigs();
     this.changeNeo4jDbConfigs();
   }
@@ -47,11 +45,12 @@ export class ConfigDialogComponent {
     this._dbApi.refreshToken((x) => {
       this.tigerGraphDbConf.tokenExpire = x.expiration;
       this.tigerGraphDbConf.token = x.token;
+      this.changeTigerGraphDbConfigs();
     });
   }
 
   private syncAppConfig() {
-    this.appConf = this._s.appConf;
+    this.appConf = this._c.appConf;
     this.currHighlightIdx = this.appConf.currHighlightIdx.getValue();
     const curr = this.appConf.highlightStyles[this.currHighlightIdx];
     this.currHighlightStyle = { color: curr.color.getValue(), name: curr.name.getValue(), wid: curr.wid.getValue() };
@@ -59,13 +58,12 @@ export class ConfigDialogComponent {
     this.sampleDataNodeCount = this.appConf.sampleDataNodeCount.getValue();
     this.sampleDataEdgeCount = this.appConf.sampleDataEdgeCount.getValue();
     this.currLayout = this.appConf.currLayout.getValue();
-    this.server = this.appConf.server.getValue();
     this.nodeTypes = this.appConf.nodeTypes.map(x => x.getValue());
     this.databaseType = this.appConf.databaseType.getValue();
   }
 
   private syncDbConfig() {
-    const c = this._s.appConf.tigerGraphDbConfig;
+    const c = this._c.appConf.tigerGraphDbConfig;
     this.tigerGraphDbConf.url = c.url.getValue();
     this.tigerGraphDbConf.secret = c.secret.getValue();
     this.tigerGraphDbConf.username = c.username.getValue();
@@ -73,13 +71,13 @@ export class ConfigDialogComponent {
     this.tigerGraphDbConf.token = c.token.getValue();
     this.tigerGraphDbConf.tokenExpire = c.tokenExpire.getValue();
     this.tigerGraphDbConf.graphName = c.graphName.getValue();
+    this.tigerGraphDbConf.proxyUrl = c.proxyUrl.getValue();
     this.tokenExpireDateStr = new Date(this.tigerGraphDbConf.tokenExpire * 1000).toDateString();
 
-    const c2 = this._s.appConf.neo4jDbConfig;
+    const c2 = this._c.appConf.neo4jDbConfig;
     this.neo4jDbConf.url = c2.url.getValue();
     this.neo4jDbConf.username = c2.username.getValue();
     this.neo4jDbConf.password = c2.password.getValue();
-    
   }
 
   changeCurrHiglightStyle() {
@@ -88,7 +86,7 @@ export class ConfigDialogComponent {
     this.currHighlightStyle.color = curr.color.getValue();
     this.currHighlightStyle.name = curr.name.getValue();
     this.currHighlightStyle.wid = curr.wid.getValue();
-    this._settings.setAppConfig(this.appConf);
+    this._c.setAppConfig();
   }
 
   changeHighlightStyle() {
@@ -98,7 +96,7 @@ export class ConfigDialogComponent {
     this.appConf.highlightStyles[this.currHighlightIdx].color.next(this.currHighlightStyle.color);
     this.appConf.highlightStyles[this.currHighlightIdx].wid.next(this.currHighlightStyle.wid);
     this.appConf.highlightStyles[this.currHighlightIdx].name.next(this.currHighlightStyle.name);
-    this._settings.setAppConfig(this.appConf);
+    this._c.setAppConfig();
   }
 
   deleteHighlightStyle() {
@@ -112,7 +110,7 @@ export class ConfigDialogComponent {
     }
     const curr = this.appConf.highlightStyles[this.currHighlightIdx];
     this.currHighlightStyle = { color: curr.color.getValue(), name: curr.name.getValue(), wid: curr.wid.getValue() };
-    this._settings.setAppConfig(this.appConf);
+    this._c.setAppConfig();
   }
 
   addHighlightStyle() {
@@ -123,15 +121,12 @@ export class ConfigDialogComponent {
       color: new BehaviorSubject<string>(this.currHighlightStyle.color), name: new BehaviorSubject<string>(this.currHighlightStyle.name)
     });
     this.currHighlightIdx = this.appConf.highlightStyles.length - 1;
-    this._settings.setAppConfig(this.appConf);
+    this._c.setAppConfig();
   }
 
   changeConfig(s: string) {
-    if (s == 'server' && this[s].endsWith('/')) {
-      this[s] = this[s].substring(0, this[s].length - 1);
-    }
     this.appConf[s].next(this[s]);
-    this._settings.setAppConfig(this.appConf);
+    this._c.setAppConfig();
   }
 
   changeTigerGraphDbConfigs() {
@@ -141,14 +136,14 @@ export class ConfigDialogComponent {
       }
       this.appConf.tigerGraphDbConfig[key].next(this.tigerGraphDbConf[key]);
     }
-    this._settings.setAppConfig(this.appConf);
+    this._c.setAppConfig();
   }
 
   changeNeo4jDbConfigs() {
     for (const key in this.appConf.neo4jDbConfig) {
       this.appConf.neo4jDbConfig[key].next(this.neo4jDbConf[key]);
     }
-    this._settings.setAppConfig(this.appConf);
+    this._c.setAppConfig();
   }
 
   addNodeType(event: MatChipInputEvent): void {
@@ -166,7 +161,7 @@ export class ConfigDialogComponent {
     if (input) {
       input.value = '';
     }
-    this._settings.setAppConfig(this.appConf);
+    this._c.setAppConfig();
   }
 
   removeNodeType(e) {
@@ -175,7 +170,7 @@ export class ConfigDialogComponent {
       this.nodeTypes.splice(index, 1);
       this.appConf.nodeTypes.splice(index, 1);
     }
-    this._settings.setAppConfig(this.appConf);
+    this._c.setAppConfig();
   }
 
 }

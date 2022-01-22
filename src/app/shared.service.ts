@@ -18,19 +18,17 @@ import { Subject, BehaviorSubject } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
 import { DbClientService } from './db-client.service';
-import { SettingsService } from './settings.service';
+import { AppConfService } from './app-conf.service';
 import { GENERAL_CY_STYLE } from './config/general-cy-style';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SharedService {
-
   cy: any;
   expandCollapseApi: any;
   performLayout: Function;
   isRandomizedLayout: boolean = true;
-  appConf: AppConfig;
   viewUtils: any;
   isLoading: BehaviorSubject<boolean> = new BehaviorSubject(false);
   elemSelectChanged: Subject<boolean> = new Subject();
@@ -41,10 +39,10 @@ export class SharedService {
   graphHistory: GraphHistoryItem[] = [];
   addNewGraphHistoryItem = new BehaviorSubject<boolean>(false);
 
-  constructor(public dialog: MatDialog, private _dbApi: DbClientService, private _settings: SettingsService) {
+  constructor(public dialog: MatDialog, private _dbApi: DbClientService, private _conf: AppConfService) {
     let isGraphEmpty = () => { return this.cy.elements().not(':hidden, :transparent').length > 0 };
     this.performLayout = debounce(this.runLayout, 2 * LAYOUT_ANIM_DUR, true, isGraphEmpty);
-    this.appConf = this._settings.getAppConfig();
+    
   }
 
   init() {
@@ -145,7 +143,7 @@ export class SharedService {
       return;
     }
     if (!algoName) {
-      algoName = this.appConf.currLayout.getValue();
+      algoName = this._conf.appConf.currLayout.getValue();
     }
     const l = Layout[algoName];
     if (!l) {
@@ -220,23 +218,6 @@ export class SharedService {
         isSelectionLocked = false;
       }, 100);
     });
-  }
-
-  getHighlightStyles(): any[] {
-    let r = [];
-
-    for (let i = 0; i < this.appConf.highlightStyles.length; i++) {
-      let style = this.appConf.highlightStyles[i];
-      let w = style.wid.getValue();
-      let c = style.color.getValue();
-
-      r.push({
-        node: { 'border-color': c, 'border-width': w },
-        edge: { 'line-color': c, 'target-arrow-color': c, 'width': 4.5 }
-      });
-
-    }
-    return r;
   }
 
   private bindContextMenus() {
@@ -321,6 +302,23 @@ export class SharedService {
       // contextMenuClasses: []
     };
     this.cy.contextMenus(options);
+  }
+
+  getHighlightStyles(): any[] {
+    let r = [];
+
+    for (let i = 0; i < this._conf.appConf.highlightStyles.length; i++) {
+      let style = this._conf.appConf.highlightStyles[i];
+      let w = style.wid.getValue();
+      let c = style.color.getValue();
+
+      r.push({
+        node: { 'border-color': c, 'border-width': w },
+        edge: { 'line-color': c, 'target-arrow-color': c, 'width': 4.5 }
+      });
+
+    }
+    return r;
   }
 
   getNeighbors(e) {
@@ -485,7 +483,7 @@ export class SharedService {
       console.log('error in graph response: ', resp);
       return;
     }
-    const currHiglightIdx = this.appConf.currHighlightIdx.getValue();
+    const currHiglightIdx = this._conf.appConf.currHighlightIdx.getValue();
     this.viewUtils.removeHighlights();
     this.isRandomizedLayout = this.cy.$().length < 1;
     let isAddedNew = false;
@@ -607,7 +605,7 @@ export class SharedService {
 
   add2GraphHistory(expo: string) {
     setTimeout(() => {
-      if (this.graphHistory.length > this.appConf.graphHistoryLimit.getValue() - 1) {
+      if (this.graphHistory.length > this._conf.appConf.graphHistoryLimit.getValue() - 1) {
         this.graphHistory.splice(0, 1);
       }
       const options = { bg: 'white', scale: 3, full: true };
@@ -623,7 +621,7 @@ export class SharedService {
       this.addNewGraphHistoryItem.next(true);
     }, 100);
   }
-
+  
   private addFnStyles() {
     this.cy.style().selector('edge.' + COLLAPSED_EDGE_CLASS)
       .style({

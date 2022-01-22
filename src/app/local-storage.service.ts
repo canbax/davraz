@@ -7,7 +7,7 @@ import { APP_CONF } from './config/app-conf';
 @Injectable({
   providedIn: 'root'
 })
-export class SettingsService {
+export class LocalStorageService {
   constructor() { }
 
   upsertDbQuery(query: string, name: string) {
@@ -43,6 +43,7 @@ export class SettingsService {
     return [];
   }
 
+  // AppConfig should be reached from SharedService to keep the data sync
   getAppConfig(): AppConfig {
     const i = localStorage.getItem('app_config');
     let appConf: AppConfig = {} as AppConfig;
@@ -56,6 +57,7 @@ export class SettingsService {
     return appConf;
   }
 
+  // AppConfig should be reached from SharedService to keep the data sync
   setAppConfig(conf: AppConfig) {
     const o = this.appConf2Json(conf);
     localStorage.setItem('app_config', JSON.stringify(o));
@@ -67,6 +69,12 @@ export class SettingsService {
 
   setRecentCyStyle(jsonStr: string) {
     localStorage.setItem('cy_style', jsonStr);
+  }
+
+  appConf2Json(conf: AppConfig) {
+    const o = {};
+    this.mapBehaviourSubject2Json(conf, o);
+    return o;
   }
 
   // convert primitive types in JSON to behaviour subject of that primitive type
@@ -95,12 +103,6 @@ export class SettingsService {
     }
   }
 
-  appConf2Json(conf: AppConfig) {
-    const o = {};
-    this.mapBehaviourSubject2Json(conf, o);
-    return o;
-  }
-
   private mapBehaviourSubject2Json(obj, mappedObj) {
     for (const k in obj) {
       if (obj[k] instanceof BehaviorSubject) {
@@ -114,19 +116,5 @@ export class SettingsService {
         this.mapBehaviourSubject2Json(obj[k], mappedObj[k]);
       }
     }
-  }
-
-  getTigerGraphDbConfig(): TigerGraphDbConfig {
-    const tigerGraphApiConf = {};
-    const obj = this.getAppConfig().tigerGraphDbConfig;
-    this.mapBehaviourSubject2Json(obj, tigerGraphApiConf);
-    return tigerGraphApiConf as TigerGraphDbConfig;
-  }
-
-  getNeo4jDbConfig(): Neo4jDbConfig {
-    const neo4jDbConf = {};
-    const obj = this.getAppConfig().neo4jDbConfig;
-    this.mapBehaviourSubject2Json(obj, neo4jDbConf);
-    return neo4jDbConf as Neo4jDbConfig;
   }
 }

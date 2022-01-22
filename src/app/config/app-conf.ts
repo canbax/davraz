@@ -22,7 +22,6 @@ export const APP_CONF = {
   sampleDataEdgeCount: 2,
   currLayout: 'fcose',
   graphHistoryLimit: 25,
-  server: 'https://tiger-api.herokuapp.com',
   nodeTypes: [],
   tigerGraphDbConfig: {
     url: 'https://covid19.i.tgcloud.io:9000',
@@ -31,7 +30,8 @@ export const APP_CONF = {
     secret: '48vmuf6sijcsrol1avv3vstavlknk1o7',
     username: 'tigergraph',
     password: '123456',
-    graphName: 'MyGraph'
+    graphName: 'MyGraph',
+    proxyUrl: 'https://tiger-api.herokuapp.com',
   },
   neo4jDbConfig: {
     url: 'http://localhost:7474/db/data/transaction/commit',
