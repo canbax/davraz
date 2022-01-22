@@ -144,7 +144,7 @@ export class TigerGraphApiClientService implements DbClient {
       combineLatest(arr).subscribe(() => {
         cb({ edges: edges, nodes: nodes });
       }, this.errFn);
-    });
+    }, this.errFn);
   }
 
   // In terms of TigerGraph this is simply a Query, https://docs.tigergraph.com/dev/gsql-ref/querying/introduction-query
