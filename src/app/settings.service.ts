@@ -7,8 +7,16 @@ import { APP_CONF } from './config/app-conf';
 @Injectable({
   providedIn: 'root'
 })
-export class LocalStorageService {
-  constructor() { }
+export class SettingsService {
+  public appConf: AppConfig;
+
+  constructor() {
+    this.appConf = this.getAppConfig();
+  }
+
+  getConfAsJSON(): any {
+    return this.appConf2Json(this.appConf);
+  }
 
   upsertDbQuery(query: string, name: string) {
     const i = localStorage.getItem('db_q');
@@ -44,7 +52,7 @@ export class LocalStorageService {
   }
 
   // AppConfig should be reached from SharedService to keep the data sync
-  getAppConfig(): AppConfig {
+  private getAppConfig(): AppConfig {
     const i = localStorage.getItem('app_config');
     let appConf: AppConfig = {} as AppConfig;
     this.json2behaviourSubject(APP_CONF, appConf);
@@ -52,14 +60,14 @@ export class LocalStorageService {
       this.json2behaviourSubject(JSON.parse(i), appConf);
     } else {
       // save app config if it does not exist
-      this.setAppConfig(appConf);
+      this.setAppConfig();
     }
     return appConf;
   }
 
   // AppConfig should be reached from SharedService to keep the data sync
-  setAppConfig(conf: AppConfig) {
-    const o = this.appConf2Json(conf);
+  setAppConfig() {
+    const o = this.appConf2Json(this.appConf);
     localStorage.setItem('app_config', JSON.stringify(o));
   }
 

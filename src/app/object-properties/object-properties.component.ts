@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, ViewChild, OnDestroy } from '@angular/core';
-import { Subject, Subscription } from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { SharedService } from '../shared.service';
-import { makeElemDraggable, debounce, OBJ_INFO_UPDATE_DELAY } from '../constants';
+import { debounce, OBJ_INFO_UPDATE_DELAY } from '../constants';
 
 @Component({
   selector: 'app-object-properties',
@@ -18,7 +18,6 @@ export class ObjectPropertiesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    console.log('destroy obj props comp');
     this.subscription.unsubscribe();
   }
 
@@ -30,7 +29,6 @@ export class ObjectPropertiesComponent implements OnInit, OnDestroy {
 
   showObjProps() {
     const d = this._s.cy.$(':selected').data();
-    console.log('show obj props: ', d);
     if (!d) {
       return;
     }

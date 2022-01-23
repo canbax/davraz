@@ -5,7 +5,8 @@ import { SharedService } from '../shared.service';
 import { BehaviorSubject } from 'rxjs';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { DbClientService } from '../db-client.service';
-import { AppConfService } from '../app-conf.service';
+import { SettingsService } from '../settings.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-config-dialog',
@@ -29,11 +30,21 @@ export class ConfigDialogComponent {
   currLayout: string;
   nodeTypes: string[] = [];
 
-  constructor(private _s: SharedService, private _c: AppConfService, private _dbApi: DbClientService) {
+  constructor(private _s: SharedService, private _c: SettingsService, private _dbApi: DbClientService, private _snackBar: MatSnackBar) {
     this.syncDbConfig();
     this.syncAppConfig();
     this.layoutOptions = Object.keys(Layout);
     this.dbTypes = [{ str: 'TigerGraph', enum: DatabaseType.tigerGraph }, { str: 'Neo4j', enum: DatabaseType.neo4j }];
+  }
+
+  copy(txt: string) {
+    this.showSnackbar(`'${txt}' copied!`);
+  }
+
+  private showSnackbar(txt: string) {
+    this._snackBar.open(txt, 'OK', {
+      duration: 5000
+    });
   }
 
   saveDbConfig() {
@@ -42,6 +53,7 @@ export class ConfigDialogComponent {
   }
 
   refreshDbToken() {
+    this._s.isLoading.next(true);
     this._dbApi.refreshToken((x) => {
       this.tigerGraphDbConf.tokenExpire = x.expiration;
       this.tigerGraphDbConf.token = x.token;

@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -21,6 +21,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ClipboardModule } from '@angular/cdk/clipboard';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { AppComponent } from './app.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -33,6 +35,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TableViewComponent } from './table-view/table-view.component';
 import { DraggableDivComponent } from './draggable-div/draggable-div.component';
 import { GraphHistoryComponent } from './graph-history/graph-history.component';
+import { LogHttpCallsService } from './log-http-calls.service';
 
 @NgModule({
   declarations: [
@@ -69,9 +72,11 @@ import { GraphHistoryComponent } from './graph-history/graph-history.component';
     MatPaginatorModule,
     MatSortModule,
     MatDividerModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    ClipboardModule,
+    MatTooltipModule
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: LogHttpCallsService, multi: true },],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

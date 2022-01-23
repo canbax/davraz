@@ -18,8 +18,8 @@ import { Subject, BehaviorSubject } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
 import { DbClientService } from './db-client.service';
-import { AppConfService } from './app-conf.service';
 import { GENERAL_CY_STYLE } from './config/general-cy-style';
+import { SettingsService } from './settings.service';
 
 @Injectable({
   providedIn: 'root'
@@ -39,7 +39,7 @@ export class SharedService {
   graphHistory: GraphHistoryItem[] = [];
   addNewGraphHistoryItem = new BehaviorSubject<boolean>(false);
 
-  constructor(public dialog: MatDialog, private _dbApi: DbClientService, private _conf: AppConfService) {
+  constructor(public dialog: MatDialog, private _dbApi: DbClientService, private _conf: SettingsService) {
     let isGraphEmpty = () => { return this.cy.elements().not(':hidden, :transparent').length > 0 };
     this.performLayout = debounce(this.runLayout, 2 * LAYOUT_ANIM_DUR, true, isGraphEmpty);
     

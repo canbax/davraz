@@ -13,9 +13,9 @@ body {
 .draggable-content {
   z-index: 1001;
   position: absolute;
-  background: rgba(255, 255, 255, 0.90);
+  background: rgba(255, 255, 255, 0.9);
   white-space: pre-wrap;
-  border: 2px double #F0F2F4;
+  border: 2px double #f0f2f4;
   border-radius: 5px;
   overflow: auto;
   resize: both;
@@ -48,7 +48,7 @@ span.top-right {
 }
 
 .gray1 {
-  background: #F0F2F4;
+  background: #f0f2f4;
 }
 
 .draggable-mover {
@@ -62,13 +62,12 @@ app-draggable-div {
   left: 0;
 }
 
-
 .ctx-menu-container {
-  padding: .5rem 0 !important;
-  margin: .125rem 0 0 !important;
-  border: 1px solid rgba(0, 0, 0, .15) !important;
+  padding: 0.5rem 0 !important;
+  margin: 0.125rem 0 0 !important;
+  border: 1px solid rgba(0, 0, 0, 0.15) !important;
   background-color: #ffffff !important;
-  border-radius: .25rem !important;
+  border-radius: 0.25rem !important;
   z-index: 1003;
 }
 
@@ -80,4 +79,15 @@ app-draggable-div {
 
 .cdk-overlay-container {
   z-index: 1004;
+}
+
+.d-flex {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.w45 {
+  width: 45%;
 }

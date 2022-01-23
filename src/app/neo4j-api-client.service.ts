@@ -2,9 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AppConfService } from './app-conf.service';
 import { DbClient, EdgeResponse, GraphResponse, InterprettedQueryResult, NodeResponse } from './data-types';
-import { SharedService } from './shared.service';
+import { SettingsService } from './settings.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +11,7 @@ import { SharedService } from './shared.service';
 export class Neo4jApiClientService implements DbClient {
 
   url: string;
-  constructor(private _http: HttpClient, private _s: AppConfService, public dialog: MatDialog, private _snackBar: MatSnackBar) {
+  constructor(private _http: HttpClient, private _s: SettingsService, public dialog: MatDialog, private _snackBar: MatSnackBar) {
     this._s.appConf.neo4jDbConfig.url.subscribe(x => {
       this.url = x;
     });

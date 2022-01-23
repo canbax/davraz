@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { LocalStorageService } from './local-storage.service';
+import { SettingsService } from './settings.service';
 import { InterprettedQueryResult, GraphResponse, NodeResponse, EdgeResponse, DbClient } from './data-types';
 import { combineLatest, Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AppConfService } from './app-conf.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,16 +13,13 @@ import { AppConfService } from './app-conf.service';
 export class TigerGraphApiClientService implements DbClient {
 
   url: string;
-  constructor(private _http: HttpClient, private _c: AppConfService, public dialog: MatDialog, private _snackBar: MatSnackBar) {
+  constructor(private _http: HttpClient, private _c: SettingsService, public dialog: MatDialog, private _snackBar: MatSnackBar) {
     this._c.appConf.tigerGraphDbConfig.proxyUrl.subscribe(x => {
       this.url = x;
-      console.log('tiger graph proxy url changed!', x);
     });
   }
 
   private errFn = (err) => {
-    const msg = JSON.stringify(err);
-    console.log('err: ', msg);
     this._snackBar.open('Error in http request: ' + err.message, 'close');
   }
 

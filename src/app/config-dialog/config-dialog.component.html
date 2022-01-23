@@ -9,7 +9,7 @@
     </mat-select>
   </mat-form-field>&nbsp;
 
-  <mat-accordion>
+  <mat-accordion multi>
     <mat-expansion-panel *ngIf="databaseType==0">
       <mat-expansion-panel-header>
         <mat-panel-title>
@@ -20,50 +20,62 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
       <form>
-        <mat-form-field class="full-width">
-          <mat-label>Database URL</mat-label>
-          <input matInput [(ngModel)]="tigerGraphDbConf.url" name="url">
-        </mat-form-field>
+        <div class="d-flex">
+          <mat-form-field class="w45">
+            <mat-label>Database URL</mat-label>
+            <input matInput [(ngModel)]="tigerGraphDbConf.url" name="url">
+          </mat-form-field>
+          <br>
+          <mat-form-field class="w45">
+            <mat-label>Database secret</mat-label>
+            <input matInput [(ngModel)]="tigerGraphDbConf.secret" name="secret">
+          </mat-form-field>
+        </div>
+        <div class="d-flex">
+          <button class="p5" mat-stroked-button matTooltip="Database URL and secret will be used to get a token"
+            (click)="refreshDbToken()">
+            Generate New Token <mat-icon>sync</mat-icon>
+          </button>
+          &nbsp;
+          <mat-form-field>
+            <mat-label>Token expire</mat-label>
+            <input matInput disabled [(ngModel)]="tigerGraphDbConf.tokenExpire" name="tokenExpire"
+              [title]="tokenExpireDateStr">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Token</mat-label>
+            <input matInput [(ngModel)]="tigerGraphDbConf.token" name="token"
+              matTooltip="You can paste your own token or generate a new one">
+            <span matSuffix>
+              <button class="d-in" mat-icon-button [cdkCopyToClipboard]="tigerGraphDbConf.token"
+                (click)="copy(tigerGraphDbConf.token)">
+                <mat-icon>file_copy</mat-icon>
+              </button>
+            </span>
+          </mat-form-field>
+        </div>
+        <div class="d-flex">
+          <mat-form-field>
+            <mat-label>Graph Name</mat-label>
+            <input matInput [(ngModel)]="tigerGraphDbConf.graphName" name="graphName">
+          </mat-form-field>
+          <br>
+          <mat-form-field>
+            <mat-label>Database username</mat-label>
+            <input matInput [(ngModel)]="tigerGraphDbConf.username" name="username">
+          </mat-form-field>
+          <br>
+          <mat-form-field>
+            <mat-label>Database password</mat-label>
+            <input matInput type="password" [(ngModel)]="tigerGraphDbConf.password" name="password">
+          </mat-form-field>
+        </div>
         <br>
-        <mat-form-field class="full-width">
-          <mat-label>Database secret</mat-label>
-          <input matInput [(ngModel)]="tigerGraphDbConf.secret" name="secret">
-        </mat-form-field>
-        <br>
-        <mat-form-field class="full-width">
-          <mat-label>Token</mat-label>
-          <input matInput [(ngModel)]="tigerGraphDbConf.token" name="token">
-        </mat-form-field>
-        <br>
-        <mat-form-field>
-          <mat-label>Token expire</mat-label>
-          <input matInput [(ngModel)]="tigerGraphDbConf.tokenExpire" name="tokenExpire">
-        </mat-form-field>
-        <span>&nbsp;{{tokenExpireDateStr}}&nbsp;</span>
-        <button class="p5" mat-icon-button title="Generate New Token" (click)="refreshDbToken()">
-          <mat-icon>sync</mat-icon>
-        </button>
-        <br>
-        <mat-form-field>
-          <mat-label>Graph Name</mat-label>
-          <input matInput [(ngModel)]="tigerGraphDbConf.graphName" name="graphName">
-        </mat-form-field>
-        <br>
-        <mat-form-field>
-          <mat-label>Database username</mat-label>
-          <input matInput [(ngModel)]="tigerGraphDbConf.username" name="username">
-        </mat-form-field>
-        <br>
-        <mat-form-field>
-          <mat-label>Database password</mat-label>
-          <input matInput type="password" [(ngModel)]="tigerGraphDbConf.password" name="password">
-        </mat-form-field>
-        <br>
-        <mat-form-field class="full-width">
+        <mat-form-field class="full-width" matTooltip="Will send HTTP requests to the database">
           <mat-label>Proxy Server URL</mat-label>
           <input matInput type="text" [(ngModel)]="tigerGraphDbConf.proxyUrl" name="proxy-server-url">
         </mat-form-field>
-        <mat-form-field class="full-width">
+        <!-- <mat-form-field class="full-width">
           <mat-label>Note Types (Need to bring sample data)</mat-label>
           <mat-chip-list #chipList aria-label="Fruit selection">
             <mat-chip *ngFor="let t of nodeTypes" [selectable]="true" [removable]="true" (removed)="removeNodeType(t)">
@@ -73,10 +85,10 @@
             <input placeholder="New node type" [matChipInputFor]="chipList" [matChipInputAddOnBlur]="true"
               (matChipInputTokenEnd)="addNodeType($event)">
           </mat-chip-list>
-        </mat-form-field>
+        </mat-form-field> -->
       </form>
 
-      <button class="p5" mat-fab [mat-dialog-close]="true" (click)="saveDbConfig()" title="save">
+      <button class="p5" mat-fab [mat-dialog-close]="true" (click)="saveDbConfig()" matTooltip="save">
         <mat-icon>save</mat-icon>
       </button>
     </mat-expansion-panel>
@@ -106,7 +118,7 @@
         </mat-form-field>
       </form>
 
-      <button class="p5" mat-fab [mat-dialog-close]="true" (click)="saveDbConfig()" title="save">
+      <button class="p5" mat-fab [mat-dialog-close]="true" (click)="saveDbConfig()" matTooltip="save">
         <mat-icon>save</mat-icon>
       </button>
     </mat-expansion-panel>
@@ -146,7 +158,7 @@
               <input matInput type="color" [(ngModel)]="currHighlightStyle.color" name="curr-highlight-style-color">
             </mat-form-field>
             <br>
-            <button class="p5" title="update" mat-icon-button (click)="changeHighlightStyle()">
+            <button class="p5" matTooltip="update" mat-icon-button (click)="changeHighlightStyle()">
               <mat-icon>save</mat-icon>
             </button>
             <button class="p5" mat-icon-button (click)="deleteHighlightStyle()">

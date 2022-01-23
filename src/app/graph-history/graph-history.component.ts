@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AppConfService } from '../app-conf.service';
 import { GraphHistoryItem } from '../data-types';
+import { SettingsService } from '../settings.service';
 import { SharedService } from '../shared.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { SharedService } from '../shared.service';
 })
 export class GraphHistoryComponent implements OnInit {
 
-  constructor(private _s: SharedService, private _c: AppConfService) { }
+  constructor(private _s: SharedService, private _c: SettingsService) { }
   graphHistory: GraphHistoryItem[];
   activeItemIdx = 0;
 

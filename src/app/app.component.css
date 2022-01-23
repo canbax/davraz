@@ -29,9 +29,10 @@
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  -webkit-transform: translate(-50%, -50%);
-  -moz-transform: translate(-50%, -50%);
-  -o-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
+  transform: translate(-25%, -25%);
+  -webkit-transform: translate(-25%, -25%);
+  -moz-transform: translate(-25%, -25%);
+  -o-transform: translate(-25%, -25%);
+  -ms-transform: translate(-25%, -25%);
+  z-index: 1005;
 }
