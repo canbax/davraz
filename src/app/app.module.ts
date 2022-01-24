@@ -23,6 +23,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { AppComponent } from './app.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -74,7 +75,8 @@ import { LogHttpCallsService } from './log-http-calls.service';
     MatDividerModule,
     MatSnackBarModule,
     ClipboardModule,
-    MatTooltipModule
+    MatTooltipModule,
+    DragDropModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: LogHttpCallsService, multi: true },],
   bootstrap: [AppComponent]

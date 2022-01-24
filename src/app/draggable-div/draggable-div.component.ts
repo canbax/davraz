@@ -39,12 +39,6 @@ export class DraggableDivComponent implements OnInit {
           this.setMainElemStyle();
         }, 0);
       }
-      if (x) {
-        setTimeout(() => {
-          const fn = () => { this.isFullView = false; this.saveCurrentState() };
-          makeElemDraggable(this.mainElem.nativeElement, this.moverElem.nativeElement, fn);
-        }, 0);
-      }
     });
   }
 

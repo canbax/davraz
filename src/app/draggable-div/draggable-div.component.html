@@ -1,7 +1,7 @@
-<div #mainElem *ngIf="_isShow" class="draggable-content mat-elevation-z8">
-  <div #moverElem style="cursor: move;" class="gray1 p5">
-    <div class="center-txt mat-card-title p5">{{header}}
-
+<div cdkDrag #mainElem *ngIf="_isShow" class="draggable-content mat-elevation-z2">
+  <div cdkDragHandle #moverElem class="gray1 p5 drag-handle">
+    <div class="center-txt mat-card-title p5">
+      {{header}}
     </div>
   </div>
   <span class="top-right">

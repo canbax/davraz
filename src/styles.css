@@ -10,26 +10,9 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-.draggable-content {
-  z-index: 1001;
-  position: absolute;
-  background: rgba(255, 255, 255, 0.9);
-  white-space: pre-wrap;
-  border: 2px double #f0f2f4;
-  border-radius: 5px;
-  overflow: auto;
-  resize: both;
-  min-width: fit-content;
-  min-height: 40px;
-  top: 0;
-  left: 0;
-}
 
-span.top-right {
-  position: absolute;
-  top: 0;
-  right: 0;
-}
+
+
 
 .center-txt {
   text-align: center;
@@ -45,21 +28,6 @@ span.top-right {
 
 .full-width {
   width: 100%;
-}
-
-.gray1 {
-  background: #f0f2f4;
-}
-
-.draggable-mover {
-  cursor: move;
-  z-index: 1002;
-}
-
-app-draggable-div {
-  position: absolute;
-  top: 0;
-  left: 0;
 }
 
 .ctx-menu-container {
