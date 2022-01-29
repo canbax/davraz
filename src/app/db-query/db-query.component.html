@@ -17,14 +17,14 @@
       </mat-chip-list>
     </div>
     <div>
-      <mat-form-field>
+      <mat-form-field appearance="fill">
         <input matInput [(ngModel)]="currQueryName">
       </mat-form-field>
 
-      <mat-form-field class="full-width">
+      <mat-form-field appearance="fill" class="full-width">
         <mat-label>GSQL</mat-label>
         <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="1" [(ngModel)]="gsql">
-          </textarea>
+        </textarea>
       </mat-form-field>
     </div>
     <div class="center-txt">
@@ -56,7 +56,7 @@
         <div *ngFor="let p of currInstalledQuery.params">
           <code>{{p.desc}}</code>
           <div>
-            <mat-form-field>
+            <mat-form-field appearance="fill">
               <mat-label>{{p.name}}</mat-label>
               <input matInput [(ngModel)]="p.inp" name="param-inp">
             </mat-form-field>

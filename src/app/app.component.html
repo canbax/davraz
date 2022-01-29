@@ -63,7 +63,7 @@
       <button (click)="removeHighlights()" mat-menu-item>Remove highlights</button>
     </mat-menu>
 
-    <mat-form-field appearance="standard" *ngIf="isShowSearchInp">
+    <mat-form-field appearance="fill" appearance="standard" *ngIf="isShowSearchInp">
       <input #searchInp matInput type="text" [(ngModel)]="searchTxt" placeholder="Search text...">
       <span matSuffix>
         <button mat-icon-button style="display: inline;" (click)="highlight4txt()">

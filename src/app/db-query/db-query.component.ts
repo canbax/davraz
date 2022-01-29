@@ -17,7 +17,7 @@ export class DbQueryComponent implements OnInit {
     start =   {ANY};
     results = SELECT s FROM start:s LIMIT 10;
     PRINT results;
-    }`;
+}`;
   currQueryName = 'Query 1';
   queries: DbQuery[] = [];
   installedQueries: InstalledDbQuery[] = [];

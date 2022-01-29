@@ -1,6 +1,6 @@
 <h1 mat-dialog-title>Settings</h1>
 <mat-dialog-content>
-  <mat-form-field>
+  <mat-form-field appearance="fill">
     <mat-label>Database Type</mat-label>
     <mat-select [(value)]="databaseType" (selectionChange)="changeConfig('databaseType')">
       <mat-option *ngFor="let o of dbTypes" [value]="o.enum">
@@ -21,12 +21,12 @@
       </mat-expansion-panel-header>
       <form>
         <div class="d-flex">
-          <mat-form-field class="w45">
+          <mat-form-field appearance="fill" class="w45">
             <mat-label>Database URL</mat-label>
             <input matInput [(ngModel)]="tigerGraphDbConf.url" name="url">
           </mat-form-field>
           <br>
-          <mat-form-field class="w45">
+          <mat-form-field appearance="fill" class="w45">
             <mat-label>Database secret</mat-label>
             <input matInput [(ngModel)]="tigerGraphDbConf.secret" name="secret">
           </mat-form-field>
@@ -37,12 +37,12 @@
             Generate New Token <mat-icon>sync</mat-icon>
           </button>
           &nbsp;
-          <mat-form-field>
+          <mat-form-field appearance="fill">
             <mat-label>Token expire</mat-label>
             <input matInput disabled [(ngModel)]="tigerGraphDbConf.tokenExpire" name="tokenExpire"
               [title]="tokenExpireDateStr">
           </mat-form-field>
-          <mat-form-field>
+          <mat-form-field appearance="fill">
             <mat-label>Token</mat-label>
             <input matInput [(ngModel)]="tigerGraphDbConf.token" name="token"
               matTooltip="You can paste your own token or generate a new one">
@@ -55,37 +55,26 @@
           </mat-form-field>
         </div>
         <div class="d-flex">
-          <mat-form-field>
+          <mat-form-field appearance="fill">
             <mat-label>Graph Name</mat-label>
             <input matInput [(ngModel)]="tigerGraphDbConf.graphName" name="graphName">
           </mat-form-field>
           <br>
-          <mat-form-field>
+          <mat-form-field appearance="fill">
             <mat-label>Database username</mat-label>
             <input matInput [(ngModel)]="tigerGraphDbConf.username" name="username">
           </mat-form-field>
           <br>
-          <mat-form-field>
+          <mat-form-field appearance="fill">
             <mat-label>Database password</mat-label>
             <input matInput type="password" [(ngModel)]="tigerGraphDbConf.password" name="password">
           </mat-form-field>
         </div>
         <br>
-        <mat-form-field class="full-width" matTooltip="Will send HTTP requests to the database">
+        <mat-form-field appearance="fill" class="full-width" matTooltip="Will send HTTP requests to the database">
           <mat-label>Proxy Server URL</mat-label>
           <input matInput type="text" [(ngModel)]="tigerGraphDbConf.proxyUrl" name="proxy-server-url">
         </mat-form-field>
-        <!-- <mat-form-field class="full-width">
-          <mat-label>Note Types (Need to bring sample data)</mat-label>
-          <mat-chip-list #chipList aria-label="Fruit selection">
-            <mat-chip *ngFor="let t of nodeTypes" [selectable]="true" [removable]="true" (removed)="removeNodeType(t)">
-              {{t}}
-              <mat-icon matChipRemove>cancel</mat-icon>
-            </mat-chip>
-            <input placeholder="New node type" [matChipInputFor]="chipList" [matChipInputAddOnBlur]="true"
-              (matChipInputTokenEnd)="addNodeType($event)">
-          </mat-chip-list>
-        </mat-form-field> -->
       </form>
 
       <button class="p5" mat-fab [mat-dialog-close]="true" (click)="saveDbConfig()" matTooltip="save">
@@ -102,17 +91,17 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
       <form>
-        <mat-form-field class="full-width">
+        <mat-form-field appearance="fill" class="full-width">
           <mat-label>Database URL</mat-label>
           <input matInput [(ngModel)]="neo4jDbConf.url" name="url">
         </mat-form-field>
         <br>
-        <mat-form-field class="full-width">
+        <mat-form-field appearance="fill" class="full-width">
           <mat-label>Username</mat-label>
           <input matInput [(ngModel)]="neo4jDbConf.username" name="secret">
         </mat-form-field>
         <br>
-        <mat-form-field class="full-width">
+        <mat-form-field appearance="fill" class="full-width">
           <mat-label>Password</mat-label>
           <input matInput [(ngModel)]="neo4jDbConf.password" name="token">
         </mat-form-field>
@@ -136,7 +125,7 @@
         <mat-card>
           <mat-card-title>Hightlight Style:</mat-card-title>
           <mat-card-content>
-            <mat-form-field>
+            <mat-form-field appearance="fill">
               <mat-label>Selected style</mat-label>
               <mat-select [(value)]="currHighlightIdx" (selectionChange)="changeCurrHiglightStyle()">
                 <mat-option *ngFor="let style of appConf.highlightStyles; let i = index" [value]="i">
@@ -145,15 +134,15 @@
               </mat-select>
             </mat-form-field>&nbsp;
             <br>
-            <mat-form-field>
+            <mat-form-field appearance="fill">
               <mat-label>name</mat-label>
               <input matInput type="text" [(ngModel)]="currHighlightStyle.name" name="curr-highlight-style-name">
             </mat-form-field>&nbsp;
-            <mat-form-field>
+            <mat-form-field appearance="fill">
               <mat-label>width</mat-label>
               <input matInput type="number" [(ngModel)]="currHighlightStyle.wid" name="curr-highlight-style-wid">
             </mat-form-field>&nbsp;
-            <mat-form-field>
+            <mat-form-field appearance="fill">
               <mat-label>color</mat-label>
               <input matInput type="color" [(ngModel)]="currHighlightStyle.color" name="curr-highlight-style-color">
             </mat-form-field>
@@ -173,20 +162,20 @@
             name="is-ignore-case-in-text">Ignore case in text operations
           </mat-checkbox>
           <br>
-          <mat-form-field class="full-width">
+          <mat-form-field appearance="fill" class="full-width">
             <mat-label>Node count to load from each type in sample data</mat-label>
             <input matInput type="number" (change)="changeConfig('sampleDataNodeCount')" name="sample-data-edge-count"
               [(ngModel)]="sampleDataNodeCount">
           </mat-form-field>
           <br>
-          <mat-form-field class="full-width">
+          <mat-form-field appearance="fill" class="full-width">
             <mat-label>Edge count to load from each type in sample data</mat-label>
             <input matInput type="number" (change)="changeConfig('sampleDataEdgeCount')" name="sample-data-node-count"
               [(ngModel)]="sampleDataEdgeCount">
           </mat-form-field>
 
           <br>
-          <mat-form-field>
+          <mat-form-field appearance="fill">
             <mat-label>Layout algorithm</mat-label>
             <mat-select [(value)]="currLayout" (selectionChange)="changeConfig('currLayout')">
               <mat-option *ngFor="let o of layoutOptions; let i = index" [value]="o">
