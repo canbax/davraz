@@ -69,10 +69,8 @@ export class AppComponent implements OnInit {
   }
 
   loadSampleData() {
-    const n1 = this._l.appConf.sampleDataNodeCount.getValue();
-    const n2 = this._l.appConf.sampleDataEdgeCount.getValue();
     this._s.isLoading.next(true);
-    this._dbApi.sampleData(x => { this._s.loadGraph(x); this._s.isLoading.next(false); this._s.add2GraphHistory('Load sample data'); }, n1, n2);
+    this._dbApi.sampleData(x => { this._s.loadGraph(x); this._s.isLoading.next(false); this._s.add2GraphHistory('Load sample data'); });
   }
 
   showDbQuery() {

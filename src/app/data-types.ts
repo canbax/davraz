@@ -126,7 +126,7 @@ export interface DbClient {
 
   runQuery: (q: string, cb: (r: InterprettedQueryResult) => void) => void;
 
-  sampleData: (cb: (r: GraphResponse) => void, nodeCnt, edgeCnt) => void;
+  sampleData: (cb: (r: GraphResponse) => void) => void;
 
   getNeighborsOfNode: (cb: (r: GraphResponse) => void, elem) => void;
 

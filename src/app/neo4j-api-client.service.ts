@@ -88,7 +88,7 @@ export class Neo4jApiClientService implements DbClient {
 
   }
 
-  sampleData(cb: (r: GraphResponse) => void, nodeCnt = 5, edgeCnt = 3) {
+  sampleData(cb: (r: GraphResponse) => void) {
     this.run(`MATCH (n)-[e]-() RETURN n,e limit 100`, cb);
   }
 

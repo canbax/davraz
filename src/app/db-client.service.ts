@@ -27,8 +27,8 @@ export class DbClientService implements DbClient {
     this.client.runQuery(q, cb);
   }
 
-  sampleData(cb: (r: GraphResponse) => void, nodeCnt, edgeCnt) {
-    this.client.sampleData(cb, nodeCnt, edgeCnt);
+  sampleData(cb: (r: GraphResponse) => void) {
+    this.client.sampleData(cb);
   }
 
   getNeighborsOfNode(cb: (r: GraphResponse) => void, elem) {
