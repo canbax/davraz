@@ -59,6 +59,7 @@ export class AppComponent implements OnInit {
     if (s) {
       this._s.cy.style().fromJson(GENERAL_CY_STYLE.concat(JSON.parse(s))).update();
       this._s.addFnStyles();
+      this._s.bindViewUtilitiesExtension();
     }
   }
 
@@ -93,6 +94,7 @@ export class AppComponent implements OnInit {
         this._l.setRecentCyStyle(txt);
         this._s.cy.style().fromJson(GENERAL_CY_STYLE.concat(fileJSON)).update();
         this._s.addFnStyles();
+        this._s.bindViewUtilitiesExtension();
       }
 
     });
@@ -376,6 +378,7 @@ export class AppComponent implements OnInit {
 
   clearCyStyle() {
     this._s.cy.style().resetToDefault().update();
+    this._l.setRecentCyStyle('');
   }
 
   loadCyStyle() {

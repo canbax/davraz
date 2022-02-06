@@ -180,7 +180,7 @@ export class SharedService {
     });
   }
 
-  private bindViewUtilitiesExtension() {
+  bindViewUtilitiesExtension() {
     let options = {
       highlightStyles: this.getHighlightStyles(),
       setVisibilityOnHide: false, // whether to set visibility on hide/show
@@ -302,6 +302,8 @@ export class SharedService {
       // contextMenuClasses: []
     };
     this.cy.contextMenus(options);
+    this.cy.pan(this.cy.pan());
+    // this.cy.contextMenus('get')
   }
 
   getHighlightStyles(): any[] {

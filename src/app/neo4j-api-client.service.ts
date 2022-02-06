@@ -93,7 +93,7 @@ export class Neo4jApiClientService implements DbClient {
   }
 
   getNeighborsOfNode(cb: (r: GraphResponse) => void, elem) {
-
+    this.run(`MATCH (n)-[e]-(n2) WHERE id(n) = ${elem.id().substr(2)} RETURN n2,e`, cb);
   }
 
   // In terms of TigerGraph this is simply a Query, https://docs.tigergraph.com/dev/gsql-ref/querying/introduction-query

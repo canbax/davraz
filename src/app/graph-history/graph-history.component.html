@@ -1,6 +1,6 @@
-<div *ngFor="let h of graphHistory; let i = index" type="button" class="center-txt"
+<mat-card *ngFor="let h of graphHistory; let i = index" type="button" class="center-txt"
   [ngClass]="{'active': activeItemIdx == i}" (click)="load(i)">
-  <div class="va-text">
+  <div>
     <div>
       {{i+1}}&nbsp;{{h.expo}}
       <button class="sm-btn" mat-button aria-label="Close" (click)="delete(i)" matTooltip="Delete">
@@ -8,7 +8,8 @@
       </button>
     </div>
     <div>
-      <img class="popped-img rounded border" [src]="h.base64png">
+      <img class="popped-img" [src]="h.base64png">
     </div>
   </div>
-</div>
+</mat-card>
+<br>
