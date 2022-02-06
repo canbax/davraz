@@ -83,40 +83,30 @@ export class TigerGraphApiClientService implements DbClient {
   }
 
   getNeighborsOfNode(cb: (r: GraphResponse) => void, elem) {
-    const t = elem.classes()[0];
     const id = elem.id().substr(2);
-    let edges: EdgeResponse[] = [];
-    let nodes: NodeResponse[] = [];
-    const conf = this._c.getConfAsJSON().tigerGraphDbConfig;
-    this._http.post(`${this.url}/edges4nodes`, { cnt: 1000, src_type: t, id: id, graphName: conf.graphName, url: conf.url, token: conf.token }).subscribe({
-      next: x => {
-        const resp = x as GraphResponse;
-        const arr: Observable<Object>[] = [];
-        edges = edges.concat(resp.edges);
-        for (const e of resp.edges) {
-          const o = this._http.post(`${this.url}/nodes4edges`, { cnt: 1000, type: e.to_type, id: e.to_id, graphName: conf.graphName, url: conf.url, token: conf.token });
-          arr.push(o);
-          o.subscribe({
-            next: x2 => {
-              nodes = nodes.concat((x2 as GraphResponse).nodes);
-            }, error: this.errFn
-          });
 
-          const o2 = this._http.post(`${this.url}/nodes4edges`, { cnt: 1000, type: e.from_type, id: e.from_id, graphName: conf.graphName, url: conf.url, token: conf.token });
-          arr.push(o2);
-          o2.subscribe({
-            next: x2 => {
-              nodes = nodes.concat((x2 as GraphResponse).nodes);
-            }, error: this.errFn
-          });
-        }
-        combineLatest(arr).subscribe({
-          next: () => {
-            cb({ edges: edges, nodes: nodes });
-          }, error: this.errFn
-        });
-      }, error: this.errFn
-    });
+    const conf = this._c.getConfAsJSON().tigerGraphDbConfig;
+    const gsql = `INTERPRET QUERY () FOR GRAPH ${conf.graphName} {   
+      ListAccum<EDGE> @@edgeList;
+      seed = {ANY};
+    
+      results = SELECT t
+               FROM seed:s -(:e)->:t
+               WHERE s.id == "${id}"
+               ACCUM @@edgeList += e;
+      
+      PRINT  @@edgeList, results; 
+    }`;
+
+    this._http.post(`${this.url}/gsql`, { q: gsql, username: conf.username, password: conf.password, url: conf.url },
+      { headers: { 'Content-Type': 'application/json' } })
+      .subscribe({
+        next: (x: any) => {
+          const nodes = x.results[0].results;
+          const edges = x.results[0]['@@edgeList'];
+          cb({ edges: edges, nodes: nodes });
+        }, error: this.errFn
+      });
   }
 
   // In terms of TigerGraph this is simply a Query, https://docs.tigergraph.com/dev/gsql-ref/querying/introduction-query
