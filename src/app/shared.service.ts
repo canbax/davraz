@@ -560,6 +560,9 @@ export class SharedService {
       if (src == tgt) {
         continue;
       }
+      if (this.cy.$id(src).parent().length > 0 || this.cy.$id(tgt).parent().length > 0) {
+        continue;
+      }
       if (node2node[src]) {
         node2node[src].push(tgt);
       } else {
@@ -622,7 +625,7 @@ export class SharedService {
     }, 100);
   }
   
-  private addFnStyles() {
+  addFnStyles() {
     this.cy.style().selector('edge.' + COLLAPSED_EDGE_CLASS)
       .style({
         'label': (e) => {

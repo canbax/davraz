@@ -71,7 +71,7 @@
           </mat-form-field>
         </div>
         <br>
-        <mat-form-field appearance="fill" class="full-width" matTooltip="Will send HTTP requests to the database">
+        <mat-form-field appearance="fill" class="w100" matTooltip="Will send HTTP requests to the database">
           <mat-label>Proxy Server URL</mat-label>
           <input matInput type="text" [(ngModel)]="tigerGraphDbConf.proxyUrl" name="proxy-server-url">
         </mat-form-field>
@@ -91,17 +91,17 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
       <form>
-        <mat-form-field appearance="fill" class="full-width">
+        <mat-form-field appearance="fill" class="w100">
           <mat-label>Database URL</mat-label>
           <input matInput [(ngModel)]="neo4jDbConf.url" name="url">
         </mat-form-field>
         <br>
-        <mat-form-field appearance="fill" class="full-width">
+        <mat-form-field appearance="fill" class="w100">
           <mat-label>Username</mat-label>
           <input matInput [(ngModel)]="neo4jDbConf.username" name="secret">
         </mat-form-field>
         <br>
-        <mat-form-field appearance="fill" class="full-width">
+        <mat-form-field appearance="fill" class="w100">
           <mat-label>Password</mat-label>
           <input matInput [(ngModel)]="neo4jDbConf.password" name="token">
         </mat-form-field>
@@ -120,7 +120,7 @@
           Settings about visualization
         </mat-panel-description>
       </mat-expansion-panel-header>
-      <form class="full-width">
+      <form class="w100">
         <!-- highlight style -->
         <mat-card>
           <mat-card-title>Hightlight Style:</mat-card-title>
@@ -161,18 +161,6 @@
           <mat-checkbox [(ngModel)]="isIgnoreCaseInText" (change)="changeConfig('isIgnoreCaseInText')"
             name="is-ignore-case-in-text">Ignore case in text operations
           </mat-checkbox>
-          <br>
-          <mat-form-field appearance="fill" class="full-width">
-            <mat-label>Node count to load from each type in sample data</mat-label>
-            <input matInput type="number" (change)="changeConfig('sampleDataNodeCount')" name="sample-data-edge-count"
-              [(ngModel)]="sampleDataNodeCount">
-          </mat-form-field>
-          <br>
-          <mat-form-field appearance="fill" class="full-width">
-            <mat-label>Edge count to load from each type in sample data</mat-label>
-            <input matInput type="number" (change)="changeConfig('sampleDataEdgeCount')" name="sample-data-node-count"
-              [(ngModel)]="sampleDataEdgeCount">
-          </mat-form-field>
 
           <br>
           <mat-form-field appearance="fill">

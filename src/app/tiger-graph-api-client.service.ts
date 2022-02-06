@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SettingsService } from './settings.service';
-import { InterprettedQueryResult, GraphResponse, NodeResponse, EdgeResponse, DbClient } from './data-types';
-import { combineLatest, Observable } from 'rxjs';
+import { InterprettedQueryResult, GraphResponse, DbClient } from './data-types';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';

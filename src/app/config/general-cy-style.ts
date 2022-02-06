@@ -48,6 +48,7 @@ export const GENERAL_CY_STYLE: any[] =
         "background-color": "#555",
         "shape": "barrel",
         "border-color": "#263238",
+        "border-width": 1,
         "font-size": "9px"
       }
     },

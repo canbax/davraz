@@ -21,7 +21,7 @@
         <input matInput [(ngModel)]="currQueryName">
       </mat-form-field>
 
-      <mat-form-field appearance="fill" class="full-width">
+      <mat-form-field appearance="fill" class="w100">
         <mat-label>GSQL</mat-label>
         <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="1" [(ngModel)]="gsql">
         </textarea>
@@ -63,7 +63,7 @@
           </div>
         </div>
 
-        <button mat-raised-button (click)="runInstalledQuery()" class="full-width">
+        <button mat-raised-button (click)="runInstalledQuery()" class="w100">
           Run <b>"{{currInstalledQuery.name}}"</b>
         </button>
         <mat-divider class="p5" *ngIf="rawInstalledQueryResponse && rawInstalledQueryResponse.length > 0"></mat-divider>

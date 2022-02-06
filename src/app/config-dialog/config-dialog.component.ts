@@ -24,8 +24,6 @@ export class ConfigDialogComponent {
   isIgnoreCaseInText: boolean;
   databaseType: DatabaseType;
   dbTypes: { enum: DatabaseType, str: string }[];
-  sampleDataNodeCount: number;
-  sampleDataEdgeCount: number;
   layoutOptions: string[];
   currLayout: string;
   nodeTypes: string[] = [];
@@ -67,8 +65,6 @@ export class ConfigDialogComponent {
     const curr = this.appConf.highlightStyles[this.currHighlightIdx];
     this.currHighlightStyle = { color: curr.color.getValue(), name: curr.name.getValue(), wid: curr.wid.getValue() };
     this.isIgnoreCaseInText = this.appConf.isIgnoreCaseInText.getValue();
-    this.sampleDataNodeCount = this.appConf.sampleDataNodeCount.getValue();
-    this.sampleDataEdgeCount = this.appConf.sampleDataEdgeCount.getValue();
     this.currLayout = this.appConf.currLayout.getValue();
     this.nodeTypes = this.appConf.nodeTypes.map(x => x.getValue());
     this.databaseType = this.appConf.databaseType.getValue();

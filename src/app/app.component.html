@@ -35,8 +35,8 @@
 
     <button mat-button [matMenuTriggerFor]="data">Data<mat-icon>arrow_drop_down</mat-icon></button>
     <mat-menu #data="matMenu">
-      <button (click)="clearData()" mat-menu-item>Clear data</button>
       <button (click)="loadSampleData()" mat-menu-item>Sample data</button>
+      <button (click)="clearData()" mat-menu-item>Clear data</button>
     </mat-menu>
 
     <button mat-button [matMenuTriggerFor]="layout">Layout<mat-icon>arrow_drop_down</mat-icon></button>

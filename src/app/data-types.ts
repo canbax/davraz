@@ -53,8 +53,6 @@ export interface AppConfig {
   highlightStyles: { wid: BehaviorSubject<number>, color: BehaviorSubject<string>, name: BehaviorSubject<string> }[];
   currHighlightIdx: BehaviorSubject<number>;
   isIgnoreCaseInText: BehaviorSubject<boolean>;
-  sampleDataNodeCount: BehaviorSubject<number>;
-  sampleDataEdgeCount: BehaviorSubject<number>;
   graphHistoryLimit: BehaviorSubject<number>;
   currLayout: BehaviorSubject<string>;
 

@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfigDialogComponent } from './config-dialog/config-dialog.component';
 import { Subject } from 'rxjs';
 import { SharedService } from './shared.service';
-import { readTxtFile, obj2str, COMPOUND_CLASS, Layout, COLLAPSED_EDGE_CLASS } from './constants';
+import { readTxtFile, obj2str, COMPOUND_CLASS, Layout, COLLAPSED_EDGE_CLASS, deepCopy } from './constants';
 import { SavePngDialogComponent } from './save-png-dialog/save-png-dialog.component';
 import { DbQueryComponent } from './db-query/db-query.component';
 import { ObjectPropertiesComponent } from './object-properties/object-properties.component';
@@ -58,6 +58,7 @@ export class AppComponent implements OnInit {
     const s = this._l.getRecentCyStyle();
     if (s) {
       this._s.cy.style().fromJson(GENERAL_CY_STYLE.concat(JSON.parse(s))).update();
+      this._s.addFnStyles();
     }
   }
 
@@ -69,6 +70,7 @@ export class AppComponent implements OnInit {
   }
 
   loadSampleData() {
+    this.clearData();
     this._s.isLoading.next(true);
     this._dbApi.sampleData(x => { this._s.loadGraph(x); this._s.isLoading.next(false); this._s.add2GraphHistory('Load sample data'); });
   }
@@ -90,6 +92,7 @@ export class AppComponent implements OnInit {
       } else if (this.loadFileType == 'LoadStyle') {
         this._l.setRecentCyStyle(txt);
         this._s.cy.style().fromJson(GENERAL_CY_STYLE.concat(fileJSON)).update();
+        this._s.addFnStyles();
       }
 
     });
@@ -289,12 +292,14 @@ export class AppComponent implements OnInit {
   markovClustering() {
     this._s.markovClustering();
     this._s.add2GraphHistory('apply markov clustering');
+    this.incrementalLayout();
   }
 
   degree1Clustering() {
     this._s.degree1Clustering();
     this._s.add2GraphHistory('degree-1 clustering');
-  }
+    this.incrementalLayout();
+  };
 
   randomizedLayout() {
     this._s.isRandomizedLayout = true;
@@ -329,7 +334,9 @@ export class AppComponent implements OnInit {
       cols = ['properties'];
       for (let i = 0; i < elems.length; i++) {
         if (!elems[i].hasClass(COMPOUND_CLASS) && !elems[i].hasClass(COLLAPSED_EDGE_CLASS)) {
-          data.push({ properties: JSON.stringify(elems[i].data()) });
+          const d = elems[i].data();
+          delete d['originalEnds']
+          data.push({ properties: JSON.stringify(d) });
         }
       }
     } else {
