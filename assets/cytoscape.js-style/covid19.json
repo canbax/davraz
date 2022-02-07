@@ -1,0 +1,315 @@
+[{
+    "selector": "node",
+    "style": {
+      "background-opacity": 0,
+      "font-size": "8px",
+      "text-max-width": "44px",
+      "text-valign": "bottom",
+      "text-halign": "center",
+      "text-outline-color": "#555555",
+      "text-outline-width": "2px",
+      "color": "#FFFFFF"
+    }
+  },
+  {
+    "selector": "edge",
+    "style": {
+      "width": "3px",
+      "font-size": "7px",
+      "text-outline-color": "#555555",
+      "text-outline-width": "1px",
+      "text-rotation": "autorotate",
+      "color": "#FFFFFF",
+      "line-style": "solid",
+      "curve-style": "bezier"
+    }
+  },
+  {
+    "selector": "node.Province",
+    "style": {
+      "label": "data(id)",
+      "shape": "ellipse",
+      "background-opacity": 1,
+      "background-color": "#c7c7c7"
+    }
+  },
+  {
+    "selector": "node.Country",
+    "style": {
+      "label": "data(id)",
+      "shape": "round-rectangle",
+      "background-fit": "contain",
+      "background-image": "assets/img/flag.svg"
+    }
+  },
+  {
+    "selector": "node.InfectionCase",
+    "style": {
+      "label": "data(id)",
+      "shape": "ellipse",
+      "background-fit": "contain",
+      "background-image": "assets/img/disease.svg"
+    }
+  },
+  {
+    "selector": "node.Patient",
+    "style": {
+      "label": "data(patient_id)",
+      "shape": "ellipse",
+      "background-fit": "contain",
+      "background-image": "assets/img/person.svg"
+    }
+  },
+  {
+    "selector": "node.City",
+    "style": {
+      "label": "data(id)",
+      "shape": "round-rectangle",
+      "background-fit": "contain",
+      "background-image": "assets/img/city.svg"
+    }
+  },
+  {
+    "selector": "node.TravelEvent",
+    "style": {
+      "label": "data(id)",
+      "shape": "ellipse",
+      "background-fit": "contain",
+      "background-image": "assets/img/travel.svg"
+    }
+  },
+  {
+    "selector": "node.Year_",
+    "style": {
+      "label": "data(year_)",
+      "shape": "ellipse",
+      "background-opacity": 1,
+      "background-color": "#1f77b4"
+    }
+  },
+  {
+    "selector": "node.WeatherStat",
+    "style": {
+      "label": "data(code)",
+      "shape": "ellipse",
+      "background-fit": "contain",
+      "background-image": "assets/img/weather.svg"
+    }
+  },
+  {
+    "selector": "node.Day_",
+    "style": {
+      "label": "data(day_)",
+      "shape": "ellipse",
+      "background-opacity": 1,
+      "background-color": "#cedb9c"
+    }
+  },
+  {
+    "selector": "node.Month_",
+    "style": {
+      "label": "data(month_)",
+      "shape": "ellipse",
+      "background-opacity": 1,
+      "background-color": "#5254a3"
+    }
+  },
+  {
+    "selector": "node.SearchStat",
+    "style": {
+      "label": "data(id)",
+      "shape": "ellipse",
+      "background-fit": "contain",
+      "background-image": "assets/img/searchStat.svg"
+    }
+  },
+  {
+    "selector": "edge.PROVINCE_IN_COUNTRY",
+    "style": {
+      "label": "in country",
+      "line-color": "#f50057",
+      "target-arrow-shape": "square",
+      "target-arrow-color": "#f50057"
+    }
+  },
+  {
+    "selector": "edge.WEATHER_CONDITION",
+    "style": {
+      "label": "weather",
+      "line-color": "#d500f9",
+      "target-arrow-shape": "triangle",
+      "target-arrow-color": "#d500f9"
+    }
+  },
+  {
+    "selector": "edge.CITY_IN_PROVINCE",
+    "style": {
+      "label": "in province",
+      "line-color": "#3d5afe",
+      "target-arrow-shape": "triangle-tee",
+      "target-arrow-color": "#3d5afe"
+    }
+  },
+  {
+    "selector": "edge.CASE_IN_CITY",
+    "style": {
+      "label": "in city",
+      "line-color": "#00b0ff",
+      "target-arrow-shape": "circle-triangle",
+      "target-arrow-color": "#00b0ff"
+    }
+  },
+  {
+    "selector": "edge.CASE_IN_PROVINCE",
+    "style": {
+      "label": "in province",
+      "line-color": "#00e676",
+      "target-arrow-shape": "triangle-cross",
+      "target-arrow-color": "#00e676"
+    }
+  },
+  {
+    "selector": "edge.PATIENT_FROM_PROVINCE",
+    "style": {
+      "label": "from province",
+      "line-color": "#ffea00",
+      "target-arrow-shape": "triangle-backcurve",
+      "target-arrow-color": "#ffea00"
+    }
+  },
+  {
+    "selector": "edge.PATIENT_FROM_COUNTRY",
+    "style": {
+      "label": "from country",
+      "line-color": "#ffc400",
+      "target-arrow-shape": "vee",
+      "target-arrow-color": "#ffc400"
+    }
+  },
+  {
+    "selector": "edge.PATIENT_FROM_CITY",
+    "style": {
+      "label": "from city",
+      "line-color": "#ffc400",
+      "target-arrow-shape": "vee",
+      "target-arrow-color": "#ffc400"
+    }
+  },
+  {
+    "selector": "edge.BELONGS_TO_CASE",
+    "style": {
+      "label": "belongs to case",
+      "line-color": "#ff9100",
+      "target-arrow-shape": "tee",
+      "target-arrow-color": "#ff9100"
+    }
+  },
+  {
+    "selector": "edge.INFECTED_BY",
+    "style": {
+      "label": "infected by",
+      "line-color": "#ff3d00",
+      "target-arrow-shape": "circle",
+      "target-arrow-color": "#ff3d00"
+    }
+  },
+  {
+    "selector": "edge.BIRTH_STAMP",
+    "style": {
+      "label": "birth",
+      "line-color": "#ff3d00",
+      "target-arrow-shape": "circle",
+      "target-arrow-color": "#ff3d00"
+    }
+  },
+  {
+    "selector": "edge.YEAR_MONTH",
+    "style": {
+      "label": "year month",
+      "line-color": "#ff3d00",
+      "target-arrow-shape": "circle",
+      "target-arrow-color": "#ff3d00"
+    }
+  },
+  {
+    "selector": "edge.PATIENT_TRAVELED",
+    "style": {
+      "label": "patient travel",
+      "line-color": "#ff3d00",
+      "target-arrow-shape": "circle",
+      "target-arrow-color": "#ff3d00"
+    }
+  },
+  {
+    "selector": "edge.TRAVEL_EVENT_IN",
+    "style": {
+      "label": "travel in",
+      "line-color": "#ff3d00",
+      "target-arrow-shape": "circle",
+      "target-arrow-color": "#ff3d00"
+    }
+  },
+  {
+    "selector": "edge.TRAVEL_STAMP",
+    "style": {
+      "label": "travel stamp",
+      "line-color": "#ff3d00",
+      "target-arrow-shape": "circle",
+      "target-arrow-color": "#ff3d00"
+    }
+  },
+  {
+    "selector": "edge.WEATHER_STAMP",
+    "style": {
+      "label": "weather stamp",
+      "line-color": "#ff3d00",
+      "target-arrow-shape": "circle",
+      "target-arrow-color": "#ff3d00"
+    }
+  },
+  {
+    "selector": "edge.MONTH_DAY",
+    "style": {
+      "label": "month day",
+      "line-color": "#ff3d00",
+      "target-arrow-shape": "circle",
+      "target-arrow-color": "#ff3d00"
+    }
+  },
+  {
+    "selector": "edge.DECEASE_STAMP",
+    "style": {
+      "label": "decase stamp",
+      "line-color": "#fd8d3c",
+      "target-arrow-shape": "circle",
+      "target-arrow-color": "#fd8d3c"
+    }
+  },
+  {
+    "selector": "edge.RELEASED_STAMP",
+    "style": {
+      "label": "released stamp",
+      "line-color": "#6baed6",
+      "target-arrow-shape": "circle",
+      "target-arrow-color": "#6baed6"
+    }
+  },
+  {
+    "selector": "edge.SYMPTOM_STAMP",
+    "style": {
+      "label": "symptom stamp",
+      "line-color": "#de9ed6",
+      "target-arrow-shape": "vee",
+      "target-arrow-color": "#de9ed6"
+    }
+  },
+  {
+    "selector": "edge.CONFIRM_STAMP",
+    "style": {
+      "label": "confirm stamp",
+      "line-color": "#a55194",
+      "target-arrow-shape": "vee",
+      "target-arrow-color": "#a55194"
+    }
+  }
+]
