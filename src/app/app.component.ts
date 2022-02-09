@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfigDialogComponent } from './config-dialog/config-dialog.component';
 import { Subject } from 'rxjs';
 import { SharedService } from './shared.service';
-import { readTxtFile, obj2str, COMPOUND_CLASS, Layout, COLLAPSED_EDGE_CLASS, deepCopy } from './constants';
+import { readTxtFile, obj2str, COMPOUND_CLASS, Layout, COLLAPSED_EDGE_CLASS } from './constants';
 import { SavePngDialogComponent } from './save-png-dialog/save-png-dialog.component';
 import { DbQueryComponent } from './db-query/db-query.component';
 import { ObjectPropertiesComponent } from './object-properties/object-properties.component';
@@ -64,7 +64,7 @@ export class AppComponent implements OnInit {
   }
 
   openDbConfigDialog() {
-    const dialogRef = this.dialog.open(ConfigDialogComponent, { width: '50%' });
+    const dialogRef = this.dialog.open(ConfigDialogComponent);
 
     dialogRef.afterClosed().subscribe(result => {
     });
