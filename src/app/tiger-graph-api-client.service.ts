@@ -149,4 +149,19 @@ export class TigerGraphApiClientService implements DbClient {
       }, error: this.errFn
     });
   }
+
+  getGraphSchema(cb) {
+    const conf = this._c.getConfAsJSON().tigerGraphDbConfig;
+    this._http.post(`${this.url}/schema`,
+      {
+        url: conf.url, graph: conf.graphName,
+        username: conf.username, password: conf.password,
+      })
+      .subscribe({
+        next: x => {
+          console.log("x: ", x);
+          cb(x);
+        }, error: this.errFn
+      });
+  }
 }
