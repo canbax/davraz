@@ -54,7 +54,7 @@ export class ConfigDialogComponent {
     this._s.isLoading.next(true);
     this._dbApi.refreshToken((x) => {
       this.tigerGraphDbConf.tokenExpire = x.expiration;
-      this.tigerGraphDbConf.token = x.token;
+      this.tigerGraphDbConf.token = x.results.token;
       this.changeTigerGraphDbConfigs();
     });
   }

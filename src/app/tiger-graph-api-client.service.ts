@@ -40,7 +40,12 @@ export class TigerGraphApiClientService implements DbClient {
 
   refreshToken(cb) {
     const conf = this._c.getConfAsJSON().tigerGraphDbConfig;
-    this._http.post(`${this.url}/requesttoken`, { secret: conf.secret, url: conf.url })
+    this._http.post(`${this.url}/requesttoken`,
+      {
+        graph: conf.graphName,
+        username: conf.username, password: conf.password,
+        url: conf.url
+      })
       .subscribe({
         next: x => {
           if (x['error']) {
