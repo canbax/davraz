@@ -3,7 +3,6 @@ import { TigerGraphDbConfig, AppConfig, DatabaseType, Neo4jDbConfig } from '../d
 import { getCyStyleFromColorAndWid, Layout } from '../constants';
 import { SharedService } from '../shared.service';
 import { BehaviorSubject } from 'rxjs';
-import { MatChipInputEvent } from '@angular/material/chips';
 import { DbClientService } from '../db-client.service';
 import { SettingsService } from '../settings.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -150,33 +149,6 @@ export class ConfigDialogComponent {
   changeNeo4jDbConfigs() {
     for (const key in this.appConf.neo4jDbConfig) {
       this.appConf.neo4jDbConfig[key].next(this.neo4jDbConf[key]);
-    }
-    this._c.setAppConfig();
-  }
-
-  addNodeType(event: MatChipInputEvent): void {
-    const input = event.input;
-    const value = event.value;
-
-    // Add our fruit
-    if ((value || '').trim()) {
-      const v = value.trim();
-      this.nodeTypes.push(v);
-      this.appConf.nodeTypes.push(new BehaviorSubject<string>(v));
-    }
-
-    // Reset the input value
-    if (input) {
-      input.value = '';
-    }
-    this._c.setAppConfig();
-  }
-
-  removeNodeType(e) {
-    const index = this.nodeTypes.indexOf(e);
-    if (index >= 0) {
-      this.nodeTypes.splice(index, 1);
-      this.appConf.nodeTypes.splice(index, 1);
     }
     this._c.setAppConfig();
   }
