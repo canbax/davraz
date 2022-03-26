@@ -42,7 +42,7 @@ export const GENERAL_CY_STYLE: any[] =
       }
     },
     {
-      selector: "node.Compound",
+      selector: "node._Compound_",
       style: {
         "background-opacity": 0.07,
         "background-color": "#555",

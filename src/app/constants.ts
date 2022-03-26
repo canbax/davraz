@@ -517,7 +517,7 @@ export function readTxtFile(file: File, cb: (s: string) => void) {
 
 export const COLLAPSED_EDGE_CLASS = 'cy-expand-collapse-collapsed-edge';
 export const COLLAPSED_NODE_CLASS = 'cy-expand-collapse-collapsed-node';
-export const COMPOUND_CLASS = 'Compound';
+export const COMPOUND_CLASS = '_Compound_';
 export const EXPAND_COLLAPSE_CUE_SIZE = 12;
 
 export function expandCollapseCuePosition(node) {
