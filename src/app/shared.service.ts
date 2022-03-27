@@ -42,7 +42,7 @@ export class SharedService {
   constructor(public dialog: MatDialog, private _dbApi: DbClientService, private _conf: SettingsService) {
     let isGraphEmpty = () => { return this.cy.elements().not(':hidden, :transparent').length > 0 };
     this.performLayout = debounce(this.runLayout, 2 * LAYOUT_ANIM_DUR, true, isGraphEmpty);
-    
+
   }
 
   init() {
@@ -295,7 +295,7 @@ export class SharedService {
       }
       ],
       // css classes that menu items will have
-      menuItemClasses: ['mat-menu-item', 'ctx-menu-i'],
+      menuItemClasses: ['mat-menu-item'],
       // menuItemClasses: [],
       // css classes that context menu will have
       contextMenuClasses: ['mat-menu-content', 'ctx-menu-container']
@@ -626,7 +626,7 @@ export class SharedService {
       this.addNewGraphHistoryItem.next(true);
     }, 100);
   }
-  
+
   addFnStyles() {
     this.cy.style().selector('edge.' + COLLAPSED_EDGE_CLASS)
       .style({
