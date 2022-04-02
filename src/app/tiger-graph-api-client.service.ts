@@ -115,8 +115,10 @@ export class TigerGraphApiClientService implements DbClient {
 
   // In terms of TigerGraph this is simply a Query, https://docs.tigergraph.com/dev/gsql-ref/querying/introduction-query
   // You should first create the query then install it then call it. Actually, it looks more similar to a "Stored Procedure" in SQL terminology.
-  runStoredProcedure(cb, query: string, params: any[]) {
-    this._http.post(`${this.url} / query`, { query: query, params: params }, { headers: { 'Content-Type': 'application/json' } }).subscribe({
+  runStoredProcedure(cb: (arg0: Object) => void, query: string, params: any[]) {
+    const conf = this._c.getConfAsJSON().tigerGraphDbConfig;
+    const body = { query: query, params: params, graphName: conf.graphName, url: conf.url, token: conf.token };
+    this._http.post(`${this.url}/query`, body, { headers: { 'Content-Type': 'application/json' } }).subscribe({
       next: x => {
         if (x['error']) {
           const dialogRef = this.dialog.open(ErrorDialogComponent);
