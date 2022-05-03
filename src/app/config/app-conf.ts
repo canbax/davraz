@@ -30,6 +30,7 @@ export const APP_CONF = {
     password: '123456',
     graphName: 'MyGraph',
     proxyUrl: 'https://tiger-api.herokuapp.com',
+    isConnected: false
   },
   neo4jDbConfig: {
     url: 'http://localhost:7474/db/data/transaction/commit',

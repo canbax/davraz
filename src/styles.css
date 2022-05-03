@@ -10,9 +10,13 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+.p1 {
+  padding: 0.5em;
+}
 
-
-
+.f1 {
+  font-size: 1.25em !important;
+}
 
 .center-txt {
   text-align: center;

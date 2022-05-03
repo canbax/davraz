@@ -1,6 +1,41 @@
 import { BehaviorSubject } from 'rxjs';
 import { isPrimitiveType } from './constants';
 
+export interface SchemaOutput {
+  error: boolean;
+  message: string;
+  results: {
+    EdgeTypes: TigerGraphEdgeType[],
+    VertexTypes: TigerGraphVertexType[],
+  }
+}
+
+export interface TigerGraphVertexType {
+  Name: string;
+  Attributes: VertexOrEdgeAttribute[];
+  PrimaryId: VertexOrEdgeAttribute;
+  Config: any;
+}
+
+export interface TigerGraphEdgeType {
+  Name: string;
+  Attributes: VertexOrEdgeAttribute[]
+  FromVertexTypeName: string;
+  ToVertexTypeName: string;
+  Config: any;
+  IsDirected: boolean;
+}
+
+export interface VertexOrEdgeAttribute {
+  AttributeName: string,
+  AttributeType: { Name: string },
+  HasIndex: boolean,
+  IsPartOfCompositeKey: boolean,
+  IsPrimaryKey: boolean,
+  PrimaryIdAsAttribute: boolean,
+  internalAttribute: boolean,
+}
+
 export interface InterprettedQueryResult {
   error: boolean;
   message: string;
@@ -67,6 +102,7 @@ export interface AppConfig {
     tokenExpire: BehaviorSubject<number>;
     graphName: BehaviorSubject<string>;
     proxyUrl: BehaviorSubject<string>;
+    isConnected: BehaviorSubject<boolean>;
   },
   neo4jDbConfig: {
     url: BehaviorSubject<string>;
