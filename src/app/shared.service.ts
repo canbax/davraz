@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import cytoscape from 'cytoscape';
 import fcose from 'cytoscape-fcose';
 import avsdf from 'cytoscape-avsdf';
@@ -39,18 +39,20 @@ export class SharedService {
   graphHistory: GraphHistoryItem[] = [];
   addNewGraphHistoryItem = new BehaviorSubject<boolean>(false);
 
-  constructor(public dialog: MatDialog, private _dbApi: DbClientService, private _conf: SettingsService) {
+  constructor(public dialog: MatDialog, private _dbApi: DbClientService, private _conf: SettingsService, private _ngZone: NgZone) {
     let isGraphEmpty = () => { return this.cy.elements().not(':hidden, :transparent').length > 0 };
     this.performLayout = debounce(this.runLayout, 2 * LAYOUT_ANIM_DUR, true, isGraphEmpty);
 
   }
 
   init() {
-    this.cy = cytoscape({
-      // so we can see the ids
-      style: GENERAL_CY_STYLE,
-      container: document.getElementById('cy'),
-      wheelSensitivity: 0.1,
+    this._ngZone.runOutsideAngular(() => {
+      this.cy = cytoscape({
+        // so we can see the ids
+        style: GENERAL_CY_STYLE,
+        container: document.getElementById('cy'),
+        wheelSensitivity: 0.1,
+      });
     });
     window['cy'] = this.cy;
 
@@ -75,7 +77,11 @@ export class SharedService {
     this.bindViewUtilitiesExtension();
     this.bindContextMenus();
 
-    const fn = debounce((e) => { this.elemSelectChanged.next(e.type === 'select'); }, OBJ_INFO_UPDATE_DELAY);
+    const fn = debounce((e) => {
+      this._ngZone.run(() => {
+        this.elemSelectChanged.next(e.type === 'select');
+      });
+    }, OBJ_INFO_UPDATE_DELAY);
     this.cy.on('select unselect', fn);
     const fn2 = debounce(() => { this.graphChanged.next(true) }, OBJ_INFO_UPDATE_DELAY);
     this.cy.on('add remove', fn2);
