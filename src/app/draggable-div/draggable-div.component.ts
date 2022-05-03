@@ -42,6 +42,15 @@ export class DraggableDivComponent implements OnInit {
     });
   }
 
+  onMouseDownOnHandle() {
+    // lower all the draggable divs on z-index
+    const draggableDivs = document.getElementsByClassName('draggable-content');
+    for (let i = 0; i < draggableDivs.length; i++) {
+      (draggableDivs[i] as HTMLElement).style.zIndex = '1001';
+    }
+    this.mainElem.nativeElement.style.zIndex = '1002';
+  }
+
   closeClicked() {
     this.isShow.next(false);
   }

@@ -4,7 +4,12 @@
   *ngIf="_isShow"
   class="draggable-content mat-elevation-z2"
 >
-  <div cdkDragHandle #moverElem class="gray1 p5 drag-handle">
+  <div
+    cdkDragHandle
+    #moverElem
+    class="gray1 p5 drag-handle"
+    (mousedown)="onMouseDownOnHandle()"
+  >
     <div class="center-txt mat-card-title p5">
       {{ header }}
     </div>
