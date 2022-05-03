@@ -1,20 +1,42 @@
-<div cdkDrag #mainElem *ngIf="_isShow" class="draggable-content mat-elevation-z2">
+<div
+  cdkDrag
+  #mainElem
+  *ngIf="_isShow"
+  class="draggable-content mat-elevation-z2"
+>
   <div cdkDragHandle #moverElem class="gray1 p5 drag-handle">
     <div class="center-txt mat-card-title p5">
-      {{header}}
+      {{ header }}
     </div>
   </div>
   <span class="top-right">
     <button class="sm-btn" mat-button aria-label="Close" (click)="minimize()">
       <mat-icon>minimize</mat-icon>
     </button>
-    <button *ngIf="!isFullView" class="sm-btn" mat-button aria-label="Close" (click)="openInFull()">
+    <button
+      *ngIf="!isFullView"
+      class="sm-btn"
+      mat-button
+      aria-label="Close"
+      (click)="openInFull()"
+    >
       <mat-icon>open_in_full</mat-icon>
     </button>
-    <button *ngIf="isFullView" class="sm-btn" mat-button aria-label="Close" (click)="restorePrevState()">
+    <button
+      *ngIf="isFullView"
+      class="sm-btn"
+      mat-button
+      aria-label="Close"
+      (click)="restorePrevState()"
+    >
       <mat-icon>filter_none</mat-icon>
     </button>
-    <button class="sm-btn" mat-button aria-label="Close" (click)="closeClicked()">
+    <button
+      class="sm-btn"
+      mat-button
+      aria-label="Close"
+      (click)="closeClicked()"
+    >
       <mat-icon>close</mat-icon>
     </button>
   </span>
