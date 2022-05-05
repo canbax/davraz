@@ -38,6 +38,7 @@ export class AppComponent implements OnInit {
   existingTypes: string[] = [];
   layoutAlgos: string[] = [];
   private loadFileType: 'LoadGraph' | 'LoadStyle' = 'LoadGraph';
+  private isConfigOpen = false;
 
   constructor(private _dbApi: DbClientService, private _s: SharedService, private _l: SettingsService, public dialog: MatDialog) {
   }
@@ -61,12 +62,22 @@ export class AppComponent implements OnInit {
       this._s.addFnStyles();
       this._s.bindViewUtilitiesExtension();
     }
+
+    this._l.appConf.tigerGraphDbConfig.isConnected.subscribe(x => {
+      if (!x) {
+        this.openDbConfigDialog();
+      }
+    });
   }
 
   openDbConfigDialog() {
+    if (this.isConfigOpen) {
+      return;
+    }
+    this.isConfigOpen = true;
     const dialogRef = this.dialog.open(ConfigDialogComponent);
-
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(x => {
+      this.isConfigOpen = false;
     });
   }
 

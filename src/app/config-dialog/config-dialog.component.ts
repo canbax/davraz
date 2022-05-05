@@ -55,6 +55,8 @@ export class ConfigDialogComponent {
       this.tigerGraphDbConf.tokenExpire = x.expiration;
       this.tigerGraphDbConf.token = x.results.token;
       this.changeTigerGraphDbConfigs();
+      this._snackBar.dismiss();
+      this._snackBar.open('Generated token successfully', 'x', { duration: 3000 });
     });
   }
 

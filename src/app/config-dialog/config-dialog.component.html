@@ -13,7 +13,7 @@
   >&nbsp;
 
   <mat-accordion multi>
-    <mat-expansion-panel *ngIf="databaseType == 0">
+    <mat-expansion-panel [expanded]="true" *ngIf="databaseType == 0">
       <mat-expansion-panel-header>
         <mat-panel-title> Tiger Graph Database Connection </mat-panel-title>
       </mat-expansion-panel-header>
@@ -125,7 +125,7 @@
         </div>
       </form>
     </mat-expansion-panel>
-    <mat-expansion-panel *ngIf="databaseType == 1">
+    <mat-expansion-panel [expanded]="true" *ngIf="databaseType == 1">
       <mat-expansion-panel-header>
         <mat-panel-title> Neo4j Database Connection </mat-panel-title>
         <mat-panel-description>
