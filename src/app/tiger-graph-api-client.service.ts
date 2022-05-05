@@ -23,8 +23,8 @@ export class TigerGraphApiClientService implements DbClient {
     });
   }
 
-  private errFn = (err: { message: string; }) => {
-    this._snackBar.open('Error in http request: ' + err.message, 'x');
+  private errFn = (err: any) => {
+    this._snackBar.open('Error in http request: ' + JSON.stringify(err), 'x');
     if (this.onErrFn && typeof this.onErrFn == "function") {
       this.onErrFn();
     }
@@ -36,7 +36,7 @@ export class TigerGraphApiClientService implements DbClient {
       .subscribe({
         next: x => {
           if (x['error']) {
-            this.errFn({ message: JSON.stringify(x['error']) })
+            this.errFn(x);
             return;
           }
           console.log('resp: ', x);
@@ -54,7 +54,7 @@ export class TigerGraphApiClientService implements DbClient {
       .subscribe({
         next: x => {
           if (x['error']) {
-            this.errFn({ message: JSON.stringify(x['error']) })
+            this.errFn(x);
             return;
           }
           cb(x);
@@ -139,7 +139,7 @@ export class TigerGraphApiClientService implements DbClient {
     this._http.post(`${this.url}/query`, body, { headers: { 'Content-Type': 'application/json' } }).subscribe({
       next: x => {
         if (x['error']) {
-          this.errFn({ message: JSON.stringify(x['error']) })
+          this.errFn(x)
           return;
         }
         if (cb) {

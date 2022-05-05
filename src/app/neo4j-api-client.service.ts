@@ -20,7 +20,7 @@ export class Neo4jApiClientService implements DbClient {
   private errFn = (err) => {
     const msg = JSON.stringify(err);
     console.log('err: ', msg);
-    this._snackBar.open('Error in http request: ' + err.message, 'close');
+    this._snackBar.open('Error in http request: ' + JSON.stringify(err), 'x');
   }
 
   private run(cql, cb: (r: GraphResponse) => void) {
