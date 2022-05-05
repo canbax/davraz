@@ -18,6 +18,20 @@
         <mat-panel-title> Tiger Graph Database Connection </mat-panel-title>
       </mat-expansion-panel-header>
       <form>
+        <mat-form-field
+          appearance="fill"
+          class="w100"
+          matTooltip="Will send HTTP requests to the database"
+        >
+          <mat-label>Proxy Server URL</mat-label>
+          <input
+            matInput
+            type="text"
+            [(ngModel)]="tigerGraphDbConf.proxyUrl"
+            (change)="saveDbConfig()"
+            name="proxy-server-url"
+          />
+        </mat-form-field>
         <div>
           <mat-form-field appearance="fill" class="w100">
             <mat-label>Database URL</mat-label>
@@ -27,39 +41,6 @@
               name="url"
               (change)="saveDbConfig()"
             />
-          </mat-form-field>
-          <br />
-          <mat-form-field appearance="fill" class="w100">
-            <mat-label>Database secret</mat-label>
-            <input
-              matInput
-              [(ngModel)]="tigerGraphDbConf.secret"
-              type="password"
-              (change)="saveDbConfig()"
-              name="secret"
-            />
-          </mat-form-field>
-        </div>
-
-        <div>
-          <mat-form-field appearance="fill" class="w100">
-            <mat-label>Token</mat-label>
-            <input
-              matInput
-              [(ngModel)]="tigerGraphDbConf.token"
-              (change)="saveDbConfig()"
-              name="token"
-              matTooltip="You can paste your own token or generate a new one"
-            />
-            <span matSuffix>
-              <button
-                mat-icon-button
-                [cdkCopyToClipboard]="tigerGraphDbConf.token"
-                (click)="copy(tigerGraphDbConf.token)"
-              >
-                <mat-icon class="f1">file_copy</mat-icon>
-              </button>
-            </span>
           </mat-form-field>
         </div>
         <div>
@@ -72,17 +53,6 @@
               name="graphName"
             />
           </mat-form-field>
-        </div>
-        <div class="p1">
-          <button
-            mat-stroked-button
-            class="w100"
-            matTooltip="Database URL and secret will be used to get a token"
-            (click)="refreshDbToken()"
-          >
-            Generate Token (valid till {{ tokenExpireDateStr }})
-            <mat-icon>sync</mat-icon>
-          </button>
         </div>
         <div>
           <mat-form-field appearance="fill" class="w100">
@@ -107,21 +77,52 @@
             />
           </mat-form-field>
         </div>
+        <div class="p1">
+          <button
+            mat-stroked-button
+            class="w100"
+            matTooltip="Database URL, Username, Password and Graph Name will be used to get a token"
+            (click)="refreshDbToken()"
+          >
+            Generate Token (valid till {{ tokenExpireDateStr }})
+            <mat-icon>sync</mat-icon>
+          </button>
+        </div>
+
         <br />
-        <mat-form-field
-          appearance="fill"
-          class="w100"
-          matTooltip="Will send HTTP requests to the database"
-        >
-          <mat-label>Proxy Server URL</mat-label>
-          <input
-            matInput
-            type="text"
-            [(ngModel)]="tigerGraphDbConf.proxyUrl"
-            (change)="saveDbConfig()"
-            name="proxy-server-url"
-          />
-        </mat-form-field>
+
+        <div>
+          <mat-form-field appearance="fill" class="w100">
+            <mat-label>Database secret</mat-label>
+            <input
+              matInput
+              [(ngModel)]="tigerGraphDbConf.secret"
+              type="password"
+              (change)="saveDbConfig()"
+              name="secret"
+            />
+          </mat-form-field>
+          <br />
+          <mat-form-field appearance="fill" class="w100">
+            <mat-label>Token</mat-label>
+            <input
+              matInput
+              [(ngModel)]="tigerGraphDbConf.token"
+              (change)="saveDbConfig()"
+              name="token"
+              matTooltip="You can paste your own token or generate a new one"
+            />
+            <span matSuffix>
+              <button
+                mat-icon-button
+                [cdkCopyToClipboard]="tigerGraphDbConf.token"
+                (click)="copy(tigerGraphDbConf.token)"
+              >
+                <mat-icon class="f1">file_copy</mat-icon>
+              </button>
+            </span>
+          </mat-form-field>
+        </div>
       </form>
     </mat-expansion-panel>
     <mat-expansion-panel *ngIf="databaseType == 1">
