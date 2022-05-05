@@ -1,5 +1,8 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": "95ab74e0-f09d-4216-912a-825c206e0acb"
+  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
@@ -98,17 +101,6 @@
             "scripts": []
           }
         },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json",
-              "e2e/tsconfig.json"
-            ],
-            "exclude": ["**/node_modules/**"]
-          }
-        },
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
@@ -127,8 +119,5 @@
       }
     }
   },
-  "defaultProject": "davraz",
-  "cli": {
-    "analytics": "95ab74e0-f09d-4216-912a-825c206e0acb"
-  }
+  "defaultProject": "davraz"
 }
