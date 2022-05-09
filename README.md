@@ -9,6 +9,12 @@ You can directly watch [my presentation in the event from here](https://player.v
 
 ## Screenshots
 
+Connect to a TigerGraph instance.
+
+https://user-images.githubusercontent.com/8426741/167489419-1a5ef6dc-1b16-4ce9-9cfb-e50b043a473c.mp4
+
+
+
 <p align="center">
     <img src="doc/img/compound_nodes.png" width="600"/>
 </p>
