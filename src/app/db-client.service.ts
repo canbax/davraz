@@ -42,4 +42,8 @@ export class DbClientService implements DbClient {
   getStoredProcedures(cb: (r: any[]) => void) {
     this.client.getStoredProcedures(cb);
   }
+
+  getGraphSchema(cb) {
+    this.client.getGraphSchema(cb);
+  }
 }

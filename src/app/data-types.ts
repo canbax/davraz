@@ -154,6 +154,10 @@ export enum DatabaseType {
   neo4j = 1
 }
 
+export interface Str2Bool {
+  [key: string]: boolean;
+}
+
 export interface DbClient {
 
   refreshToken: (cb) => void;
@@ -167,5 +171,7 @@ export interface DbClient {
   runStoredProcedure: (cb, query: string, params: any[]) => void;
 
   getStoredProcedures: (cb: (r: any[]) => void) => void;
+
+  getGraphSchema: (cb) => void;
 
 }

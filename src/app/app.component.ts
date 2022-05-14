@@ -12,6 +12,7 @@ import { TableViewComponent } from './table-view/table-view.component';
 import { GraphHistoryComponent } from './graph-history/graph-history.component';
 import { GENERAL_CY_STYLE } from './config/general-cy-style';
 import { SettingsService } from './settings.service';
+import { DatabaseType, SchemaOutput, Str2Bool, TigerGraphEdgeType, TigerGraphVertexType } from './data-types';
 
 @Component({
   selector: 'app-root',
@@ -39,6 +40,9 @@ export class AppComponent implements OnInit {
   layoutAlgos: string[] = [];
   private loadFileType: 'LoadGraph' | 'LoadStyle' = 'LoadGraph';
   private isConfigOpen = false;
+  vertexPrimaryIds: Str2Bool = {};
+  vertexKey: string = '';
+  edgeKey: string = '';
 
   constructor(private _dbApi: DbClientService, private _s: SharedService, private _l: SettingsService, public dialog: MatDialog) {
   }
@@ -63,11 +67,67 @@ export class AppComponent implements OnInit {
       this._s.bindViewUtilitiesExtension();
     }
 
-    this._l.appConf.tigerGraphDbConfig.isConnected.subscribe(x => {
-      if (!x) {
-        this.openDbConfigDialog();
+    if (this._l.appConf.databaseType.getValue() == DatabaseType.tigerGraph) {
+      this._l.appConf.tigerGraphDbConfig.isConnected.subscribe(x => {
+        if (!x) {
+          this.openDbConfigDialog();
+        } else {
+          this._dbApi.getGraphSchema((x: SchemaOutput) => {
+            let tree = { 'Vertex': {}, 'Edge': {} };
+            const cntEdgeType = x.results.EdgeTypes.length;
+            const cntVertexType = x.results.VertexTypes.length;
+            this.vertexPrimaryIds = {};
+            this.parseSchemaData(tree, x.results.EdgeTypes, false);
+            this.parseSchemaData(tree, x.results.VertexTypes, true);
+            this.vertexKey = `Vertex (${cntVertexType})`;
+            // rename vertex and edge
+            tree[this.vertexKey] = tree['Vertex'];
+            delete tree['Vertex'];
+
+            this.edgeKey = `Edge (${cntEdgeType})`;
+            tree[this.edgeKey] = tree['Edge'];
+            delete tree['Edge'];
+          })
+        }
+      });
+    }
+  }
+
+  private parseSchemaData(tree: any, typeArr: TigerGraphVertexType[] | TigerGraphEdgeType[], isVertex: boolean) {
+    for (let i = 0; i < typeArr.length; i++) {
+      const attr = [];
+      const currType = typeArr[i].Name;
+      if (isVertex) {
+        const hasStrId = (typeArr[i] as TigerGraphVertexType).PrimaryId.AttributeType.Name == 'STRING';
+        if (hasStrId) {
+          // push primary id as string attribute 
+          const attrName = (typeArr[i] as TigerGraphVertexType).PrimaryId.AttributeName;
+          attr.push(attrName);
+          this.vertexPrimaryIds[attrName] = true;
+        }
       }
-    });
+
+      // only parse string attributes
+      const typeAttr = typeArr[i].Attributes.filter(x => x.AttributeType.Name == 'STRING');
+      for (let j of typeAttr) {
+        attr.push(j.AttributeName);
+      }
+      if (attr.length > 0) {
+        if (isVertex) {
+          tree.Vertex[`${currType} (${attr.length})`] = attr;
+        } else {
+          tree.Edge[`${currType} (${attr.length})`] = attr;
+        }
+
+      } else {
+        if (isVertex) {
+          tree.Vertex[currType] = attr;
+        } else {
+          // pass edge types without attributes since edges don't have ID (instead they have source id, target id and type)
+          // tree.Edge[currType] = attr;
+        }
+      }
+    }
   }
 
   openDbConfigDialog() {

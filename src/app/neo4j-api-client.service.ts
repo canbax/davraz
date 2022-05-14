@@ -105,4 +105,8 @@ export class Neo4jApiClientService implements DbClient {
   getStoredProcedures(cb: (r: any[]) => void) {
 
   }
+
+  getGraphSchema(cb) {
+
+  }
 }
