@@ -23,7 +23,7 @@ export class SavePngDialogComponent implements OnInit {
       .then(res => res.blob())
       .then(x => {
         const anchor = document.createElement('a');
-        anchor.download = 'graph-explorer.png';
+        anchor.download = 'davraz-graph.png';
         anchor.href = (window.URL).createObjectURL(x);
         anchor.click();
       })

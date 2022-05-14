@@ -186,7 +186,7 @@ export class AppComponent implements OnInit {
     if (this._s.isWarn4Collapsed(this._s.cy.$())) {
       return;
     }
-    this.str2file(JSON.stringify(elements, undefined, 4), 'graph-explorer.json');
+    this.str2file(JSON.stringify(elements, undefined, 4), 'davraz-graph.json');
   }
 
   saveSelected2File() {
@@ -211,7 +211,7 @@ export class AppComponent implements OnInit {
       o.nodes.push(n.json());
     }
 
-    this.str2file(JSON.stringify(o), 'graph-explorer.json');
+    this.str2file(JSON.stringify(o), 'davraz-graph.json');
   }
 
   saveAsPng() {
