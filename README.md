@@ -13,6 +13,10 @@ Connect to a TigerGraph instance.
 
 https://user-images.githubusercontent.com/8426741/167489419-1a5ef6dc-1b16-4ce9-9cfb-e50b043a473c.mp4
 
+"Load", "Save", ... from "File Menu"
+
+
+https://user-images.githubusercontent.com/8426741/168469340-ffc320a8-f354-47e2-ba15-6a532e4d1d66.mp4
 
 
 <p align="center">
