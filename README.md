@@ -13,10 +13,15 @@ Connect to a TigerGraph instance.
 
 https://user-images.githubusercontent.com/8426741/167489419-1a5ef6dc-1b16-4ce9-9cfb-e50b043a473c.mp4
 
-"Load", "Save", ... from "File Menu"
+"Load", "Save", ... from "File" menu
 
 
 https://user-images.githubusercontent.com/8426741/168469340-ffc320a8-f354-47e2-ba15-6a532e4d1d66.mp4
+
+"Delete Selected", "Hide Selected", ... from "Edit" menu
+
+
+https://user-images.githubusercontent.com/8426741/168469711-9c9e8192-594b-4c7d-be96-56fcd930cac0.mp4
 
 
 <p align="center">
