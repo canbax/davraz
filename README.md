@@ -23,6 +23,11 @@ https://user-images.githubusercontent.com/8426741/168469340-ffc320a8-f354-47e2-b
 
 https://user-images.githubusercontent.com/8426741/168469711-9c9e8192-594b-4c7d-be96-56fcd930cac0.mp4
 
+"Sample Data" and "Clear Data" from "Data" menu
+
+
+https://user-images.githubusercontent.com/8426741/169713544-d80cb3a2-47b1-4353-b45d-a1d40a63be85.mp4
+
 
 <p align="center">
     <img src="doc/img/compound_nodes.png" width="600"/>
