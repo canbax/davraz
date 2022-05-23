@@ -28,6 +28,12 @@ https://user-images.githubusercontent.com/8426741/168469711-9c9e8192-594b-4c7d-b
 
 https://user-images.githubusercontent.com/8426741/169713544-d80cb3a2-47b1-4353-b45d-a1d40a63be85.mp4
 
+From _"Layout"_ menu, you can run an incremental or randomized layout. There are many different layout types but the default is [fCoSE](https://github.com/iVis-at-Bilkent/cytoscape.js-fcose) algorithm.
+
+
+https://user-images.githubusercontent.com/8426741/169894364-1b580bc4-8e29-4fb3-b617-78584c6fa86e.mp4
+
+
 
 <p align="center">
     <img src="doc/img/compound_nodes.png" width="600"/>
