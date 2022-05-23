@@ -33,6 +33,26 @@ From _"Layout"_ menu, you can run an incremental or randomized layout. There are
 
 https://user-images.githubusercontent.com/8426741/169894364-1b580bc4-8e29-4fb3-b617-78584c6fa86e.mp4
 
+From _"Highlight"_ menu, elements can be emphasized to distinguish from others.
+
+
+https://user-images.githubusercontent.com/8426741/169894862-12f0ad6d-3ff1-4576-b33f-13db20a370c7.mp4
+
+From _"Compound"_ menu, compound elements can be created or removed.
+
+
+https://user-images.githubusercontent.com/8426741/169895099-7ea9f1b6-7b8a-4610-89c6-22889c6807e7.mp4
+
+From _"Table"_ menu, whole data or a part of the existing data can be shown as table(s).
+
+
+https://user-images.githubusercontent.com/8426741/169895482-1400933c-40f9-4eef-851b-992f15e9320a.mp4
+
+
+From _"Cluster"_ menu, you can run "Markov Clustering" algorithm or cluster degree-1 nodes.
+
+
+https://user-images.githubusercontent.com/8426741/169896671-bd270f71-a985-4497-9c09-413cca9245a0.mp4
 
 
 <p align="center">
