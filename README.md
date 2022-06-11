@@ -13,6 +13,10 @@ Connect to a TigerGraph instance.
 
 https://user-images.githubusercontent.com/8426741/167489419-1a5ef6dc-1b16-4ce9-9cfb-e50b043a473c.mp4
 
+Connect to a local Neo4j instance.
+
+https://user-images.githubusercontent.com/8426741/173191229-3e1d5d43-0221-4ba1-a4ce-d0635d36fce4.mp4
+
 "Load", "Save", ... from "File" menu
 
 
