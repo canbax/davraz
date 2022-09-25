@@ -5,10 +5,10 @@ export const LAYOUT_ANIM_DUR = 500;
 export const Layout = {
   fcose: {
     name: 'fcose',
-    // 'draft', 'default' or 'proof' 
-    // - 'draft' only applies spectral layout 
+    // 'draft', 'default' or 'proof'
+    // - 'draft' only applies spectral layout
     // - 'default' improves the quality with incremental layout (fast cooling rate)
-    // - 'proof' improves the quality with incremental layout (slow cooling rate) 
+    // - 'proof' improves the quality with incremental layout (slow cooling rate)
     quality: 'default',
     // use random node positions at beginning of layout
     // if this is set to false, then quality option must be 'proof'
@@ -63,12 +63,12 @@ export const Layout = {
     gravityCompound: 1.0,
     // Gravity range (constant)
     gravityRange: 3.8,
-    // Initial cooling factor for incremental layout  
+    // Initial cooling factor for incremental layout
     initialEnergyOnIncremental: 0.3,
 
     /* layout event callbacks */
-    ready: () => { }, // on layoutready
-    stop: () => { } // on layoutstop
+    ready: () => {}, // on layoutready
+    stop: () => {}, // on layoutstop
   },
   random: {
     name: 'random',
@@ -79,10 +79,14 @@ export const Layout = {
     animate: true, // whether to transition the node positions
     animationDuration: 500, // duration of animation in ms if enabled
     animationEasing: undefined, // easing of animation if enabled
-    animateFilter: function (node, i) { return true; }, // a function that determines whether the node should be animated.  All nodes animated by default on animate enabled.  Non-animated nodes are positioned immediately when the layout starts
+    animateFilter: function (node, i) {
+      return true;
+    }, // a function that determines whether the node should be animated.  All nodes animated by default on animate enabled.  Non-animated nodes are positioned immediately when the layout starts
     ready: undefined, // callback on layoutready
     stop: undefined, // callback on layoutstop
-    transform: function (node, position) { return position; } // transform a given node position. Useful for changing flow direction in discrete layouts 
+    transform: function (node, position) {
+      return position;
+    }, // transform a given node position. Useful for changing flow direction in discrete layouts
   },
   grid: {
     name: 'grid',
@@ -96,15 +100,19 @@ export const Layout = {
     condense: false, // uses all available space on false, uses minimal space on true
     rows: undefined, // force num of rows in the grid
     cols: undefined, // force num of columns in the grid
-    position: function (node) { }, // returns { row, col } for element
+    position: function (node) {}, // returns { row, col } for element
     sort: undefined, // a sorting function to order the nodes; e.g. function(a, b){ return a.data('weight') - b.data('weight') }
     animate: true, // whether to transition the node positions
     animationDuration: 500, // duration of animation in ms if enabled
     animationEasing: undefined, // easing of animation if enabled
-    animateFilter: function (node, i) { return true; }, // a function that determines whether the node should be animated.  All nodes animated by default on animate enabled.  Non-animated nodes are positioned immediately when the layout starts
+    animateFilter: function (node, i) {
+      return true;
+    }, // a function that determines whether the node should be animated.  All nodes animated by default on animate enabled.  Non-animated nodes are positioned immediately when the layout starts
     ready: undefined, // callback on layoutready
     stop: undefined, // callback on layoutstop
-    transform: function (node, position) { return position; } // transform a given node position. Useful for changing flow direction in discrete layouts 
+    transform: function (node, position) {
+      return position;
+    }, // transform a given node position. Useful for changing flow direction in discrete layouts
   },
   circle: {
     name: 'circle',
@@ -115,23 +123,27 @@ export const Layout = {
     nodeDimensionsIncludeLabels: false, // Excludes the label when calculating node bounding boxes for the layout algorithm
     spacingFactor: undefined, // Applies a multiplicative factor (>0) to expand or compress the overall area that the nodes take up
     radius: undefined, // the radius of the circle
-    startAngle: 3 / 2 * Math.PI, // where nodes start in radians
+    startAngle: (3 / 2) * Math.PI, // where nodes start in radians
     sweep: undefined, // how many radians should be between the first and last node (defaults to full circle)
     clockwise: true, // whether the layout should go clockwise (true) or counterclockwise/anticlockwise (false)
     sort: undefined, // a sorting function to order the nodes; e.g. function(a, b){ return a.data('weight') - b.data('weight') }
     animate: true, // whether to transition the node positions
     animationDuration: 500, // duration of animation in ms if enabled
     animationEasing: undefined, // easing of animation if enabled
-    animateFilter: function (node, i) { return true; }, // a function that determines whether the node should be animated.  All nodes animated by default on animate enabled.  Non-animated nodes are positioned immediately when the layout starts
+    animateFilter: function (node, i) {
+      return true;
+    }, // a function that determines whether the node should be animated.  All nodes animated by default on animate enabled.  Non-animated nodes are positioned immediately when the layout starts
     ready: undefined, // callback on layoutready
     stop: undefined, // callback on layoutstop
-    transform: function (node, position) { return position; } // transform a given node position. Useful for changing flow direction in discrete layouts 
+    transform: function (node, position) {
+      return position;
+    }, // transform a given node position. Useful for changing flow direction in discrete layouts
   },
   concentric: {
     name: 'concentric',
     fit: true, // whether to fit the viewport to the graph
     padding: 30, // the padding on fit
-    startAngle: 3 / 2 * Math.PI, // where nodes start in radians
+    startAngle: (3 / 2) * Math.PI, // where nodes start in radians
     sweep: undefined, // how many radians should be between the first and last node (defaults to full circle)
     clockwise: true, // whether the layout should go clockwise (true) or counterclockwise/anticlockwise (false)
     equidistant: false, // whether levels have an equal radial distance betwen them, may cause bounding box overflow
@@ -142,28 +154,34 @@ export const Layout = {
     height: undefined, // height of layout area (overrides container height)
     width: undefined, // width of layout area (overrides container width)
     spacingFactor: undefined, // Applies a multiplicative factor (>0) to expand or compress the overall area that the nodes take up
-    concentric: function (node) { // returns numeric value for each node, placing higher nodes in levels towards the centre
+    concentric: function (node) {
+      // returns numeric value for each node, placing higher nodes in levels towards the centre
       return node.degree();
     },
-    levelWidth: function (nodes) { // the letiation of concentric values in each level
+    levelWidth: function (nodes) {
+      // the letiation of concentric values in each level
       return nodes.maxDegree() / 4;
     },
     animate: true, // whether to transition the node positions
     animationDuration: 500, // duration of animation in ms if enabled
     animationEasing: undefined, // easing of animation if enabled
-    animateFilter: function (node, i) { return true; }, // a function that determines whether the node should be animated.  All nodes animated by default on animate enabled.  Non-animated nodes are positioned immediately when the layout starts
+    animateFilter: function (node, i) {
+      return true;
+    }, // a function that determines whether the node should be animated.  All nodes animated by default on animate enabled.  Non-animated nodes are positioned immediately when the layout starts
     ready: undefined, // callback on layoutready
     stop: undefined, // callback on layoutstop
-    transform: function (node, position) { return position; } // transform a given node position. Useful for changing flow direction in discrete layouts
+    transform: function (node, position) {
+      return position;
+    }, // transform a given node position. Useful for changing flow direction in discrete layouts
   },
   cose: {
     name: 'cose',
 
     // Called on `layoutready`
-    ready: function () { },
+    ready: function () {},
 
     // Called on `layoutstop`
-    stop: function () { },
+    stop: function () {},
 
     // Whether to animate while running the layout
     // true : Animate continuously as the layout is running
@@ -180,7 +198,9 @@ export const Layout = {
     // A function that determines whether the node should be animated
     // All nodes animated by default on animate enabled
     // Non-animated nodes are positioned immediately when the layout starts
-    animateFilter: function (node, i) { return true; },
+    animateFilter: function (node, i) {
+      return true;
+    },
 
     // The layout animates only after this many milliseconds for animate:true
     // (prevents flashing on fast runs)
@@ -208,16 +228,22 @@ export const Layout = {
     componentSpacing: 40,
 
     // Node repulsion (non overlapping) multiplier
-    nodeRepulsion: function (node) { return 2048; },
+    nodeRepulsion: function (node) {
+      return 2048;
+    },
 
     // Node repulsion (overlapping) multiplier
     nodeOverlap: 4,
 
     // Ideal edge (non nested) length
-    idealEdgeLength: function (edge) { return 32; },
+    idealEdgeLength: function (edge) {
+      return 32;
+    },
 
     // Divisor to compute edge forces
-    edgeElasticity: function (edge) { return 32; },
+    edgeElasticity: function (edge) {
+      return 32;
+    },
 
     // Nesting factor (multiplier) to compute ideal edge length for nested edges
     nestingFactor: 1.2,
@@ -235,16 +261,14 @@ export const Layout = {
     coolingFactor: 0.99,
 
     // Lower temperature threshold (below this point the layout will end)
-    minTemp: 1.0
+    minTemp: 1.0,
   },
   avsdf: {
     name: 'avsdf',
     // Called on `layoutready`
-    ready: function () {
-    },
+    ready: function () {},
     // Called on `layoutstop`
-    stop: function () {
-    },
+    stop: function () {},
     // number of ticks per frame; higher is faster but more jerky
     refresh: 30,
     // Whether to fit the network view after when done
@@ -258,7 +282,7 @@ export const Layout = {
     // Duration for animate:end
     animationDuration: 500,
     // How apart the nodes are
-    nodeSeparation: 60
+    nodeSeparation: 60,
   },
   cola: {
     name: 'cola',
@@ -272,15 +296,17 @@ export const Layout = {
     nodeDimensionsIncludeLabels: false, // whether labels should be included in determining the space used by a node
 
     // layout event callbacks
-    ready: function () { }, // on layoutready
-    stop: function () { }, // on layoutstop
+    ready: function () {}, // on layoutready
+    stop: function () {}, // on layoutstop
 
     // positioning options
     randomize: false, // use random node positions at beginning of layout
     avoidOverlap: true, // if true, prevents overlap of node bounding boxes
     handleDisconnected: true, // if true, avoids disconnected components from overlapping
     convergenceThreshold: 0.01, // when the alpha value (system energy) falls below this value, the layout stops
-    nodeSpacing: function (node) { return 10; }, // extra spacing around nodes
+    nodeSpacing: function (node) {
+      return 10;
+    }, // extra spacing around nodes
     flow: undefined, // use DAG/tree flow layout if specified, e.g. { axis: 'y', minSeparation: 30 }
     alignment: undefined, // relative alignment constraints on nodes, e.g. {vertical: [[{node: node1, offset: 0}, {node: node2, offset: 5}]], horizontal: [[{node: node3}, {node: node4}], [{node: node5}, {node: node6}]]}
     gapInequalities: undefined, // list of inequality constraints for the gap between the nodes, e.g. [{"axis":"y", "left":node1, "right":node2, "gap":25}]
@@ -302,17 +328,17 @@ export const Layout = {
     // The ideal length of a spring
     // - This acts as a hint for the edge length
     // - The edge length can be longer or shorter if the forces are set to extreme values
-    springLength: edge => 80,
+    springLength: (edge) => 80,
 
     // Hooke's law coefficient
     // - The value ranges on [0, 1]
     // - Lower values give looser springs
     // - Higher values give tighter springs
-    springCoeff: edge => 0.0008,
+    springCoeff: (edge) => 0.0008,
 
     // The mass of the node in the physics simulation
     // - The mass affects the gravity node repulsion/attraction
-    mass: node => 4,
+    mass: (node) => 4,
 
     // Coulomb's law coefficient
     // - Makes the nodes repel each other for negative values
@@ -381,13 +407,13 @@ export const Layout = {
     boundingBox: undefined,
 
     // Layout event callbacks; equivalent to `layout.one('layoutready', callback)` for example
-    ready: function () { }, // on layoutready
-    stop: function () { }, // on layoutstop
+    ready: function () {}, // on layoutready
+    stop: function () {}, // on layoutstop
 
     // Whether to randomize the initial positions of the nodes
     // true : Use random positions within the bounding box
     // false : Use the current node positions as the initial positions
-    randomize: false
+    randomize: false,
   },
   spread: {
     name: 'spread',
@@ -405,7 +431,7 @@ export const Layout = {
     prelayout: { name: 'cose' }, // Layout options for the first phase
     maxExpandIterations: 4, // Maximum number of expanding iterations
     boundingBox: undefined, // Constrain layout bounds; { x1, y1, x2, y2 } or { x1, y1, w, h }
-    randomize: false // Uses random initial node positions on true
+    randomize: false, // Uses random initial node positions on true
   },
   dagre: {
     name: 'dagre',
@@ -415,8 +441,12 @@ export const Layout = {
     rankSep: undefined, // the separation between each rank in the layout
     rankDir: undefined, // 'TB' for top to bottom flow, 'LR' for left to right,
     ranker: undefined, // Type of algorithm to assign a rank to each node in the input graph. Possible values: 'network-simplex', 'tight-tree' or 'longest-path'
-    minLen: function (edge) { return 1; }, // number of ranks to keep between the source and target of the edge
-    edgeWeight: function (edge) { return 1; }, // higher weight edges are generally made shorter and straighter than lower weight edges
+    minLen: function (edge) {
+      return 1;
+    }, // number of ranks to keep between the source and target of the edge
+    edgeWeight: function (edge) {
+      return 1;
+    }, // higher weight edges are generally made shorter and straighter than lower weight edges
 
     // general layout options
     fit: true, // whether to fit to viewport
@@ -424,13 +454,17 @@ export const Layout = {
     spacingFactor: undefined, // Applies a multiplicative factor (>0) to expand or compress the overall area that the nodes take up
     nodeDimensionsIncludeLabels: false, // whether labels should be included in determining the space used by a node
     animate: true, // whether to transition the node positions
-    animateFilter: function (node, i) { return true; }, // whether to animate specific nodes when animation is on; non-animated nodes immediately go to their final positions
+    animateFilter: function (node, i) {
+      return true;
+    }, // whether to animate specific nodes when animation is on; non-animated nodes immediately go to their final positions
     animationDuration: 500, // duration of animation in ms if enabled
     animationEasing: undefined, // easing of animation if enabled
     boundingBox: undefined, // constrain layout bounds; { x1, y1, x2, y2 } or { x1, y1, w, h }
-    transform: function (node, pos) { return pos; }, // a function that applies a transform to the final node position
-    ready: function () { }, // on layoutready
-    stop: function () { } // on layoutstop
+    transform: function (node, pos) {
+      return pos;
+    }, // a function that applies a transform to the final node position
+    ready: function () {}, // on layoutready
+    stop: function () {}, // on layoutstop
   },
   klay: {
     name: 'klay',
@@ -438,10 +472,14 @@ export const Layout = {
     fit: true, // Whether to fit
     padding: 20, // Padding on fit
     animate: true, // Whether to transition the node positions
-    animateFilter: function (node, i) { return true; }, // Whether to animate specific nodes when animation is on; non-animated nodes immediately go to their final positions
+    animateFilter: function (node, i) {
+      return true;
+    }, // Whether to animate specific nodes when animation is on; non-animated nodes immediately go to their final positions
     animationDuration: 500, // Duration of animation in ms if enabled
     animationEasing: undefined, // Easing of animation if enabled
-    transform: function (node, pos) { return pos; }, // A function that applies a transform to the final node position
+    transform: function (node, pos) {
+      return pos;
+    }, // A function that applies a transform to the final node position
     ready: undefined, // Callback on layoutready
     stop: undefined, // Callback on layoutstop
     klay: {
@@ -486,13 +524,13 @@ export const Layout = {
       routeSelfLoopInside: false, // Whether a self-loop is routed around or inside its node.
       separateConnectedComponents: true, // Whether each connected component should be processed separately
       spacing: 20, // Overall setting for the minimal amount of space to be left between objects
-      thoroughness: 7 // How much effort should be spent to produce a nice layout..
+      thoroughness: 7, // How much effort should be spent to produce a nice layout..
     },
-    priority: function (edge) { return null; }, // Edges with a non-nil value are skipped when greedy edge cycle breaking is enabled
-
-  }
-
-}
+    priority: function (edge) {
+      return null;
+    }, // Edges with a non-nil value are skipped when greedy edge cycle breaking is enabled
+  },
+};
 
 export function isPrimitiveType(o) {
   const t = typeof o;
@@ -522,7 +560,7 @@ export const EXPAND_COLLAPSE_CUE_SIZE = 12;
 
 export function expandCollapseCuePosition(node) {
   const zoom = node._private.cy.zoom();
-  let smallness = 1 - node.renderedWidth() / (node._private.cy.width());
+  let smallness = 1 - node.renderedWidth() / node._private.cy.width();
   if (smallness < 0) {
     smallness = 0;
   }
@@ -531,28 +569,42 @@ export function expandCollapseCuePosition(node) {
   const offset = parseFloat(node.css('border-width')) + rectSize;
   let size = zoom < 1 ? rectSize / zoom : rectSize;
   let add = offset * smallness + size;
-  const x = node.position('x') - node.width() / 2 - parseFloat(node.css('padding-left')) + add;
-  const y = node.position('y') - node.height() / 2 - parseFloat(node.css('padding-top')) + add;
+  const x =
+    node.position('x') -
+    node.width() / 2 -
+    parseFloat(node.css('padding-left')) +
+    add;
+  const y =
+    node.position('y') -
+    node.height() / 2 -
+    parseFloat(node.css('padding-top')) +
+    add;
   return { x: x, y: y };
 }
 
 /** https://davidwalsh.name/javascript-debounce-function
-   * Returns a function, that, as long as it continues to be invoked, will not
-   * be triggered. The function will be called after it stops being called for
-   * N milliseconds. If `immediate` is passed, trigger the function on the
-   * leading edge, instead of the trailing.
-   * @param  {} func
-   * @param  {number} wait
-   * @param  {boolean=false} immediate
-   * @param  {} preConditionFn=null if function returns false, ignore this call
-   */
-export function debounce(func, wait: number, immediate: boolean = false, preConditionFn = null) {
+ * Returns a function, that, as long as it continues to be invoked, will not
+ * be triggered. The function will be called after it stops being called for
+ * N milliseconds. If `immediate` is passed, trigger the function on the
+ * leading edge, instead of the trailing.
+ * @param  {} func
+ * @param  {number} wait
+ * @param  {boolean=false} immediate
+ * @param  {} preConditionFn=null if function returns false, ignore this call
+ */
+export function debounce(
+  func,
+  wait: number,
+  immediate: boolean = false,
+  preConditionFn = null
+) {
   let timeout;
   return function () {
     if (preConditionFn && !preConditionFn()) {
       return;
     }
-    const context = this, args = arguments;
+    const context = this,
+      args = arguments;
     const later = function () {
       timeout = null;
       if (!immediate) func.apply(context, args);
@@ -595,12 +647,16 @@ export const deepCopy = <T>(target: T): T => {
   }
   if (target instanceof Array) {
     const cp = [] as any[];
-    (target as any[]).forEach((v) => { cp.push(v); });
+    (target as any[]).forEach((v) => {
+      cp.push(v);
+    });
     return cp.map((n: any) => deepCopy<any>(n)) as any;
   }
-  if (typeof target === 'object' && target !== {}) {
-    const cp = { ...(target as { [key: string]: any }) } as { [key: string]: any };
-    Object.keys(cp).forEach(k => {
+  if (typeof target === 'object' && Object.keys(target).length > 0) {
+    const cp = { ...(target as { [key: string]: any }) } as {
+      [key: string]: any;
+    };
+    Object.keys(cp).forEach((k) => {
       cp[k] = deepCopy<any>(cp[k]);
     });
     return cp as T;
@@ -609,8 +665,15 @@ export const deepCopy = <T>(target: T): T => {
 };
 
 // https://www.w3schools.com/howto/howto_js_draggable.asp
-export function makeElemDraggable(elem: HTMLElement, dragHandle: HTMLElement, onDrag) {
-  var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+export function makeElemDraggable(
+  elem: HTMLElement,
+  dragHandle: HTMLElement,
+  onDrag
+) {
+  var pos1 = 0,
+    pos2 = 0,
+    pos3 = 0,
+    pos4 = 0;
   dragHandle.onmousedown = dragMouseDown;
 
   function dragMouseDown(e) {
@@ -646,8 +709,8 @@ export function makeElemDraggable(elem: HTMLElement, dragHandle: HTMLElement, on
     if (newTop > window.innerHeight - 40) {
       newTop = window.innerHeight - 40;
     }
-    elem.style.top = newTop + "px";
-    elem.style.left = (elem.offsetLeft - pos1) + "px";
+    elem.style.top = newTop + 'px';
+    elem.style.left = elem.offsetLeft - pos1 + 'px';
     elem.style.zIndex = '1002';
     if (onDrag) {
       onDrag();
@@ -661,9 +724,12 @@ export function makeElemDraggable(elem: HTMLElement, dragHandle: HTMLElement, on
   }
 }
 
-export function getCyStyleFromColorAndWid(color: string, wid: number): { nodeCss: any, edgeCss: any } {
+export function getCyStyleFromColorAndWid(
+  color: string,
+  wid: number
+): { nodeCss: any; edgeCss: any } {
   return {
     nodeCss: { 'border-color': color, 'border-width': wid },
-    edgeCss: { 'line-color': color, 'target-arrow-color': color, 'width': wid }
+    edgeCss: { 'line-color': color, 'target-arrow-color': color, width: wid },
   };
 }
